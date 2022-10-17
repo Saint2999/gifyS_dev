@@ -7,23 +7,73 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C95C96C69F1D93674642F6C /* Pods_gifyS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5686A0A8419BD930B815E0 /* Pods_gifyS.framework */; };
 		BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */; };
-		BB8A946F28FD8D2200A7A24A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A946E28FD8D2200A7A24A /* SceneDelegate.swift */; };
 		BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A947028FD8D2200A7A24A /* ViewController.swift */; };
-		BB8A947428FD8D2200A7A24A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947228FD8D2200A7A24A /* Main.storyboard */; };
 		BB8A947628FD8D2400A7A24A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947528FD8D2400A7A24A /* Assets.xcassets */; };
 		BB8A947928FD8D2400A7A24A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947728FD8D2400A7A24A /* LaunchScreen.storyboard */; };
+		BBC29B7128FD953800DA06E7 /* AuthnInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6B28FD953800DA06E7 /* AuthnInteractor.swift */; };
+		BBC29B7228FD953800DA06E7 /* AuthnRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6C28FD953800DA06E7 /* AuthnRouter.swift */; };
+		BBC29B7328FD953800DA06E7 /* AuthnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6D28FD953800DA06E7 /* AuthnViewController.swift */; };
+		BBC29B7428FD953800DA06E7 /* AuthnPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6E28FD953800DA06E7 /* AuthnPresenter.swift */; };
+		BBC29B7528FD953800DA06E7 /* AuthnWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6F28FD953800DA06E7 /* AuthnWorker.swift */; };
+		BBC29B7628FD953800DA06E7 /* AuthnModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7028FD953800DA06E7 /* AuthnModels.swift */; };
+		BBC29B7E28FD956200DA06E7 /* RegRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7828FD956200DA06E7 /* RegRouter.swift */; };
+		BBC29B7F28FD956200DA06E7 /* RegViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7928FD956200DA06E7 /* RegViewController.swift */; };
+		BBC29B8028FD956200DA06E7 /* RegPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7A28FD956200DA06E7 /* RegPresenter.swift */; };
+		BBC29B8128FD956200DA06E7 /* RegWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7B28FD956200DA06E7 /* RegWorker.swift */; };
+		BBC29B8228FD956200DA06E7 /* RegModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7C28FD956200DA06E7 /* RegModels.swift */; };
+		BBC29B8328FD956200DA06E7 /* RegInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B7D28FD956200DA06E7 /* RegInteractor.swift */; };
+		BBC29B8B28FD958C00DA06E7 /* GifCollRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8528FD958B00DA06E7 /* GifCollRouter.swift */; };
+		BBC29B8C28FD958C00DA06E7 /* GifCollInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8628FD958C00DA06E7 /* GifCollInteractor.swift */; };
+		BBC29B8D28FD958C00DA06E7 /* GifCollPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8728FD958C00DA06E7 /* GifCollPresenter.swift */; };
+		BBC29B8E28FD958C00DA06E7 /* GifCollWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8828FD958C00DA06E7 /* GifCollWorker.swift */; };
+		BBC29B8F28FD958C00DA06E7 /* GifCollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8928FD958C00DA06E7 /* GifCollViewController.swift */; };
+		BBC29B9028FD958C00DA06E7 /* GifCollModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B8A28FD958C00DA06E7 /* GifCollModels.swift */; };
+		BBC29B9428FD95DF00DA06E7 /* GifCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9228FD95DF00DA06E7 /* GifCollectionViewCell.swift */; };
+		BBC29B9528FD95DF00DA06E7 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */; };
+		BBC29B9C28FD962F00DA06E7 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9828FD962F00DA06E7 /* LabelTableViewCell.swift */; };
+		BBC29B9D28FD962F00DA06E7 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9928FD962F00DA06E7 /* ImageTableViewCell.swift */; };
+		BBC29B9E28FD962F00DA06E7 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9A28FD962F00DA06E7 /* TextFieldTableViewCell.swift */; };
+		BBC29B9F28FD962F00DA06E7 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B9B28FD962F00DA06E7 /* ButtonTableViewCell.swift */; };
+		BBC29BA128FD966600DA06E7 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29BA028FD966600DA06E7 /* ValidationRules.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C330BA74C7EA292B7B9A95E /* Pods-gifyS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.debug.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.debug.xcconfig"; sourceTree = "<group>"; };
+		1F6B95207EC915BDF1D2C134 /* Pods-gifyS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.release.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.release.xcconfig"; sourceTree = "<group>"; };
 		BB8A946928FD8D2200A7A24A /* gifyS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gifyS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BB8A946E28FD8D2200A7A24A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BB8A947028FD8D2200A7A24A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BB8A947328FD8D2200A7A24A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BB8A947528FD8D2400A7A24A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB8A947828FD8D2400A7A24A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB8A947A28FD8D2400A7A24A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBC29B6B28FD953800DA06E7 /* AuthnInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnInteractor.swift; sourceTree = "<group>"; };
+		BBC29B6C28FD953800DA06E7 /* AuthnRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnRouter.swift; sourceTree = "<group>"; };
+		BBC29B6D28FD953800DA06E7 /* AuthnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnViewController.swift; sourceTree = "<group>"; };
+		BBC29B6E28FD953800DA06E7 /* AuthnPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnPresenter.swift; sourceTree = "<group>"; };
+		BBC29B6F28FD953800DA06E7 /* AuthnWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnWorker.swift; sourceTree = "<group>"; };
+		BBC29B7028FD953800DA06E7 /* AuthnModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnModels.swift; sourceTree = "<group>"; };
+		BBC29B7828FD956200DA06E7 /* RegRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegRouter.swift; sourceTree = "<group>"; };
+		BBC29B7928FD956200DA06E7 /* RegViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegViewController.swift; sourceTree = "<group>"; };
+		BBC29B7A28FD956200DA06E7 /* RegPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegPresenter.swift; sourceTree = "<group>"; };
+		BBC29B7B28FD956200DA06E7 /* RegWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegWorker.swift; sourceTree = "<group>"; };
+		BBC29B7C28FD956200DA06E7 /* RegModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegModels.swift; sourceTree = "<group>"; };
+		BBC29B7D28FD956200DA06E7 /* RegInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegInteractor.swift; sourceTree = "<group>"; };
+		BBC29B8528FD958B00DA06E7 /* GifCollRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollRouter.swift; sourceTree = "<group>"; };
+		BBC29B8628FD958C00DA06E7 /* GifCollInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollInteractor.swift; sourceTree = "<group>"; };
+		BBC29B8728FD958C00DA06E7 /* GifCollPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollPresenter.swift; sourceTree = "<group>"; };
+		BBC29B8828FD958C00DA06E7 /* GifCollWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollWorker.swift; sourceTree = "<group>"; };
+		BBC29B8928FD958C00DA06E7 /* GifCollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollViewController.swift; sourceTree = "<group>"; };
+		BBC29B8A28FD958C00DA06E7 /* GifCollModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollModels.swift; sourceTree = "<group>"; };
+		BBC29B9228FD95DF00DA06E7 /* GifCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifCollectionViewCell.swift; sourceTree = "<group>"; };
+		BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
+		BBC29B9828FD962F00DA06E7 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
+		BBC29B9928FD962F00DA06E7 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
+		BBC29B9A28FD962F00DA06E7 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		BBC29B9B28FD962F00DA06E7 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
+		BBC29BA028FD966600DA06E7 /* ValidationRules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
+		EF5686A0A8419BD930B815E0 /* Pods_gifyS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gifyS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +81,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C95C96C69F1D93674642F6C /* Pods_gifyS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18A0CE3CE9FA19C73DA984BF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1C330BA74C7EA292B7B9A95E /* Pods-gifyS.debug.xcconfig */,
+				1F6B95207EC915BDF1D2C134 /* Pods-gifyS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8771CE1404D2ABC48EF86F75 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EF5686A0A8419BD930B815E0 /* Pods_gifyS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BB8A946028FD8D2200A7A24A = {
 			isa = PBXGroup;
 			children = (
 				BB8A946B28FD8D2200A7A24A /* gifyS */,
 				BB8A946A28FD8D2200A7A24A /* Products */,
+				18A0CE3CE9FA19C73DA984BF /* Pods */,
+				8771CE1404D2ABC48EF86F75 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +126,86 @@
 		BB8A946B28FD8D2200A7A24A /* gifyS */ = {
 			isa = PBXGroup;
 			children = (
+				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+				BBC29B9728FD960800DA06E7 /* CustomTableViewCells */,
+				BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewStuff */,
+				BBC29B6328FD947500DA06E7 /* Scenes */,
 				BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */,
-				BB8A946E28FD8D2200A7A24A /* SceneDelegate.swift */,
 				BB8A947028FD8D2200A7A24A /* ViewController.swift */,
-				BB8A947228FD8D2200A7A24A /* Main.storyboard */,
 				BB8A947528FD8D2400A7A24A /* Assets.xcassets */,
 				BB8A947728FD8D2400A7A24A /* LaunchScreen.storyboard */,
 				BB8A947A28FD8D2400A7A24A /* Info.plist */,
 			);
 			path = gifyS;
+			sourceTree = "<group>";
+		};
+		BBC29B6328FD947500DA06E7 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B8428FD956D00DA06E7 /* GifColl */,
+				BBC29B7728FD954600DA06E7 /* Reg */,
+				BBC29B6A28FD951600DA06E7 /* Authn */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		BBC29B6A28FD951600DA06E7 /* Authn */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B6B28FD953800DA06E7 /* AuthnInteractor.swift */,
+				BBC29B7028FD953800DA06E7 /* AuthnModels.swift */,
+				BBC29B6E28FD953800DA06E7 /* AuthnPresenter.swift */,
+				BBC29B6C28FD953800DA06E7 /* AuthnRouter.swift */,
+				BBC29B6D28FD953800DA06E7 /* AuthnViewController.swift */,
+				BBC29B6F28FD953800DA06E7 /* AuthnWorker.swift */,
+			);
+			path = Authn;
+			sourceTree = "<group>";
+		};
+		BBC29B7728FD954600DA06E7 /* Reg */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B7D28FD956200DA06E7 /* RegInteractor.swift */,
+				BBC29B7C28FD956200DA06E7 /* RegModels.swift */,
+				BBC29B7A28FD956200DA06E7 /* RegPresenter.swift */,
+				BBC29B7828FD956200DA06E7 /* RegRouter.swift */,
+				BBC29B7928FD956200DA06E7 /* RegViewController.swift */,
+				BBC29B7B28FD956200DA06E7 /* RegWorker.swift */,
+			);
+			path = Reg;
+			sourceTree = "<group>";
+		};
+		BBC29B8428FD956D00DA06E7 /* GifColl */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B8628FD958C00DA06E7 /* GifCollInteractor.swift */,
+				BBC29B8A28FD958C00DA06E7 /* GifCollModels.swift */,
+				BBC29B8728FD958C00DA06E7 /* GifCollPresenter.swift */,
+				BBC29B8528FD958B00DA06E7 /* GifCollRouter.swift */,
+				BBC29B8928FD958C00DA06E7 /* GifCollViewController.swift */,
+				BBC29B8828FD958C00DA06E7 /* GifCollWorker.swift */,
+			);
+			path = GifColl;
+			sourceTree = "<group>";
+		};
+		BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewStuff */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */,
+				BBC29B9228FD95DF00DA06E7 /* GifCollectionViewCell.swift */,
+			);
+			path = CustomCollectionViewStuff;
+			sourceTree = "<group>";
+		};
+		BBC29B9728FD960800DA06E7 /* CustomTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				BBC29B9B28FD962F00DA06E7 /* ButtonTableViewCell.swift */,
+				BBC29B9928FD962F00DA06E7 /* ImageTableViewCell.swift */,
+				BBC29B9828FD962F00DA06E7 /* LabelTableViewCell.swift */,
+				BBC29B9A28FD962F00DA06E7 /* TextFieldTableViewCell.swift */,
+			);
+			path = CustomTableViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +215,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BB8A947D28FD8D2400A7A24A /* Build configuration list for PBXNativeTarget "gifyS" */;
 			buildPhases = (
+				DDD46A873E889389DD1ED2A7 /* [CP] Check Pods Manifest.lock */,
 				BB8A946528FD8D2200A7A24A /* Sources */,
 				BB8A946628FD8D2200A7A24A /* Frameworks */,
 				BB8A946728FD8D2200A7A24A /* Resources */,
+				B2EC11D97CEB567864220A3A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,34 +270,91 @@
 			files = (
 				BB8A947928FD8D2400A7A24A /* LaunchScreen.storyboard in Resources */,
 				BB8A947628FD8D2400A7A24A /* Assets.xcassets in Resources */,
-				BB8A947428FD8D2200A7A24A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B2EC11D97CEB567864220A3A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-gifyS/Pods-gifyS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-gifyS/Pods-gifyS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-gifyS/Pods-gifyS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDD46A873E889389DD1ED2A7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-gifyS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BB8A946528FD8D2200A7A24A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC29B7628FD953800DA06E7 /* AuthnModels.swift in Sources */,
+				BBC29B8B28FD958C00DA06E7 /* GifCollRouter.swift in Sources */,
+				BBC29B8028FD956200DA06E7 /* RegPresenter.swift in Sources */,
+				BBC29B7128FD953800DA06E7 /* AuthnInteractor.swift in Sources */,
+				BBC29B9E28FD962F00DA06E7 /* TextFieldTableViewCell.swift in Sources */,
+				BBC29B7228FD953800DA06E7 /* AuthnRouter.swift in Sources */,
+				BBC29BA128FD966600DA06E7 /* ValidationRules.swift in Sources */,
+				BBC29B7328FD953800DA06E7 /* AuthnViewController.swift in Sources */,
+				BBC29B9428FD95DF00DA06E7 /* GifCollectionViewCell.swift in Sources */,
+				BBC29B8D28FD958C00DA06E7 /* GifCollPresenter.swift in Sources */,
+				BBC29B7428FD953800DA06E7 /* AuthnPresenter.swift in Sources */,
+				BBC29B9D28FD962F00DA06E7 /* ImageTableViewCell.swift in Sources */,
+				BBC29B8128FD956200DA06E7 /* RegWorker.swift in Sources */,
+				BBC29B8328FD956200DA06E7 /* RegInteractor.swift in Sources */,
 				BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */,
+				BBC29B8F28FD958C00DA06E7 /* GifCollViewController.swift in Sources */,
+				BBC29B9F28FD962F00DA06E7 /* ButtonTableViewCell.swift in Sources */,
+				BBC29B9C28FD962F00DA06E7 /* LabelTableViewCell.swift in Sources */,
+				BBC29B7E28FD956200DA06E7 /* RegRouter.swift in Sources */,
+				BBC29B7F28FD956200DA06E7 /* RegViewController.swift in Sources */,
+				BBC29B9028FD958C00DA06E7 /* GifCollModels.swift in Sources */,
 				BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */,
-				BB8A946F28FD8D2200A7A24A /* SceneDelegate.swift in Sources */,
+				BBC29B8C28FD958C00DA06E7 /* GifCollInteractor.swift in Sources */,
+				BBC29B8228FD956200DA06E7 /* RegModels.swift in Sources */,
+				BBC29B8E28FD958C00DA06E7 /* GifCollWorker.swift in Sources */,
+				BBC29B9528FD95DF00DA06E7 /* CustomCollectionViewLayout.swift in Sources */,
+				BBC29B7528FD953800DA06E7 /* AuthnWorker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BB8A947228FD8D2200A7A24A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BB8A947328FD8D2200A7A24A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BB8A947728FD8D2400A7A24A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,6 +482,7 @@
 		};
 		BB8A947E28FD8D2400A7A24A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C330BA74C7EA292B7B9A95E /* Pods-gifyS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -291,7 +492,8 @@
 				INFOPLIST_FILE = gifyS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -303,12 +505,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		BB8A947F28FD8D2400A7A24A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F6B95207EC915BDF1D2C134 /* Pods-gifyS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -318,7 +521,8 @@
 				INFOPLIST_FILE = gifyS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -330,7 +534,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

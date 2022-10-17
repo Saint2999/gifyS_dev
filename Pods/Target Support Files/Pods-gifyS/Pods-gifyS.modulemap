@@ -1,0 +1,6 @@
+framework module Pods_gifyS {
+  umbrella header "Pods-gifyS-umbrella.h"
+
+  export *
+  module * { export * }
+}
