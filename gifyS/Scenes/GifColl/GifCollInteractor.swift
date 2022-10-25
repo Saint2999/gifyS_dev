@@ -1,23 +1,22 @@
 import SnapKit
 
-protocol GifCollBusinessLogic
-{
+protocol GifCollBusinessLogic {
+    
     func doSomething(request: GifColl.Something.Request)
 }
 
-protocol GifCollDataStore
-{
-  //var name: String { get set }
+protocol GifCollDataStore {
+
+    //var name: String { get set }
 }
 
-class GifCollInteractor: GifCollBusinessLogic, GifCollDataStore
-{
+class GifCollInteractor: GifCollBusinessLogic, GifCollDataStore {
+    
     var presenter: GifCollPresentationLogic?
     var worker: GifCollWorker?
-  //var name: String = ""
+    //var name: String = ""
   
-    func doSomething(request: GifColl.Something.Request)
-    {
+    func doSomething(request: GifColl.Something.Request) {
         worker = GifCollWorker()
         worker?.doSomeWork()
     

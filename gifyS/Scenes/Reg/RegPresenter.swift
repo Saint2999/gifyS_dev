@@ -1,24 +1,22 @@
 import SnapKit
 import Validator
 
-protocol RegPresentationLogic
-{
+protocol RegPresentationLogic {
+    
     func presentSignUp(response: Reg.SignUp.Response)
     func presentValidationResult(response : Reg.Validate.Response)
 }
 
-class RegPresenter: RegPresentationLogic
-{
+class RegPresenter: RegPresentationLogic {
+    
     weak var viewController: RegDisplayLogic?
   
-    func presentSignUp(response: Reg.SignUp.Response)
-    {
+    func presentSignUp(response: Reg.SignUp.Response) {
         let viewModel = Reg.SignUp.ViewModel(success: response.success)
         viewController?.displaySignUp(viewModel: viewModel)
     }
     
-    func presentValidationResult(response: Reg.Validate.Response)
-    {
+    func presentValidationResult(response: Reg.Validate.Response) {
         let emailError = getValidationErrorMessage(validationResult: response.validationResultEmail)
         let usernameError = getValidationErrorMessage(validationResult: response.validationResulUsername)
         let passwordError = getValidationErrorMessage(validationResult: response.validationResultPassword)
@@ -28,22 +26,18 @@ class RegPresenter: RegPresentationLogic
         viewController?.displayValidationErrors(viewModel: viewModel)
     }
     
-    func getValidationErrorMessage(validationResult : ValidationResult?) -> NSAttributedString?
-    {
+    func getValidationErrorMessage(validationResult : ValidationResult?) -> NSAttributedString? {
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
         
-        guard let validationResult = validationResult else
-        {
+        guard let validationResult = validationResult else {
             return nil
         }
         
         var attributed : NSAttributedString?
         
-        switch validationResult
-        {
+        switch validationResult {
             case .invalid(let errors):
-                if(errors.count > 0)
-                {
+                if(errors.count > 0) {
                     attributed = NSAttributedString(string: errors.first?.message ?? "NO error", attributes: attributes)
                 }
             case .valid:

@@ -1,9 +1,8 @@
 import SnapKit
 
-class ImageTableViewCell: UITableViewCell
-{
-    let mainImageView: UIImageView =
-    {
+class ImageTableViewCell: UITableViewCell {
+    
+    let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.systemPurple
@@ -11,22 +10,19 @@ class ImageTableViewCell: UITableViewCell
         return imageView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?)
-    {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainImageView)
         self.backgroundColor = UIColor.clear
         self.selectionStyle = .none
         
-        mainImageView.snp.makeConstraints
-        {
+        mainImageView.snp.makeConstraints {
             make in
             make.width.height.equalToSuperview()
         }
     }
     
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

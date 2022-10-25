@@ -1,10 +1,9 @@
 import SnapKit
 //import Alamofire
 
-class GifCollectionViewCell: UICollectionViewCell
-{
-    let mainImageView: UIImageView =
-    {
+class GifCollectionViewCell: UICollectionViewCell {
+    
+    let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.systemPurple
@@ -12,16 +11,14 @@ class GifCollectionViewCell: UICollectionViewCell
         return imageView
     }()
     
-    override init(frame: CGRect)
-    {
+    override init(frame: CGRect) {
         super.init(frame: CGRect())
         self.contentView.addSubview(mainImageView)
         self.backgroundColor = UIColor.systemGray5
         self.layer.cornerRadius = 20
         
         mainImageView.image = UIImage(systemName: "sparkles")
-        mainImageView.snp.makeConstraints
-        {
+        mainImageView.snp.makeConstraints {
             make in
             make.width.height.equalToSuperview()
         }
@@ -31,8 +28,7 @@ class GifCollectionViewCell: UICollectionViewCell
 //        let request = AF.request(gif_url)
     }
     
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

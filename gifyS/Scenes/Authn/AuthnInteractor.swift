@@ -1,14 +1,14 @@
 import SnapKit
 import Validator
 
-protocol AuthnBusinessLogic
-{
+protocol AuthnBusinessLogic {
+    
     func signIn(request: Authn.SignIn.Request)
     func validate(request: Authn.Validate.Request)
 }
 
-class AuthnInteractor: AuthnBusinessLogic
-{
+class AuthnInteractor: AuthnBusinessLogic {
+    
     var presenter: AuthnPresentationLogic?
     var worker = AuthnWorker()
     
@@ -19,29 +19,24 @@ class AuthnInteractor: AuthnBusinessLogic
     var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
 
     
-    func signIn(request: Authn.SignIn.Request)
-    {
-        worker.signIn(login: request.login, password: request.password)
-        {
+    func signIn(request: Authn.SignIn.Request) {
+        worker.signIn(login: request.login, password: request.password) {
             success in
             let response = Authn.SignIn.Response(success: success)
             self.presenter?.presentSignIn(response: response)
         }
     }
     
-    func validate(request : Authn.Validate.Request)
-    {
+    func validate(request : Authn.Validate.Request) {
         var emailResult, passwordResult: ValidationResult?
             
-        if let value = request.email
-        {
+        if let value = request.email {
             validationResultEmail = worker.validateEmail(email: value)
             emailResult =  validationResultEmail
             email =  value
         }
         
-        if let value = request.password
-        {
+        if let value = request.password {
             validationResultPassword = worker.validate(value: value)
             passwordResult =  validationResultPassword
             password =  value

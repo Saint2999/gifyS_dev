@@ -1,9 +1,8 @@
 import SnapKit
 
-class TextFieldTableViewCell: UITableViewCell
-{
-    let mainTextField: SecureNonDeleteTextField =
-    {
+class TextFieldTableViewCell: UITableViewCell {
+    
+    let mainTextField: SecureNonDeleteTextField = {
         let textField = SecureNonDeleteTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 20)
@@ -12,15 +11,13 @@ class TextFieldTableViewCell: UITableViewCell
         return textField
     }()
     
-    let mainImageView: UIImageView =
-    {
+    let mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?)
-    {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainTextField)
         self.selectionStyle = .none
@@ -30,23 +27,18 @@ class TextFieldTableViewCell: UITableViewCell
         mainTextField.autocapitalizationType = .none
         mainTextField.clearsOnBeginEditing = false
         
-        if reuseIdentifier == "UsernameTextFieldTableViewCell" || reuseIdentifier == "EmailTextFieldTableViewCell"
-        {
-            mainTextField.snp.makeConstraints
-            {
+        if reuseIdentifier == "UsernameTextFieldTableViewCell" || reuseIdentifier == "EmailTextFieldTableViewCell" {
+            mainTextField.snp.makeConstraints {
                 make in
                 make.top.bottom.centerX.equalToSuperview()
                 make.width.equalToSuperview().multipliedBy(0.9)
             }
-        }
-        else if reuseIdentifier == "PasswordTextFieldTableViewCell"
-        {
+        } else if reuseIdentifier == "PasswordTextFieldTableViewCell" {
             mainTextField.textContentType = .oneTimeCode
             mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
             mainTextField.isSecureTextEntry = true
             
-            mainTextField.snp.makeConstraints
-            {
+            mainTextField.snp.makeConstraints {
                 make in
                 make.top.bottom.equalToSuperview()
                 make.left.equalTo(self.snp.left).offset(20)
@@ -60,8 +52,7 @@ class TextFieldTableViewCell: UITableViewCell
             mainImageView.tintColor = UIColor.systemGreen
             mainImageView.isUserInteractionEnabled = true
             
-            mainImageView.snp.makeConstraints
-            {
+            mainImageView.snp.makeConstraints {
                 make in
                 make.top.bottom.equalToSuperview()
                 make.left.equalTo(mainTextField.snp.right).offset(10)
@@ -73,27 +64,21 @@ class TextFieldTableViewCell: UITableViewCell
         }
     }
     
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    @objc func imageTapped()
-    {
-        if mainTextField.isSecureTextEntry == true
-        {
+    @objc func imageTapped() {
+        if mainTextField.isSecureTextEntry == true {
             mainTextField.isSecureTextEntry = false
             mainImageView.image = UIImage(systemName: "eye")
-        }
-        else if mainTextField.isSecureTextEntry == false
-        {
+        } else if mainTextField.isSecureTextEntry == false {
             mainTextField.isSecureTextEntry = true
             mainImageView.image = UIImage(systemName: "eye.slash")
         }
     }
     
-    override var inputAccessoryView: UIView?
-    {
+    override var inputAccessoryView: UIView? {
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: mainTextField.frame.size.width, height: 50))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDone))
@@ -104,30 +89,24 @@ class TextFieldTableViewCell: UITableViewCell
         return toolBar
     }
 
-    @objc func didTapDone()
-    {
+    @objc func didTapDone() {
         mainTextField.resignFirstResponder()
     }
 }
 
-class SecureNonDeleteTextField: UITextField
-{
-    override var isSecureTextEntry: Bool
-    {
-        didSet
-        {
-            if isFirstResponder
-            {
+class SecureNonDeleteTextField: UITextField {
+    
+    override var isSecureTextEntry: Bool {
+        didSet {
+            if isFirstResponder {
                 _ = becomeFirstResponder()
             }
         }
     }
 
-    override func becomeFirstResponder() -> Bool
-    {
+    override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
-        if isSecureTextEntry, let text = self.text
-        {
+        if isSecureTextEntry, let text = self.text {
             self.text?.removeAll()
             insertText(text)
         }

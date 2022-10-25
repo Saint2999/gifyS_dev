@@ -1,31 +1,28 @@
 import SnapKit
 
-protocol GifCollDisplayLogic: AnyObject
-{
+protocol GifCollDisplayLogic: AnyObject {
+    
     func displaySomething(viewModel: GifColl.Something.ViewModel)
 }
 
-class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollectionViewDataSource, UICollectionViewDelegate
-{
+class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollectionViewDataSource, UICollectionViewDelegate {
+    
     var interactor: GifCollBusinessLogic?
     var router: (NSObjectProtocol & GifCollRoutingLogic & GifCollDataPassing)?
     
     weak var collectionView: UICollectionView?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-    {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
     }
   
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
   
-    private func setup()
-    {
+    private func setup() {
         let viewController = self
         let interactor = GifCollInteractor()
         let presenter = GifCollPresenter()
@@ -38,14 +35,12 @@ class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollection
         router.dataStore = interactor
     }
   
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView(collectionView: &collectionView)
     }
     
-    func setupCollectionView(collectionView: inout UICollectionView?)
-    {
+    func setupCollectionView(collectionView: inout UICollectionView?) {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2.2, height: UIScreen.main.bounds.height / 6)
         layout.sectionInset = UIEdgeInsets(top: 20, left: 15, bottom: 10, right: 15)
@@ -64,8 +59,7 @@ class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollection
         self.view.addSubview(collectionView ?? UICollectionView())
     }
     
-    override func viewDidLayoutSubviews()
-    {
+    override func viewDidLayoutSubviews() {
         self.navigationController?.viewControllers = [self]
     }
     
@@ -74,20 +68,17 @@ class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollection
     }
 }
 
-extension GifCollViewController
-{
-    func numberOfSections(in collectionView: UICollectionView) -> Int
-    {
+extension GifCollViewController {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GifCollectionViewCell", for: indexPath) as? GifCollectionViewCell
         
         return cell ?? UICollectionViewCell()

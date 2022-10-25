@@ -1,8 +1,7 @@
 import SnapKit
 
-class GifCollWorker
-{
-    func doSomeWork()
-    {
+class GifCollWorker {
+    
+    func doSomeWork() {
     }
 }

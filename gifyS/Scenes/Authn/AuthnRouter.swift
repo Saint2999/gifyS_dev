@@ -1,22 +1,20 @@
 import SnapKit
 
-@objc protocol AuthnRoutingLogic
-{
+@objc protocol AuthnRoutingLogic {
+    
     func routeToRegistration()
     func routeToGifCollection()
 }
 
-class AuthnRouter: NSObject, AuthnRoutingLogic
-{
+class AuthnRouter: NSObject, AuthnRoutingLogic {
+    
     weak var viewController: AuthnViewController?
   
-    func routeToRegistration()
-    {
+    func routeToRegistration() {
         self.viewController?.navigationController?.pushViewController(RegViewController(), animated: true)
     }
     
-    func routeToGifCollection()
-    {
+    func routeToGifCollection() {
         self.viewController?.navigationController?.pushViewController(GifCollViewController(), animated: true)
     }
 }

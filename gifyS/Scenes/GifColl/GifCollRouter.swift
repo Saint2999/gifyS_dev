@@ -1,17 +1,15 @@
 import SnapKit
 
-@objc protocol GifCollRoutingLogic
-{
-  
+@objc protocol GifCollRoutingLogic {
 }
 
-protocol GifCollDataPassing
-{
+protocol GifCollDataPassing {
+    
     var dataStore: GifCollDataStore? { get }
 }
 
-class GifCollRouter: NSObject, GifCollRoutingLogic, GifCollDataPassing
-{
+class GifCollRouter: NSObject, GifCollRoutingLogic, GifCollDataPassing {
+    
     weak var viewController: GifCollViewController?
     var dataStore: GifCollDataStore?
   
