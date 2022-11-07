@@ -1,6 +1,6 @@
 import SnapKit
 
-class TextFieldTableViewCell: UITableViewCell {
+final class TextFieldTableViewCell: UITableViewCell {
     
     lazy var mainTextField: SecureNonDeleteTextField = {
         let textField = SecureNonDeleteTextField()

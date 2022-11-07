@@ -1,6 +1,6 @@
 import SnapKit
 
-class ButtonTableViewCell: UITableViewCell {
+final class ButtonTableViewCell: UITableViewCell {
     
     lazy var mainButton: UIButtonWithWorkingHighlighted = {
         let button = UIButtonWithWorkingHighlighted(type: .custom)

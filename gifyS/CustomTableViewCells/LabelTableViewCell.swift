@@ -1,6 +1,6 @@
 import SnapKit
 
-class LabelTableViewCell: UITableViewCell {
+final class LabelTableViewCell: UITableViewCell {
     
     lazy var mainLabel: UILabel = {
         let label = UILabel()

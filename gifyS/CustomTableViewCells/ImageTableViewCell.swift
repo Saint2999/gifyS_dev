@@ -1,6 +1,6 @@
 import SnapKit
 
-class ImageTableViewCell: UITableViewCell {
+final class ImageTableViewCell: UITableViewCell {
     
     lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
