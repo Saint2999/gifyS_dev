@@ -2,7 +2,7 @@ import SnapKit
 
 class TextFieldTableViewCell: UITableViewCell {
     
-    let mainTextField: SecureNonDeleteTextField = {
+    lazy var mainTextField: SecureNonDeleteTextField = {
         let textField = SecureNonDeleteTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 20)
@@ -11,7 +11,7 @@ class TextFieldTableViewCell: UITableViewCell {
         return textField
     }()
     
-    let mainImageView: UIImageView = {
+    lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

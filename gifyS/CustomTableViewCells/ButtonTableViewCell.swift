@@ -2,7 +2,7 @@ import SnapKit
 
 class ButtonTableViewCell: UITableViewCell {
     
-    let mainButton: UIButtonWithWorkingHighlighted = {
+    lazy var mainButton: UIButtonWithWorkingHighlighted = {
         let button = UIButtonWithWorkingHighlighted(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor.systemPurple

@@ -2,7 +2,7 @@ import SnapKit
 
 class ImageTableViewCell: UITableViewCell {
     
-    let mainImageView: UIImageView = {
+    lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.systemPurple

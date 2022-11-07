@@ -2,7 +2,7 @@ import SnapKit
 
 class LabelTableViewCell: UITableViewCell {
     
-    let mainLabel: UILabel = {
+    lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
