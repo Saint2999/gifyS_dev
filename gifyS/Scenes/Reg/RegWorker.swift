@@ -4,8 +4,6 @@ import Alamofire
 
 class RegWorker {
     
-    let register_url = "https://mainsoup.backendless.app/api/users/register"
-    
     func signUp(request: Reg.SignUp.Request, completionHandler: @escaping (Bool) -> Void) {
         if request.password == request.passwordAgain {
             let register = Reg.SignUp.Request(email: request.email!, name: request.name!, password: request.password!, passwordAgain: nil)
@@ -14,7 +12,7 @@ class RegWorker {
                 .contentType("application/json")
             ]
             
-            AF.request(register_url, method: .post, parameters: register, encoder: JSONParameterEncoder.default, headers: headers).response {
+            AF.request(Helper.registerURL, method: .post, parameters: register, encoder: JSONParameterEncoder.default, headers: headers).response {
                 response in
                 debugPrint(response)
                 switch response.result {

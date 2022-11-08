@@ -4,8 +4,6 @@ import Alamofire
 
 class AuthnWorker {
     
-    let login_url = "https://mainsoup.backendless.app/api/users/login"
-
     func signIn(request: Authn.SignIn.Request, completionHandler: @escaping (Bool) -> Void) {
         let login = Authn.SignIn.Request(login: request.login!, password: request.password!)
                     
@@ -13,7 +11,7 @@ class AuthnWorker {
             .contentType("application/json")
         ]
                     
-        AF.request(login_url, method: .post, parameters: login, encoder: JSONParameterEncoder.default, headers: headers).response {
+        AF.request(Helper.loginURL, method: .post, parameters: login, encoder: JSONParameterEncoder.default, headers: headers).response {
             response in
             debugPrint(response)
             switch response.result {

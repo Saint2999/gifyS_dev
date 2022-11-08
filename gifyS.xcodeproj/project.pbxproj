@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C95C96C69F1D93674642F6C /* Pods_gifyS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5686A0A8419BD930B815E0 /* Pods_gifyS.framework */; };
+		BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A803B291AE0C8004FBD7A /* Helper.swift */; };
 		BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */; };
 		BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A947028FD8D2200A7A24A /* ViewController.swift */; };
 		BB8A947628FD8D2400A7A24A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947528FD8D2400A7A24A /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		1C330BA74C7EA292B7B9A95E /* Pods-gifyS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.debug.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.debug.xcconfig"; sourceTree = "<group>"; };
 		1F6B95207EC915BDF1D2C134 /* Pods-gifyS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.release.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.release.xcconfig"; sourceTree = "<group>"; };
+		BB7A803B291AE0C8004FBD7A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		BB8A946928FD8D2200A7A24A /* gifyS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gifyS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB8A947028FD8D2200A7A24A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				BB8A947528FD8D2400A7A24A /* Assets.xcassets */,
 				BB8A947728FD8D2400A7A24A /* LaunchScreen.storyboard */,
 				BB8A947A28FD8D2400A7A24A /* Info.plist */,
+				BB7A803B291AE0C8004FBD7A /* Helper.swift */,
 			);
 			path = gifyS;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				BBC29B8128FD956200DA06E7 /* RegWorker.swift in Sources */,
 				BBC29B8328FD956200DA06E7 /* RegInteractor.swift in Sources */,
 				BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */,
+				BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */,
 				BBC29B8F28FD958C00DA06E7 /* GifCollViewController.swift in Sources */,
 				BBC29B9F28FD962F00DA06E7 /* ButtonTableViewCell.swift in Sources */,
 				BBC29B9C28FD962F00DA06E7 /* LabelTableViewCell.swift in Sources */,

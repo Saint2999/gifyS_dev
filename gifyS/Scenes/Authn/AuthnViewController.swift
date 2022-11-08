@@ -179,7 +179,7 @@ extension AuthnViewController: UITableViewDataSource, UITableViewDelegate {
             case 0:
                 let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
                 imageCell = ImageTableViewCell
-                imageCell?.changeImage(imageName: "theatermasks.fill")
+            imageCell?.changeImage(imageName: Helper.signInImage)
                 return ImageTableViewCell ?? UITableViewCell()
             case 1:
                 if indexPath.row == 0 {

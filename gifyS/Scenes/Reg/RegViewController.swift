@@ -185,7 +185,7 @@ extension RegViewController {
             case 0:
                 let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
                 imageCell = ImageTableViewCell
-            imageCell?.changeImage(imageName: "sparkles")
+            imageCell?.changeImage(imageName: Helper.signUpImage)
                 return ImageTableViewCell ?? UITableViewCell()
             case 1:
                 if indexPath.row < 2 {
