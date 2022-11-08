@@ -6,8 +6,8 @@ class AuthnWorker {
     
     let login_url = "https://mainsoup.backendless.app/api/users/login"
 
-    func signIn(login: String?, password: String?, completionHandler: @escaping (Bool) -> Void) {
-        let login = Authn.SignIn.Request(login: login!, password: password!)
+    func signIn(request: Authn.SignIn.Request, completionHandler: @escaping (Bool) -> Void) {
+        let login = Authn.SignIn.Request(login: request.login!, password: request.password!)
                     
         let headers: HTTPHeaders = [
             .contentType("application/json")

@@ -11,14 +11,14 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
     var interactor: RegBusinessLogic?
     var router: (NSObjectProtocol & RegRoutingLogic)?
     
-    var validated: Bool = true
-    weak var tableView: UITableView?
-    weak var imageCell: ImageTableViewCell?
-    weak var emailCell: TextFieldTableViewCell?
-    weak var usernameCell: TextFieldTableViewCell?
-    weak var passwordCell: TextFieldTableViewCell?
-    weak var passwordAgainCell: TextFieldTableViewCell?
-    weak var buttonCell: ButtonTableViewCell?
+    private var validated: Bool = true
+    private weak var tableView: UITableView?
+    private weak var imageCell: ImageTableViewCellDelegate?
+    private weak var emailCell: TextFieldTableViewCellDelegate?
+    private weak var usernameCell: TextFieldTableViewCellDelegate?
+    private weak var passwordCell: TextFieldTableViewCellDelegate?
+    private weak var passwordAgainCell: TextFieldTableViewCellDelegate?
+    private weak var buttonCell: ButtonTableViewCellDelegate?
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -70,30 +70,21 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
     }
     
     override func viewDidLayoutSubviews() {
-        connectUIElements(tableView: &tableView)
+        emailCell?.addTextFieldTarget(target: self, action: #selector(self.emailDidChange), event: .editingDidEnd)
         
-        emailCell?.mainTextField.addTarget(self, action: #selector(self.emailDidChange), for: .editingDidEnd)
-        usernameCell?.mainTextField.addTarget(self, action: #selector(self.usernameDidChange), for: .editingDidEnd)
-        passwordCell?.mainTextField.addTarget(self, action: #selector(self.passwordDidChange), for: .editingDidEnd)
-        passwordAgainCell?.mainTextField.addTarget(self, action: #selector(self.passwordDidChange), for: .editingDidEnd)
+        usernameCell?.addTextFieldTarget(target: self, action: #selector(self.usernameDidChange), event: .editingDidEnd)
         
-        buttonCell?.mainButton.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
-    }
-    
-    func connectUIElements(tableView: inout UITableView?) {
-        imageCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 0)) as? ImageTableViewCell
-        emailCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 1)) as? TextFieldTableViewCell
-        usernameCell = tableView?.cellForRow(at: IndexPath(row: 1, section: 1)) as? TextFieldTableViewCell
-        passwordCell = tableView?.cellForRow(at: IndexPath(row: 2, section: 1)) as? TextFieldTableViewCell
-        passwordAgainCell = tableView?.cellForRow(at: IndexPath(row: 3, section: 1)) as? TextFieldTableViewCell
-        buttonCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 2)) as? ButtonTableViewCell
+        passwordCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
+        passwordAgainCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
+        
+        buttonCell?.addButtonTarget(target: self, action: #selector(self.didTapButton), event: .touchUpInside)
     }
     
     func signUp() {
-        let email = emailCell?.mainTextField.text
-        let name = usernameCell?.mainTextField.text
-        let password = passwordCell?.mainTextField.text
-        let passwordAgain = passwordAgainCell?.mainTextField.text
+        let email = emailCell?.getText()
+        let name = usernameCell?.getText()
+        let password = passwordCell?.getText()
+        let passwordAgain = passwordAgainCell?.getText()
         
         let request = Reg.SignUp.Request(email: email, name: name, password: password, passwordAgain: passwordAgain)
         interactor?.signUp(request: request)
@@ -105,10 +96,10 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
       
     func showSuccess(success: Bool) {
         if success {
-            imageCell?.mainImageView.tintColor = UIColor.systemGreen
+            imageCell?.changeColor(color: UIColor.systemGreen)
             router?.routeToGifCollection()
         } else {
-            imageCell?.mainImageView.tintColor = UIColor.systemPink
+            imageCell?.changeColor(color: UIColor.systemPink)
         }
     }
     
@@ -117,20 +108,20 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
             validated = true
         }
         if let emailError = viewModel.errorMessageEmail {
-            emailCell?.mainTextField.text = ""
-            emailCell?.mainTextField.attributedPlaceholder = emailError
+            emailCell?.setText(text: "")
+            emailCell?.setAttributedPlaceholder(placeholder: emailError)
             validated = false
         }
         if let usernameError = viewModel.errorMessageUsername {
-            usernameCell?.mainTextField.text = ""
-            usernameCell?.mainTextField.attributedPlaceholder = usernameError
+            usernameCell?.setText(text: "")
+            usernameCell?.setAttributedPlaceholder(placeholder: usernameError)
             validated = false
         }
         if let passwordError = viewModel.errorMessagePassword {
-            passwordCell?.mainTextField.text = ""
-            passwordCell?.mainTextField.attributedPlaceholder = passwordError
-            passwordAgainCell?.mainTextField.text = ""
-            passwordAgainCell?.mainTextField.attributedPlaceholder = passwordError
+            passwordCell?.setText(text: "")
+            passwordCell?.setAttributedPlaceholder(placeholder: passwordError)
+            passwordAgainCell?.setText(text: "")
+            passwordAgainCell?.setAttributedPlaceholder(placeholder: passwordError)
             validated = false
         }
     }
@@ -154,7 +145,7 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
         if validated {
             signUp()
         } else {
-            imageCell?.mainImageView.tintColor = UIColor.systemPink
+            imageCell?.changeColor(color: UIColor.systemPink)
         }
     }
 }
@@ -193,34 +184,41 @@ extension RegViewController {
         switch indexPath.section {
             case 0:
                 let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
-                ImageTableViewCell?.mainImageView.image = UIImage(systemName: "sparkles")
+                imageCell = ImageTableViewCell
+            imageCell?.changeImage(imageName: "sparkles")
                 return ImageTableViewCell ?? UITableViewCell()
             case 1:
                 if indexPath.row < 2 {
                     if indexPath.row == 0 {
                         let EmailTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmailTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                        EmailTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                        emailCell = EmailTextFieldTableViewCell
+                        emailCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
+                        
                         return EmailTextFieldTableViewCell ?? UITableViewCell()
                     } else {
                         let UsernameTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "UsernameTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                        UsernameTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                        usernameCell = UsernameTextFieldTableViewCell
+                        usernameCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
+                        
                         return UsernameTextFieldTableViewCell ?? UITableViewCell()
                     }
                 } else {
                     let PasswordTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "PasswordTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
                     
                     if indexPath.row == 2 {
-                        PasswordTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                        passwordCell = PasswordTextFieldTableViewCell
+                        passwordCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
                     } else {
-                        PasswordTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                        passwordAgainCell = PasswordTextFieldTableViewCell
+                        passwordAgainCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
                     }
                     
                     return PasswordTextFieldTableViewCell ?? UITableViewCell()
                 }
             case 2:
                 let ButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ButtonTableViewCell", for: indexPath) as? ButtonTableViewCell
-                
-                ButtonTableViewCell?.mainButton.setTitle("Sign Up", for: .normal)
+                buttonCell = ButtonTableViewCell
+                buttonCell?.setTitle(title: "Sign Up", state: .normal)
                 
                 return ButtonTableViewCell ?? UITableViewCell()
 

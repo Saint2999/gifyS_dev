@@ -1,4 +1,5 @@
 import SnapKit
+import ObjectiveC
 
 protocol AuthnDisplayLogic: AnyObject {
     
@@ -6,18 +7,18 @@ protocol AuthnDisplayLogic: AnyObject {
     func displayValidationErrors(viewModel: Authn.Validate.ViewModel)
 }
 
-class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataSource, UITableViewDelegate {
+class AuthnViewController: UIViewController, AuthnDisplayLogic {
     
     var interactor: AuthnBusinessLogic?
     var router: (NSObjectProtocol & AuthnRoutingLogic)?
     
-    var validated: Bool = true
-    weak var tableView: UITableView?
-    weak var imageCell: ImageTableViewCell?
-    weak var emailCell: TextFieldTableViewCell?
-    weak var passwordCell: TextFieldTableViewCell?
-    weak var buttonCell: ButtonTableViewCell?
-    weak var labelCell: LabelTableViewCell?
+    private var validated: Bool = true
+    private weak var tableView: UITableView?
+    private weak var imageCell: ImageTableViewCellDelegate?
+    private weak var emailCell: TextFieldTableViewCellDelegate?
+    private weak var passwordCell: TextFieldTableViewCellDelegate?
+    private weak var buttonCell: ButtonTableViewCellDelegate?
+    private weak var labelCell: LabelTableViewCellDelegate?
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -72,28 +73,19 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataS
     }
     
     override func viewDidLayoutSubviews() {
-        connectUIElements(tableView: &tableView)
-        
-        emailCell?.mainTextField.addTarget(self, action: #selector(self.emailDidChange), for: .editingDidEnd)
-        passwordCell?.mainTextField.addTarget(self, action: #selector(self.passwordDidChange), for: .editingDidEnd)
-        
-        buttonCell?.mainButton.addTarget(self, action: #selector(self.didTapButton), for: .touchUpInside)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapSignUpLabel))
-        labelCell?.mainLabel.addGestureRecognizer(tapGestureRecognizer)
-    }
+        emailCell?.addTextFieldTarget(target: self, action: #selector(self.emailDidChange), event: .editingDidEnd)
     
-    func connectUIElements(tableView: inout UITableView?) {
-        imageCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 0)) as? ImageTableViewCell
-        emailCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 1)) as? TextFieldTableViewCell
-        passwordCell = tableView?.cellForRow(at: IndexPath(row: 1, section: 1)) as? TextFieldTableViewCell
-        buttonCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 2)) as? ButtonTableViewCell
-        labelCell = tableView?.cellForRow(at: IndexPath(row: 0, section: 3)) as? LabelTableViewCell
+        passwordCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
+        
+        buttonCell?.addButtonTarget(target: self, action: #selector(self.didTapButton), event: .touchUpInside)
+        
+        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapSignUpLabel))
+        labelCell?.addGestureRecognizer(gestureRecognizer: labelTapGestureRecognizer)
     }
     
     func signIn() {
-        let email = emailCell?.mainTextField.text
-        let password = passwordCell?.mainTextField.text
+        let email = emailCell?.getText()
+        let password = passwordCell?.getText()
         let request = Authn.SignIn.Request(login: email, password: password)
         interactor?.signIn(request: request)
     }
@@ -104,10 +96,10 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataS
       
     func showSuccess(success: Bool) {
         if success {
-            imageCell?.mainImageView.tintColor = UIColor.systemGreen
+            imageCell?.changeColor(color: UIColor.systemGreen)
             router?.routeToGifCollection()
         } else {
-            imageCell?.mainImageView.tintColor = UIColor.systemPink
+            imageCell?.changeColor(color: UIColor.systemPink)
         }
     }
     
@@ -116,13 +108,13 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataS
             validated = true
         }
         if let emailError = viewModel.errorMessageEmail {
-            emailCell?.mainTextField.text = ""
-            emailCell?.mainTextField.attributedPlaceholder = emailError
+            emailCell?.setText(text: "")
+            emailCell?.setAttributedPlaceholder(placeholder: emailError)
             validated = false
         }
         if let passwordError = viewModel.errorMessagePassword {
-            passwordCell?.mainTextField.text = ""
-            passwordCell?.mainTextField.attributedPlaceholder = passwordError
+            passwordCell?.setText(text: "")
+            passwordCell?.setAttributedPlaceholder(placeholder: passwordError)
             validated = false
         }
     }
@@ -141,7 +133,7 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataS
         if validated {
             signIn()
         } else {
-            imageCell?.mainImageView.tintColor = UIColor.systemPink
+            imageCell?.changeColor(color: UIColor.systemPink)
         }
     }
     
@@ -150,7 +142,7 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic, UITableViewDataS
     }
 }
 
-extension AuthnViewController {
+extension AuthnViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -186,32 +178,35 @@ extension AuthnViewController {
         switch indexPath.section {
             case 0:
                 let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
-                ImageTableViewCell?.mainImageView.image = UIImage(systemName: "theatermasks.fill")
+                imageCell = ImageTableViewCell
+                imageCell?.changeImage(imageName: "theatermasks.fill")
                 return ImageTableViewCell ?? UITableViewCell()
             case 1:
                 if indexPath.row == 0 {
                     let EmailTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmailTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-        
-                    EmailTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                    emailCell = EmailTextFieldTableViewCell
+                    
+                    emailCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
                     
                     return EmailTextFieldTableViewCell ?? UITableViewCell()
                 } else if indexPath.row == 1 {
                     let PasswordTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "PasswordTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
+                    passwordCell = PasswordTextFieldTableViewCell
                     
-                    PasswordTextFieldTableViewCell?.mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+                    passwordCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
                     
                     return PasswordTextFieldTableViewCell ?? UITableViewCell()
                 }
             case 2:
                 let ButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ButtonTableViewCell", for: indexPath) as? ButtonTableViewCell
-                
-                ButtonTableViewCell?.mainButton.setTitle("Sign In", for: .normal)
+                buttonCell = ButtonTableViewCell
+                buttonCell?.setTitle(title: "Sign In", state: .normal)
                     
                 return ButtonTableViewCell ?? UITableViewCell()
             case 3:
                 let LabelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LabelTableViewCell", for: indexPath) as? LabelTableViewCell
-                
-                LabelTableViewCell?.mainLabel.text = "Sign Up"
+                labelCell = LabelTableViewCell
+                labelCell?.changeText(text: "Sign Up")
                 
                 return LabelTableViewCell ?? UITableViewCell()
                 

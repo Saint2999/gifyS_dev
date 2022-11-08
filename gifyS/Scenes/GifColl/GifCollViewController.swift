@@ -10,7 +10,7 @@ class GifCollViewController: UIViewController, GifCollDisplayLogic, UICollection
     var interactor: GifCollBusinessLogic?
     var router: (NSObjectProtocol & GifCollRoutingLogic & GifCollDataPassing)?
     
-    weak var collectionView: UICollectionView?
+    private weak var collectionView: UICollectionView?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)

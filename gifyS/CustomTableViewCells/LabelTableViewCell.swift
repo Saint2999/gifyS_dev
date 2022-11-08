@@ -1,8 +1,14 @@
 import SnapKit
 
+protocol LabelTableViewCellDelegate: AnyObject {
+    
+    func changeText(text: String)
+    func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer)
+}
+
 final class LabelTableViewCell: UITableViewCell {
     
-    lazy var mainLabel: UILabel = {
+    private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20)
@@ -28,5 +34,16 @@ final class LabelTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension LabelTableViewCell: LabelTableViewCellDelegate {
+    
+    func changeText(text: String) {
+        mainLabel.text = text
+    }
+    
+    func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+        mainLabel.addGestureRecognizer(gestureRecognizer)
     }
 }

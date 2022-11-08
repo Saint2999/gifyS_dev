@@ -2,7 +2,7 @@ import SnapKit
 
 final class GifCollectionViewCell: UICollectionViewCell {
     
-    lazy var mainImageView: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.systemPurple

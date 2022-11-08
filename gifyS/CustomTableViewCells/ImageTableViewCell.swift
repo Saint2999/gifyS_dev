@@ -1,8 +1,13 @@
 import SnapKit
 
+protocol ImageTableViewCellDelegate: AnyObject {
+    
+    func changeImage(imageName: String)
+    func changeColor(color: UIColor)
+}
 final class ImageTableViewCell: UITableViewCell {
     
-    lazy var mainImageView: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = UIColor.systemPurple
@@ -24,5 +29,16 @@ final class ImageTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension ImageTableViewCell: ImageTableViewCellDelegate {
+    
+    func changeImage(imageName: String) {
+        mainImageView.image = UIImage(systemName: imageName)
+    }
+    
+    func changeColor(color: UIColor) {
+        mainImageView.tintColor = color
     }
 }

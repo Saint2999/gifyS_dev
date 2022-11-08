@@ -6,9 +6,9 @@ class RegWorker {
     
     let register_url = "https://mainsoup.backendless.app/api/users/register"
     
-    func signUp(email: String?, name: String?, password: String?, passwordAgain: String?, completionHandler: @escaping (Bool) -> Void) {
-        if password == passwordAgain {
-            let register = Reg.SignUp.Request(email: email!, name: name!, password: password!, passwordAgain: nil)
+    func signUp(request: Reg.SignUp.Request, completionHandler: @escaping (Bool) -> Void) {
+        if request.password == request.passwordAgain {
+            let register = Reg.SignUp.Request(email: request.email!, name: request.name!, password: request.password!, passwordAgain: nil)
             
             let headers: HTTPHeaders = [
                 .contentType("application/json")

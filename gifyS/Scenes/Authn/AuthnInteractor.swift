@@ -12,15 +12,15 @@ class AuthnInteractor: AuthnBusinessLogic {
     var presenter: AuthnPresentationLogic?
     var worker = AuthnWorker()
     
-    var email: String?
-    var password: String?
+    private var email: String?
+    private var password: String?
     
-    var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
+    private var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
+    private var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
 
     
     func signIn(request: Authn.SignIn.Request) {
-        worker.signIn(login: request.login, password: request.password) {
+        worker.signIn(request: request) {
             success in
             let response = Authn.SignIn.Response(success: success)
             self.presenter?.presentSignIn(response: response)

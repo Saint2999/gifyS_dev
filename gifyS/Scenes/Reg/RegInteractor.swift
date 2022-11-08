@@ -12,17 +12,17 @@ class RegInteractor: RegBusinessLogic {
     var presenter: RegPresentationLogic?
     var worker = RegWorker()
     
-    var email: String?
-    var username: String?
-    var password: String?
+    private var email: String?
+    private var username: String?
+    private var password: String?
     
-    var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    var validationResultUsername: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
+    private var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
+    private var validationResultUsername: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
+    private var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
 
     
     func signUp(request: Reg.SignUp.Request) {
-        worker.signUp(email: request.email, name: request.name, password: request.password, passwordAgain: request.passwordAgain) {
+        worker.signUp(request: request) {
             success in
             let response = Reg.SignUp.Response(success: success)
             self.presenter?.presentSignUp(response: response)

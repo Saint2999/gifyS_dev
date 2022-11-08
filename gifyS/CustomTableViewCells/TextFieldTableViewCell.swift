@@ -1,8 +1,16 @@
 import SnapKit
 
+protocol TextFieldTableViewCellDelegate: AnyObject {
+    
+    func addTextFieldTarget(target: Any?, action: Selector, event: UIControl.Event)
+    func setAttributedPlaceholder(placeholder: NSAttributedString)
+    func getText() -> String?
+    func setText(text: String)
+}
+
 final class TextFieldTableViewCell: UITableViewCell {
     
-    lazy var mainTextField: SecureNonDeleteTextField = {
+    private lazy var mainTextField: SecureNonDeleteTextField = {
         let textField = SecureNonDeleteTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.systemFont(ofSize: 20)
@@ -11,7 +19,7 @@ final class TextFieldTableViewCell: UITableViewCell {
         return textField
     }()
     
-    lazy var mainImageView: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -111,5 +119,24 @@ class SecureNonDeleteTextField: UITextField {
             insertText(text)
         }
         return success
+    }
+}
+
+extension TextFieldTableViewCell: TextFieldTableViewCellDelegate {
+    
+    func addTextFieldTarget(target: Any?, action: Selector, event: UIControl.Event) {
+        mainTextField.addTarget(target, action: action, for: event)
+    }
+    
+    func setAttributedPlaceholder(placeholder: NSAttributedString) {
+        mainTextField.attributedPlaceholder = placeholder
+    }
+    
+    func getText() -> String? {
+        return mainTextField.text
+    }
+    
+    func setText(text: String) {
+        mainTextField.text = text
     }
 }

@@ -1,8 +1,14 @@
 import SnapKit
 
-final class ButtonTableViewCell: UITableViewCell {
+protocol ButtonTableViewCellDelegate: AnyObject {
+
+    func setTitle(title: String, state: UIControl.State)
+    func addButtonTarget(target: Any?, action: Selector, event: UIControl.Event)
+}
+
+final class ButtonTableViewCell: UITableViewCell /*ButtonTableViewCellDelegate*/ {
     
-    lazy var mainButton: UIButtonWithWorkingHighlighted = {
+    private lazy var mainButton: UIButtonWithWorkingHighlighted = {
         let button = UIButtonWithWorkingHighlighted(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor.systemPurple
@@ -35,5 +41,16 @@ class UIButtonWithWorkingHighlighted: UIButton {
         didSet {
                 backgroundColor = isHighlighted ? UIColor.systemGreen : UIColor.systemPurple
         }
+    }
+}
+
+extension ButtonTableViewCell: ButtonTableViewCellDelegate {
+    
+    func setTitle(title: String, state: UIControl.State) {
+        mainButton.setTitle(title, for: state)
+    }
+    
+    func addButtonTarget(target: Any?, action: Selector, event: UIControl.Event) {
+        mainButton.addTarget(target, action: action, for: event)
     }
 }
