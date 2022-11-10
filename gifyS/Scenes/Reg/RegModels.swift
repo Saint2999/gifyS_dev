@@ -3,6 +3,29 @@ import Validator
 
 enum Reg {
     
+    enum UISectionType {
+        
+        case image
+        case textfields
+        case button
+    }
+    
+    enum UIComponents {
+        
+        case image
+        case email
+        case username
+        case password
+        case passwordAgain
+        case button
+    }
+    
+    struct Section {
+        
+        var type: UISectionType
+        var components: [UIComponents]
+    }
+    
     enum SignUp {
         
         struct Request: Encodable {

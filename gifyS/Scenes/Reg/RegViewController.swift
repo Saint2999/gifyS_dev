@@ -13,13 +13,16 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
     
     private var validated: Bool = true
     private weak var tableView: UITableView?
-    private weak var imageCell: ImageTableViewCellDelegate?
-    private weak var emailCell: TextFieldTableViewCellDelegate?
-    private weak var usernameCell: TextFieldTableViewCellDelegate?
-    private weak var passwordCell: TextFieldTableViewCellDelegate?
-    private weak var passwordAgainCell: TextFieldTableViewCellDelegate?
-    private weak var buttonCell: ButtonTableViewCellDelegate?
-
+    private weak var imageCell: ImageTableViewCell?
+    private weak var emailCell: TextFieldTableViewCell?
+    private weak var usernameCell: TextFieldTableViewCell?
+    private weak var passwordCell: TextFieldTableViewCell?
+    private weak var passwordAgainCell: TextFieldTableViewCell?
+    private weak var buttonCell: ButtonTableViewCell?
+    
+    private var sections = [Helper.Section]()
+    private var cellFactory = TableViewCellFactory()
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -46,7 +49,7 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
         super.viewDidLoad()
         setupTableView(tableView: &tableView)
     }
-  
+    
     func setupTableView(tableView: inout UITableView?) {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height), style: .insetGrouped)
         tableView?.backgroundColor = UIColor.systemGray6
@@ -60,31 +63,24 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
         tableView?.dataSource = self
         tableView?.delegate = self
         
+        sections = [
+            Helper.Section(type: .image, components: [.image]),
+            Helper.Section(type: .textfields, components: [.email, .username, .password, .passwordAgain]),
+            Helper.Section(type: .button, components: [.button]),
+        ]
+        
         tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: "ImageTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "EmailTextFieldTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "UsernameTextFieldTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "PasswordTextFieldTableViewCell")
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "TextFieldTableViewCell")
         tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: "ButtonTableViewCell")
         
         self.view.addSubview(tableView ?? UITableView())
     }
     
-    override func viewDidLayoutSubviews() {
-        emailCell?.addTextFieldTarget(target: self, action: #selector(self.emailDidChange), event: .editingDidEnd)
-        
-        usernameCell?.addTextFieldTarget(target: self, action: #selector(self.usernameDidChange), event: .editingDidEnd)
-        
-        passwordCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
-        passwordAgainCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
-        
-        buttonCell?.addButtonTarget(target: self, action: #selector(self.didTapButton), event: .touchUpInside)
-    }
-    
     func signUp() {
-        let email = emailCell?.getText()
-        let name = usernameCell?.getText()
-        let password = passwordCell?.getText()
-        let passwordAgain = passwordAgainCell?.getText()
+        let email = emailCell?.text
+        let name = usernameCell?.text
+        let password = passwordCell?.text
+        let passwordAgain = passwordAgainCell?.text
         
         let request = Reg.SignUp.Request(email: email, name: name, password: password, passwordAgain: passwordAgain)
         interactor?.signUp(request: request)
@@ -96,10 +92,10 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
       
     func showSuccess(success: Bool) {
         if success {
-            imageCell?.changeColor(color: UIColor.systemGreen)
+            imageCell?.color = Helper.successColor
             router?.routeToGifCollection()
         } else {
-            imageCell?.changeColor(color: UIColor.systemPink)
+            imageCell?.color = Helper.errorColor
         }
     }
     
@@ -108,44 +104,21 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
             validated = true
         }
         if let emailError = viewModel.errorMessageEmail {
-            emailCell?.setText(text: "")
-            emailCell?.setAttributedPlaceholder(placeholder: emailError)
+            emailCell?.text = ""
+            emailCell?.attributedPlaceholder = emailError
             validated = false
         }
         if let usernameError = viewModel.errorMessageUsername {
-            usernameCell?.setText(text: "")
-            usernameCell?.setAttributedPlaceholder(placeholder: usernameError)
+            usernameCell?.text = ""
+            usernameCell?.attributedPlaceholder = usernameError
             validated = false
         }
         if let passwordError = viewModel.errorMessagePassword {
-            passwordCell?.setText(text: "")
-            passwordCell?.setAttributedPlaceholder(placeholder: passwordError)
-            passwordAgainCell?.setText(text: "")
-            passwordAgainCell?.setAttributedPlaceholder(placeholder: passwordError)
+            passwordCell?.text = ""
+            passwordCell?.attributedPlaceholder = passwordError
+            passwordAgainCell?.text = ""
+            passwordAgainCell?.attributedPlaceholder = passwordError
             validated = false
-        }
-    }
-    
-    @objc func emailDidChange(textfield : UITextField) {
-        let request = Reg.Validate.Request(email: textfield.text, username: nil, password: nil)
-        interactor?.validate(request: request)
-    }
-        
-    @objc func usernameDidChange(textfield : UITextField) {
-        let request = Reg.Validate.Request(email: nil, username: textfield.text, password: nil)
-        interactor?.validate(request: request)
-    }
-    
-    @objc func passwordDidChange(textfield : UITextField) {
-        let request = Reg.Validate.Request(email: nil, username: nil, password: textfield.text)
-        interactor?.validate(request: request)
-    }
-    
-    @objc func didTapButton() {
-        if validated {
-            signUp()
-        } else {
-            imageCell?.changeColor(color: UIColor.systemPink)
         }
     }
 }
@@ -153,77 +126,88 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
 extension RegViewController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            case 1:
-                return 4
-            case 0, 2:
-                return 1
-            default:
-                return 0
-        }
+        return sections[section].components.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-            case 0:
-                return 50.0
-            case 1:
-                return 50.0
-            case 2:
-                return 75.0
-            default:
-                return 0.0
+        switch sections[indexPath.section].type {
+        case .image:
+            return 50.0
+            
+        case .textfields:
+            return 50.0
+        
+        case .button:
+            return 75.0
+        
+        default:
+            return 0.0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-            case 0:
-                let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
-                imageCell = ImageTableViewCell
-            imageCell?.changeImage(imageName: Helper.signUpImage)
-                return ImageTableViewCell ?? UITableViewCell()
-            case 1:
-                if indexPath.row < 2 {
-                    if indexPath.row == 0 {
-                        let EmailTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmailTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                        emailCell = EmailTextFieldTableViewCell
-                        emailCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                        
-                        return EmailTextFieldTableViewCell ?? UITableViewCell()
-                    } else {
-                        let UsernameTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "UsernameTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                        usernameCell = UsernameTextFieldTableViewCell
-                        usernameCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                        
-                        return UsernameTextFieldTableViewCell ?? UITableViewCell()
-                    }
-                } else {
-                    let PasswordTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "PasswordTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                    
-                    if indexPath.row == 2 {
-                        passwordCell = PasswordTextFieldTableViewCell
-                        passwordCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                    } else {
-                        passwordAgainCell = PasswordTextFieldTableViewCell
-                        passwordAgainCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                    }
-                    
-                    return PasswordTextFieldTableViewCell ?? UITableViewCell()
-                }
-            case 2:
-                let ButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ButtonTableViewCell", for: indexPath) as? ButtonTableViewCell
-                buttonCell = ButtonTableViewCell
-                buttonCell?.setTitle(title: "Sign Up", state: .normal)
-                
-                return ButtonTableViewCell ?? UITableViewCell()
+        let cell = cellFactory.configureCell(tableView: tableView, signType: Helper.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
+        
+        switch sections[indexPath.section].components[indexPath.row] {
+        case .image:
+            imageCell = cell as? ImageTableViewCell
+        
+        case .email:
+            emailCell = cell as? TextFieldTableViewCell
+        
+        case .username:
+            usernameCell = cell as? TextFieldTableViewCell
+        
+        case .password:
+            passwordCell = cell as? TextFieldTableViewCell
+        
+        case .passwordAgain:
+            passwordAgainCell = cell as? TextFieldTableViewCell
+        
+        case .button:
+            buttonCell = cell as? ButtonTableViewCell
+            
+        default:
+            break
+        }
+        
+        return cell
+    }
+}
 
-            default:
-                return UITableViewCell()
+extension RegViewController: TextFieldTableViewCellDelegate {
+    
+    func textDidChange(component: Helper.UIComponents, text: String?) {
+        switch component {
+        case .email:
+            let request = Reg.Validate.Request(email: text, username: nil, password: nil)
+            interactor?.validate(request: request)
+        
+        case .username:
+            let request = Reg.Validate.Request(email: nil, username: text, password: nil)
+            interactor?.validate(request: request)
+            
+        case .password:
+            let request = Reg.Validate.Request(email: nil, username: nil, password: text)
+            interactor?.validate(request: request)
+        
+        default:
+            break
+        }
+    }
+}
+
+extension RegViewController: ButtonTableViewCellDelegate {
+    
+    func didTapButton() {
+        if validated {
+            signUp()
+        } else {
+            imageCell?.color = Helper.errorColor
         }
     }
 }

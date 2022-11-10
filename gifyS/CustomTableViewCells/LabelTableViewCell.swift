@@ -2,11 +2,12 @@ import SnapKit
 
 protocol LabelTableViewCellDelegate: AnyObject {
     
-    func changeText(text: String)
-    func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer)
+    func didTapLabel()
 }
 
 final class LabelTableViewCell: UITableViewCell {
+    
+    weak var delegate: LabelTableViewCellDelegate?
     
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
@@ -15,6 +16,18 @@ final class LabelTableViewCell: UITableViewCell {
         return label
     }()
     
+    var signType: Helper.SignType = .signIn {
+        didSet {
+            switch signType {
+            case .signIn:
+                mainLabel.text = "Sign Up"
+            
+            case .signUp:
+                mainLabel.text = "Sign In"
+            }
+        }
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainLabel)
@@ -30,20 +43,16 @@ final class LabelTableViewCell: UITableViewCell {
             make.top.bottom.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
+        
+        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapLabel))
+        mainLabel.addGestureRecognizer(labelTapGestureRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-}
-
-extension LabelTableViewCell: LabelTableViewCellDelegate {
     
-    func changeText(text: String) {
-        mainLabel.text = text
-    }
-    
-    func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
-        mainLabel.addGestureRecognizer(gestureRecognizer)
+    @objc func didTapLabel() {
+        delegate?.didTapLabel()
     }
 }

@@ -1,12 +1,7 @@
 import SnapKit
 
-protocol ImageTableViewCellDelegate: AnyObject {
-    
-    func changeImage(imageName: String)
-    func changeColor(color: UIColor)
-}
 final class ImageTableViewCell: UITableViewCell {
-    
+        
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -14,6 +9,28 @@ final class ImageTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
+    var signType: Helper.SignType = .signIn {
+        didSet {
+            switch signType {
+            case .signIn:
+                mainImageView.image = Helper.signInImage
+            
+            case .signUp:
+                mainImageView.image = Helper.signUpImage
+            }
+        }
+    }
+    
+    var color: UIColor? {
+        get {
+            return mainImageView.tintColor
+        }
+        
+        set(newColor) {
+            mainImageView.tintColor = newColor
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,16 +46,5 @@ final class ImageTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-}
-
-extension ImageTableViewCell: ImageTableViewCellDelegate {
-    
-    func changeImage(imageName: String) {
-        mainImageView.image = UIImage(systemName: imageName)
-    }
-    
-    func changeColor(color: UIColor) {
-        mainImageView.tintColor = color
     }
 }

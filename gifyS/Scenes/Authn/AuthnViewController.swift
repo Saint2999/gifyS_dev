@@ -14,11 +14,14 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
     
     private var validated: Bool = true
     private weak var tableView: UITableView?
-    private weak var imageCell: ImageTableViewCellDelegate?
-    private weak var emailCell: TextFieldTableViewCellDelegate?
-    private weak var passwordCell: TextFieldTableViewCellDelegate?
-    private weak var buttonCell: ButtonTableViewCellDelegate?
-    private weak var labelCell: LabelTableViewCellDelegate?
+    private weak var imageCell: ImageTableViewCell?
+    private weak var emailCell: TextFieldTableViewCell?
+    private weak var passwordCell: TextFieldTableViewCell?
+    private weak var buttonCell: ButtonTableViewCell?
+    private weak var labelCell: LabelTableViewCell?
+    
+    private var sections = [Helper.Section]()
+    private var cellFactory = TableViewCellFactory()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -46,7 +49,7 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
         super.viewDidLoad()
         setupTableView(tableView: &tableView)
     }
-  
+    
     func setupTableView(tableView: inout UITableView?) {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height), style: .insetGrouped)
         tableView?.backgroundColor = UIColor.systemGray6
@@ -63,29 +66,24 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
         tableView?.dataSource = self
         tableView?.delegate = self
         
+        sections = [
+            Helper.Section(type: .image, components: [.image]),
+            Helper.Section(type: .textfields, components: [.email, .password]),
+            Helper.Section(type: .button, components: [.button]),
+            Helper.Section(type: .label, components: [.label])
+        ]
+        
         tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: "ImageTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "EmailTextFieldTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "PasswordTextFieldTableViewCell")
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "TextFieldTableViewCell")
         tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: "ButtonTableViewCell")
         tableView?.register(LabelTableViewCell.self, forCellReuseIdentifier: "LabelTableViewCell")
        
         self.view.addSubview(tableView ?? UITableView())
     }
     
-    override func viewDidLayoutSubviews() {
-        emailCell?.addTextFieldTarget(target: self, action: #selector(self.emailDidChange), event: .editingDidEnd)
-    
-        passwordCell?.addTextFieldTarget(target: self, action: #selector(self.passwordDidChange), event: .editingDidEnd)
-        
-        buttonCell?.addButtonTarget(target: self, action: #selector(self.didTapButton), event: .touchUpInside)
-        
-        let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didTapSignUpLabel))
-        labelCell?.addGestureRecognizer(gestureRecognizer: labelTapGestureRecognizer)
-    }
-    
     func signIn() {
-        let email = emailCell?.getText()
-        let password = passwordCell?.getText()
+        let email = emailCell?.text
+        let password = passwordCell?.text
         let request = Authn.SignIn.Request(login: email, password: password)
         interactor?.signIn(request: request)
     }
@@ -96,10 +94,10 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
       
     func showSuccess(success: Bool) {
         if success {
-            imageCell?.changeColor(color: UIColor.systemGreen)
+            imageCell?.color = Helper.successColor
             router?.routeToGifCollection()
         } else {
-            imageCell?.changeColor(color: UIColor.systemPink)
+            imageCell?.color = Helper.errorColor
         }
     }
     
@@ -108,111 +106,107 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
             validated = true
         }
         if let emailError = viewModel.errorMessageEmail {
-            emailCell?.setText(text: "")
-            emailCell?.setAttributedPlaceholder(placeholder: emailError)
+            emailCell?.text = ""
+            emailCell?.attributedPlaceholder = emailError
             validated = false
         }
         if let passwordError = viewModel.errorMessagePassword {
-            passwordCell?.setText(text: "")
-            passwordCell?.setAttributedPlaceholder(placeholder: passwordError)
+            passwordCell?.text = ""
+            passwordCell?.attributedPlaceholder = passwordError
             validated = false
         }
-    }
-    
-    @objc func emailDidChange(textfield : UITextField) {
-        let request = Authn.Validate.Request(email: textfield.text, password: nil)
-        interactor?.validate(request: request)
-    }
-    
-    @objc func passwordDidChange(textfield : UITextField) {
-        let request = Authn.Validate.Request(email: nil, password: textfield.text)
-        interactor?.validate(request: request)
-    }
-    
-    @objc func didTapButton() {
-        if validated {
-            signIn()
-        } else {
-            imageCell?.changeColor(color: UIColor.systemPink)
-        }
-    }
-    
-    @objc func didTapSignUpLabel() {
-        router?.routeToRegistration()
     }
 }
 
 extension AuthnViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            case 0, 2, 3:
-                return 1
-            case 1:
-                return 2
-            default:
-                return 0
-        }
+        return sections[section].components.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-            case 0:
-                return 150.0
-            case 1:
-                return 50.0
-            case 2:
-                return 75.0
-            case 3:
-                return 30.0
-            default:
-                return 0.0
+        switch sections[indexPath.section].type {
+        case .image:
+            return 150.0
+        
+        case .textfields:
+            return 50.0
+        
+        case .button:
+            return 75.0
+        
+        case .label:
+            return 30.0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-            case 0:
-                let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
-                imageCell = ImageTableViewCell
-            imageCell?.changeImage(imageName: Helper.signInImage)
-                return ImageTableViewCell ?? UITableViewCell()
-            case 1:
-                if indexPath.row == 0 {
-                    let EmailTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmailTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                    emailCell = EmailTextFieldTableViewCell
-                    
-                    emailCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                    
-                    return EmailTextFieldTableViewCell ?? UITableViewCell()
-                } else if indexPath.row == 1 {
-                    let PasswordTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "PasswordTextFieldTableViewCell", for: indexPath) as? TextFieldTableViewCell
-                    passwordCell = PasswordTextFieldTableViewCell
-                    
-                    passwordCell?.setAttributedPlaceholder(placeholder: NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]))
-                    
-                    return PasswordTextFieldTableViewCell ?? UITableViewCell()
-                }
-            case 2:
-                let ButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ButtonTableViewCell", for: indexPath) as? ButtonTableViewCell
-                buttonCell = ButtonTableViewCell
-                buttonCell?.setTitle(title: "Sign In", state: .normal)
-                    
-                return ButtonTableViewCell ?? UITableViewCell()
-            case 3:
-                let LabelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LabelTableViewCell", for: indexPath) as? LabelTableViewCell
-                labelCell = LabelTableViewCell
-                labelCell?.changeText(text: "Sign Up")
-                
-                return LabelTableViewCell ?? UITableViewCell()
-                
-            default:
-                return UITableViewCell()
+        let cell = cellFactory.configureCell(tableView: tableView, signType: Helper.SignType.signIn, component: sections[indexPath.section].components[indexPath.row])
+        
+        switch sections[indexPath.section].components[indexPath.row] {
+        case .image:
+            imageCell = cell as? ImageTableViewCell
+        
+        case .email:
+            emailCell = cell as? TextFieldTableViewCell
+            emailCell?.delegate = self
+        
+        case .password:
+            passwordCell = cell as? TextFieldTableViewCell
+            passwordCell?.delegate = self
+        
+        case .button:
+            buttonCell = cell as? ButtonTableViewCell
+            buttonCell?.delegate = self
+        
+        case .label:
+            labelCell = cell as? LabelTableViewCell
+            labelCell?.delegate = self
+        
+        default:
+            break
         }
-        return UITableViewCell()
+        
+        return cell
+    }
+}
+
+extension AuthnViewController: TextFieldTableViewCellDelegate {
+    
+    func textDidChange(component: Helper.UIComponents, text: String?) {
+        switch component {
+        case .email:
+            let request = Authn.Validate.Request(email: text, password: nil)
+            interactor?.validate(request: request)
+        
+        case .password:
+            let request = Authn.Validate.Request(email: nil, password: text)
+            interactor?.validate(request: request)
+        
+        default:
+            break
+        }
+    }
+}
+
+extension AuthnViewController: ButtonTableViewCellDelegate {
+    
+    func didTapButton() {
+        if validated {
+            signIn()
+        } else {
+            imageCell?.color = Helper.errorColor
+        }
+    }
+}
+
+extension AuthnViewController: LabelTableViewCellDelegate {
+    
+    func didTapLabel() {
+        router?.routeToRegistration()
     }
 }
