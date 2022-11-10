@@ -12,7 +12,6 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
     var interactor: AuthnBusinessLogic?
     var router: (NSObjectProtocol & AuthnRoutingLogic)?
     
-    private var validated: Bool = true
     private weak var tableView: UITableView?
     private weak var imageCell: ImageTableViewCell?
     private weak var emailCell: TextFieldTableViewCell?
@@ -102,18 +101,13 @@ class AuthnViewController: UIViewController, AuthnDisplayLogic {
     }
     
     func displayValidationErrors(viewModel: Authn.Validate.ViewModel) {
-        if validated == false {
-            validated = true
-        }
         if let emailError = viewModel.errorMessageEmail {
             emailCell?.text = ""
             emailCell?.attributedPlaceholder = emailError
-            validated = false
         }
         if let passwordError = viewModel.errorMessagePassword {
             passwordCell?.text = ""
             passwordCell?.attributedPlaceholder = passwordError
-            validated = false
         }
     }
 }
@@ -196,11 +190,7 @@ extension AuthnViewController: TextFieldTableViewCellDelegate {
 extension AuthnViewController: ButtonTableViewCellDelegate {
     
     func didTapButton() {
-        if validated {
-            signIn()
-        } else {
-            imageCell?.color = Helper.errorColor
-        }
+        signIn()
     }
 }
 

@@ -31,52 +31,10 @@ final class TextFieldTableViewCell: UITableViewCell {
         didSet {
             switch component {
             case .email, .username:
-                if (component == .email) {
-                    mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
-                }
-                else {
-                    mainTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
-                }
-                
-                mainTextField.snp.makeConstraints {
-                    make in
-                    make.top.bottom.centerX.equalToSuperview()
-                    make.width.equalToSuperview().multipliedBy(0.9)
-                }
+                configureInsecureComponent(component: component)
             
             case .password, .passwordAgain:
-                mainTextField.textContentType = .oneTimeCode
-                mainTextField.isSecureTextEntry = true
-                if (component == .password) {
-                    mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
-                }
-                else {
-                    mainTextField.attributedPlaceholder = NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
-                }
-                
-                mainTextField.snp.makeConstraints {
-                    make in
-                    make.top.bottom.equalToSuperview()
-                    make.left.equalTo(self.snp.left).offset(20)
-                    make.right.equalTo(self.snp.right).offset(-60)
-                }
-                
-                self.contentView.addSubview(mainImageView)
-                
-                mainImageView.contentMode = .scaleAspectFit
-                mainImageView.image = UIImage(systemName: "eye.slash")
-                mainImageView.tintColor = UIColor.systemGreen
-                mainImageView.isUserInteractionEnabled = true
-                
-                mainImageView.snp.makeConstraints {
-                    make in
-                    make.top.bottom.equalToSuperview()
-                    make.left.equalTo(mainTextField.snp.right).offset(10)
-                    make.right.equalToSuperview().offset(-10)
-                }
-                
-                let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
-                mainImageView.addGestureRecognizer(tapGestureRecognizer)
+                configureSecureComponent(component: component)
             
             default:
                 break
@@ -126,6 +84,56 @@ final class TextFieldTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func configureInsecureComponent(component: Helper.UIComponents) {
+        if (component == .email) {
+            mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+        }
+        else {
+            mainTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+        }
+        
+        mainTextField.snp.makeConstraints {
+            make in
+            make.top.bottom.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+        }
+    }
+    
+    func configureSecureComponent(component: Helper.UIComponents) {
+        mainTextField.textContentType = .oneTimeCode
+        mainTextField.isSecureTextEntry = true
+        if (component == .password) {
+            mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+        }
+        else {
+            mainTextField.attributedPlaceholder = NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemPurple])
+        }
+        
+        mainTextField.snp.makeConstraints {
+            make in
+            make.top.bottom.equalToSuperview()
+            make.left.equalTo(self.snp.left).offset(20)
+            make.right.equalTo(self.snp.right).offset(-60)
+        }
+        
+        self.contentView.addSubview(mainImageView)
+        
+        mainImageView.contentMode = .scaleAspectFit
+        mainImageView.image = UIImage(systemName: "eye.slash")
+        mainImageView.tintColor = UIColor.systemGreen
+        mainImageView.isUserInteractionEnabled = true
+        
+        mainImageView.snp.makeConstraints {
+            make in
+            make.top.bottom.equalToSuperview()
+            make.left.equalTo(mainTextField.snp.right).offset(10)
+            make.right.equalToSuperview().offset(-10)
+        }
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
+        mainImageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc func imageTapped() {
