@@ -157,19 +157,6 @@ extension AuthnViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = cellFactory.configureCell(viewController: self, signType: Helper.SignType.signIn, component: sections[indexPath.section].components[indexPath.row])
-//        switch sections[indexPath.section].components[indexPath.row] {
-//        case .email:
-//            let imageCell = cell as? TextFieldTableViewCell
-//            /imageCell?.delegate = self
-//
-//        case .password:
-//            let passwordCell = cell as? TextFieldTableViewCell
-//            passwordCell?.delegate = self
-//
-//        default:
-//            break
-//        }
-        
         return cell
     }
 }
