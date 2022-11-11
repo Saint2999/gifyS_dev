@@ -2,41 +2,56 @@ import SnapKit
 
 final class TableViewCellFactory {
     
-    func configureCell(tableView: UITableView, signType: Helper.SignType, component: Helper.UIComponents) -> UITableViewCell {
+    func configureCell(viewController: UITableViewController?, signType: Helper.SignType, component: Helper.UIComponents) -> UITableViewCell {
+        weak var vc: UITableViewController?
+        
+        switch signType {
+        case .signIn:
+            vc = viewController as? AuthnViewController
+        case .signUp:
+            vc = viewController as? RegViewController
+        }
+        
         switch component {
         case .image:
-            let ImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell") as? ImageTableViewCell
+            let ImageTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.imageCellIdentifier) as? ImageTableViewCell
             ImageTableViewCell?.signType = signType
             return ImageTableViewCell ?? UITableViewCell()
         
         case .email:
-            let EmailTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TextFieldTableViewCell") as? TextFieldTableViewCell
+            let EmailTextFieldTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.textfieldCellIdentifier) as? TextFieldTableViewCell
             EmailTextFieldTableViewCell?.component = Helper.UIComponents.email
+            EmailTextFieldTableViewCell?.delegate = vc as? TextFieldTableViewCellDelegate
             return EmailTextFieldTableViewCell ?? UITableViewCell()
         
         case .username:
-            let UsernameTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TextFieldTableViewCell") as? TextFieldTableViewCell
+            let UsernameTextFieldTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.textfieldCellIdentifier) as? TextFieldTableViewCell
             UsernameTextFieldTableViewCell?.component = Helper.UIComponents.username
+            UsernameTextFieldTableViewCell?.delegate = vc as? TextFieldTableViewCellDelegate
             return UsernameTextFieldTableViewCell ?? UITableViewCell()
         
         case .password:
-            let PasswordTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TextFieldTableViewCell") as? TextFieldTableViewCell
+            let PasswordTextFieldTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.textfieldCellIdentifier) as? TextFieldTableViewCell
             PasswordTextFieldTableViewCell?.component = Helper.UIComponents.password
+            PasswordTextFieldTableViewCell?.delegate = vc as? TextFieldTableViewCellDelegate
             return PasswordTextFieldTableViewCell ?? UITableViewCell()
         
         case .passwordAgain:
-            let PasswordAgainTextFieldTableViewCell = tableView.dequeueReusableCell(withIdentifier: "TextFieldTableViewCell") as? TextFieldTableViewCell
+            let PasswordAgainTextFieldTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.textfieldCellIdentifier) as? TextFieldTableViewCell
             PasswordAgainTextFieldTableViewCell?.component = Helper.UIComponents.passwordAgain
+            PasswordAgainTextFieldTableViewCell?.delegate = vc as? TextFieldTableViewCellDelegate
             return PasswordAgainTextFieldTableViewCell ?? UITableViewCell()
             
         case .button:
-            let ButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ButtonTableViewCell") as? ButtonTableViewCell
+            let ButtonTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.buttonCellIdentifier) as? ButtonTableViewCell
             ButtonTableViewCell?.signType = signType
+            ButtonTableViewCell?.delegate = vc as? ButtonTableViewCellDelegate
             return ButtonTableViewCell ?? UITableViewCell()
         
         case .label:
-            let LabelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LabelTableViewCell") as? LabelTableViewCell
+            let LabelTableViewCell = vc?.tableView.dequeueReusableCell(withIdentifier: Helper.labelCellIdentifier) as? LabelTableViewCell
             LabelTableViewCell?.signType = signType
+            LabelTableViewCell?.delegate = vc as? LabelTableViewCellDelegate
             return LabelTableViewCell ?? UITableViewCell()
         }
     }

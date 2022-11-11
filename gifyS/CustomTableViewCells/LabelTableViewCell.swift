@@ -31,12 +31,12 @@ final class LabelTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainLabel)
-        self.backgroundColor = UIColor.clear
+        self.backgroundColor = Helper.clearColor
         self.selectionStyle = .none
         
         mainLabel.isUserInteractionEnabled = true
         mainLabel.textAlignment = NSTextAlignment.center
-        mainLabel.textColor = UIColor.systemGreen
+        mainLabel.textColor = Helper.successColor
         
         mainLabel.snp.makeConstraints {
             make in

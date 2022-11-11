@@ -6,7 +6,7 @@ class RegWorker {
     
     func signUp(request: Reg.SignUp.Request, completionHandler: @escaping (Bool) -> Void) {
         if request.password == request.passwordAgain {
-            let register = Reg.SignUp.Request(email: request.email!, name: request.name!, password: request.password!, passwordAgain: nil)
+            let register = Reg.SignUp.Request(email: request.email, name: request.name, password: request.password!, passwordAgain: nil)
             
             let headers: HTTPHeaders = [
                 .contentType("application/json")

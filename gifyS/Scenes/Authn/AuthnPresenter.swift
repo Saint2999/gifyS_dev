@@ -21,12 +21,11 @@ class AuthnPresenter: AuthnPresentationLogic {
         let passwordError = getValidationErrorMessage(validationResult: response.validationResultPassword)
 
         let viewModel = Authn.Validate.ViewModel(errorMessageEmail: emailError, errorMessagePassword: passwordError)
-            
         viewController?.displayValidationErrors(viewModel: viewModel)
     }
     
     func getValidationErrorMessage(validationResult: ValidationResult?) -> NSAttributedString? {
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
+        let attributes = [NSAttributedString.Key.foregroundColor: Helper.errorColor]
         
         guard let validationResult = validationResult else {
             return nil

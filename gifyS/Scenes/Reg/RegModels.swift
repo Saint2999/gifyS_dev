@@ -3,32 +3,10 @@ import Validator
 
 enum Reg {
     
-    enum UISectionType {
-        
-        case image
-        case textfields
-        case button
-    }
-    
-    enum UIComponents {
-        
-        case image
-        case email
-        case username
-        case password
-        case passwordAgain
-        case button
-    }
-    
-    struct Section {
-        
-        var type: UISectionType
-        var components: [UIComponents]
-    }
-    
     enum SignUp {
         
         struct Request: Encodable {
+    
             var email: String?
             var name: String?
             var password: String?
@@ -36,10 +14,12 @@ enum Reg {
         }
       
         struct Response {
+            
             var success: Bool
         }
       
         struct ViewModel {
+         
             var success: Bool
         }
     }
@@ -47,18 +27,21 @@ enum Reg {
     enum Validate {
         
         struct Request {
+            
             var email: String?
             var username: String?
             var password: String?
         }
                 
         struct Response {
+            
             var validationResultEmail: ValidationResult?
             var validationResulUsername: ValidationResult?
             var validationResultPassword: ValidationResult?
         }
                 
         struct ViewModel {
+            
             var errorMessageEmail: NSAttributedString?
             var errorMessageUsername: NSAttributedString?
             var errorMessagePassword: NSAttributedString?

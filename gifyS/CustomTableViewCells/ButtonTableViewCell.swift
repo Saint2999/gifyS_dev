@@ -12,9 +12,9 @@ final class ButtonTableViewCell: UITableViewCell {
     private lazy var mainButton: UIButtonWithWorkingHighlighted = {
         let button = UIButtonWithWorkingHighlighted(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.systemPurple
+        button.backgroundColor = Helper.primaryColor
         button.layer.cornerRadius = 20.0
-        button.setTitleColor(UIColor.systemGray6, for: .normal)
+        button.setTitleColor(Helper.backgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 42)
         return button
     }()
@@ -34,7 +34,7 @@ final class ButtonTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainButton)
-        self.backgroundColor = UIColor.clear
+        self.backgroundColor = Helper.clearColor
         self.selectionStyle = .none
         
         mainButton.snp.makeConstraints {
@@ -59,7 +59,7 @@ final class ButtonTableViewCell: UITableViewCell {
 class UIButtonWithWorkingHighlighted: UIButton {
     override var isHighlighted: Bool {
         didSet {
-                backgroundColor = isHighlighted ? UIColor.systemGreen : UIColor.systemPurple
+            backgroundColor = isHighlighted ? Helper.successColor : Helper.primaryColor
         }
     }
 }

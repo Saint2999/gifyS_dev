@@ -5,7 +5,7 @@ final class ImageTableViewCell: UITableViewCell {
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = UIColor.systemPurple
+        imageView.tintColor = Helper.primaryColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -22,20 +22,10 @@ final class ImageTableViewCell: UITableViewCell {
         }
     }
     
-    var color: UIColor? {
-        get {
-            return mainImageView.tintColor
-        }
-        
-        set(newColor) {
-            mainImageView.tintColor = newColor
-        }
-    }
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.addSubview(mainImageView)
-        self.backgroundColor = UIColor.clear
+        self.backgroundColor = Helper.clearColor
         self.selectionStyle = .none
         
         mainImageView.snp.makeConstraints {
@@ -46,5 +36,12 @@ final class ImageTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension ImageTableViewCell: AuthnVCImageDelegate, RegVCImageDelegate {
+    
+    func changeImageColor(color: UIColor) {
+        mainImageView.tintColor = color
     }
 }

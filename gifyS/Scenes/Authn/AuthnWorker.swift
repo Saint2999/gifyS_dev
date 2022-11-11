@@ -5,7 +5,7 @@ import Alamofire
 class AuthnWorker {
     
     func signIn(request: Authn.SignIn.Request, completionHandler: @escaping (Bool) -> Void) {
-        let login = Authn.SignIn.Request(login: request.login!, password: request.password!)
+        let login = Authn.SignIn.Request(login: request.login, password: request.password)
                     
         let headers: HTTPHeaders = [
             .contentType("application/json")

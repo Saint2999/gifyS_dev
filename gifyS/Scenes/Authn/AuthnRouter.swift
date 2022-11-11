@@ -11,7 +11,7 @@ class AuthnRouter: NSObject, AuthnRoutingLogic {
     weak var viewController: AuthnViewController?
   
     func routeToRegistration() {
-        self.viewController?.navigationController?.pushViewController(RegViewController(), animated: true)
+        self.viewController?.navigationController?.pushViewController(RegViewController(nibName: nil, bundle: nil), animated: true)
     }
     
     func routeToGifCollection() {

@@ -6,19 +6,28 @@ protocol RegDisplayLogic: AnyObject {
     func displayValidationErrors(viewModel: Reg.Validate.ViewModel)
 }
 
-class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSource, UITableViewDelegate {
+protocol RegVCImageDelegate: AnyObject {
+    
+    func changeImageColor(color: UIColor)
+}
+
+protocol RegVCTextFieldDelegate: AnyObject {
+    
+    func getText() -> String?
+    func setText(text: String?)
+    func setAttributedPlaceholder(placeholder: NSAttributedString?)
+}
+
+class RegViewController: UITableViewController, RegDisplayLogic {
     
     var interactor: RegBusinessLogic?
     var router: (NSObjectProtocol & RegRoutingLogic)?
     
-    private var validated: Bool = true
-    private weak var tableView: UITableView?
-    private weak var imageCell: ImageTableViewCell?
-    private weak var emailCell: TextFieldTableViewCell?
-    private weak var usernameCell: TextFieldTableViewCell?
-    private weak var passwordCell: TextFieldTableViewCell?
-    private weak var passwordAgainCell: TextFieldTableViewCell?
-    private weak var buttonCell: ButtonTableViewCell?
+    private weak var imageDelegate: RegVCImageDelegate?
+    private weak var emailDelegate: RegVCTextFieldDelegate?
+    private weak var usernameDelegate: RegVCTextFieldDelegate?
+    private weak var passwordDelegate: RegVCTextFieldDelegate?
+    private weak var passwordAgainDelegate: RegVCTextFieldDelegate?
     
     private var sections = [Helper.Section]()
     private var cellFactory = TableViewCellFactory()
@@ -47,14 +56,18 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView(tableView: &tableView)
+        setupTableView()
     }
     
-    func setupTableView(tableView: inout UITableView?) {
+    override func viewDidLayoutSubviews() {
+        setupDelegates()
+    }
+    
+    func setupTableView() {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height), style: .insetGrouped)
-        tableView?.backgroundColor = UIColor.systemGray6
+        tableView?.backgroundColor = Helper.backgroundColor
         tableView?.separatorInset = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
-        tableView?.separatorColor = UIColor.systemPurple
+        tableView?.separatorColor = Helper.primaryColor
         
         var frame = CGRect.zero
         frame.size.height = .leastNormalMagnitude
@@ -69,18 +82,24 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
             Helper.Section(type: .button, components: [.button]),
         ]
         
-        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: "ImageTableViewCell")
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: "TextFieldTableViewCell")
-        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: "ButtonTableViewCell")
-        
-        self.view.addSubview(tableView ?? UITableView())
+        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: Helper.imageCellIdentifier)
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: Helper.textfieldCellIdentifier)
+        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: Helper.buttonCellIdentifier)
+    }
+    
+    func setupDelegates() {
+        imageDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegVCImageDelegate
+        emailDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? RegVCTextFieldDelegate
+        usernameDelegate = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? RegVCTextFieldDelegate
+        passwordDelegate = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? RegVCTextFieldDelegate
+        passwordAgainDelegate = tableView.cellForRow(at: IndexPath(row: 3, section: 1)) as? RegVCTextFieldDelegate
     }
     
     func signUp() {
-        let email = emailCell?.text
-        let name = usernameCell?.text
-        let password = passwordCell?.text
-        let passwordAgain = passwordAgainCell?.text
+        let email = emailDelegate?.getText()
+        let name = usernameDelegate?.getText()
+        let password = passwordDelegate?.getText()
+        let passwordAgain = passwordAgainDelegate?.getText()
         
         let request = Reg.SignUp.Request(email: email, name: name, password: password, passwordAgain: passwordAgain)
         interactor?.signUp(request: request)
@@ -92,48 +111,44 @@ class RegViewController: UIViewController, RegDisplayLogic, UITableViewDataSourc
       
     func showSuccess(success: Bool) {
         if success {
-            imageCell?.color = Helper.successColor
+            imageDelegate?.changeImageColor(color: Helper.successColor)
             router?.routeToGifCollection()
         } else {
-            imageCell?.color = Helper.errorColor
+            imageDelegate?.changeImageColor(color: Helper.errorColor)
         }
     }
     
     func displayValidationErrors(viewModel: Reg.Validate.ViewModel) {
-        if validated == false {
-            validated = true
-        }
         if let emailError = viewModel.errorMessageEmail {
-            emailCell?.text = ""
-            emailCell?.attributedPlaceholder = emailError
-            validated = false
+            emailDelegate?.setText(text: "")
+            emailDelegate?.setAttributedPlaceholder(placeholder: emailError)
         }
+        
         if let usernameError = viewModel.errorMessageUsername {
-            usernameCell?.text = ""
-            usernameCell?.attributedPlaceholder = usernameError
-            validated = false
+            usernameDelegate?.setText(text: "")
+            usernameDelegate?.setAttributedPlaceholder(placeholder: usernameError)
         }
+        
         if let passwordError = viewModel.errorMessagePassword {
-            passwordCell?.text = ""
-            passwordCell?.attributedPlaceholder = passwordError
-            passwordAgainCell?.text = ""
-            passwordAgainCell?.attributedPlaceholder = passwordError
-            validated = false
+            passwordDelegate?.setText(text: "")
+            passwordDelegate?.setAttributedPlaceholder(placeholder: passwordError)
+            passwordAgainDelegate?.setText(text: "")
+            passwordAgainDelegate?.setAttributedPlaceholder(placeholder: passwordError)
         }
     }
 }
 
 extension RegViewController {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].components.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch sections[indexPath.section].type {
         case .image:
             return 50.0
@@ -149,32 +164,8 @@ extension RegViewController {
         }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cellFactory.configureCell(tableView: tableView, signType: Helper.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
-        
-        switch sections[indexPath.section].components[indexPath.row] {
-        case .image:
-            imageCell = cell as? ImageTableViewCell
-        
-        case .email:
-            emailCell = cell as? TextFieldTableViewCell
-        
-        case .username:
-            usernameCell = cell as? TextFieldTableViewCell
-        
-        case .password:
-            passwordCell = cell as? TextFieldTableViewCell
-        
-        case .passwordAgain:
-            passwordAgainCell = cell as? TextFieldTableViewCell
-        
-        case .button:
-            buttonCell = cell as? ButtonTableViewCell
-            
-        default:
-            break
-        }
-        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = cellFactory.configureCell(viewController: self, signType: Helper.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
         return cell
     }
 }
@@ -191,7 +182,7 @@ extension RegViewController: TextFieldTableViewCellDelegate {
             let request = Reg.Validate.Request(email: nil, username: text, password: nil)
             interactor?.validate(request: request)
             
-        case .password:
+        case .password, .passwordAgain:
             let request = Reg.Validate.Request(email: nil, username: nil, password: text)
             interactor?.validate(request: request)
         
@@ -204,10 +195,6 @@ extension RegViewController: TextFieldTableViewCellDelegate {
 extension RegViewController: ButtonTableViewCellDelegate {
     
     func didTapButton() {
-        if validated {
-            signUp()
-        } else {
-            imageCell?.color = Helper.errorColor
-        }
+        signUp()
     }
 }
