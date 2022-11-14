@@ -35,14 +35,21 @@ class RegViewController: UITableViewController, RegDisplayLogic {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
+        setupTableView()
     }
   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+        setupTableView()
     }
   
-    private func setup() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupDelegates()
+    }
+    
+    func setup() {
         let viewController = self
         let interactor = RegInteractor()
         let presenter = RegPresenter()
@@ -52,15 +59,6 @@ class RegViewController: UITableViewController, RegDisplayLogic {
         interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
-    }
-  
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTableView()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        setupDelegates()
     }
     
     func setupTableView() {

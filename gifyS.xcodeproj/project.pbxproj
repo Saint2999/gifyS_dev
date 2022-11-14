@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C95C96C69F1D93674642F6C /* Pods_gifyS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5686A0A8419BD930B815E0 /* Pods_gifyS.framework */; };
+		BB28321229222CE200644ED6 /* GifCollNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */; };
 		BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A803B291AE0C8004FBD7A /* Helper.swift */; };
 		BB7A803E291AFB9F004FBD7A /* TableViewCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A803D291AFB9F004FBD7A /* TableViewCellFactory.swift */; };
 		BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		1C330BA74C7EA292B7B9A95E /* Pods-gifyS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.debug.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.debug.xcconfig"; sourceTree = "<group>"; };
 		1F6B95207EC915BDF1D2C134 /* Pods-gifyS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gifyS.release.xcconfig"; path = "Target Support Files/Pods-gifyS/Pods-gifyS.release.xcconfig"; sourceTree = "<group>"; };
+		BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifCollNetworkManager.swift; sourceTree = "<group>"; };
 		BB7A803B291AE0C8004FBD7A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		BB7A803D291AFB9F004FBD7A /* TableViewCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFactory.swift; sourceTree = "<group>"; };
 		BB8A946928FD8D2200A7A24A /* gifyS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gifyS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +200,7 @@
 			children = (
 				BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */,
 				BBC29B9228FD95DF00DA06E7 /* GifCollectionViewCell.swift */,
+				BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */,
 			);
 			path = CustomCollectionViewStuff;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				BBC29B8E28FD958C00DA06E7 /* GifCollWorker.swift in Sources */,
 				BBC29B9528FD95DF00DA06E7 /* CustomCollectionViewLayout.swift in Sources */,
 				BBC29B7528FD953800DA06E7 /* AuthnWorker.swift in Sources */,
+				BB28321229222CE200644ED6 /* GifCollNetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

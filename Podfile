@@ -10,5 +10,6 @@ target 'gifyS' do
   # Pods for gifyS
     pod 'SnapKit', '~> 5.6.0'
     pod 'Alamofire'
+    pod 'SDWebImage', '~> 5.0'
     pod 'Validator'
 end

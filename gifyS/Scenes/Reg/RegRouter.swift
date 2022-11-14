@@ -10,6 +10,6 @@ class RegRouter: NSObject, RegRoutingLogic {
     weak var viewController: RegViewController?
     
     func routeToGifCollection() {
-        self.viewController?.navigationController?.pushViewController(GifCollViewController(), animated: true)
+        self.viewController?.navigationController?.pushViewController(GifCollViewController(collectionViewLayout: UICollectionViewLayout()), animated: true)
     }
 }
