@@ -1,4 +1,3 @@
-import SnapKit
 import Validator
 import Alamofire
 
@@ -11,7 +10,7 @@ class AuthnWorker {
             .contentType("application/json")
         ]
                     
-        AF.request(Helper.loginURL, method: .post, parameters: login, encoder: JSONParameterEncoder.default, headers: headers).response {
+        AF.request(HelperAuthnReg.loginURL, method: .post, parameters: login, encoder: JSONParameterEncoder.default, headers: headers).response {
             response in
             debugPrint(response)
             switch response.result {

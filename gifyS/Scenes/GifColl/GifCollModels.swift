@@ -1,19 +1,21 @@
-import SnapKit
-
 enum GifColl {
     
-    enum Mode {
+    enum LoadGif {
         
-        case Trending
-        case Search
-    }
-    
-    struct DisplayedGif {
+        struct Request {
+            
+            var gif: HelperGifCollDesc.DisplayedGif?
+        }
         
-        var url: String
-        var username: String
-        var title: String
-        var height: String
+        struct Response {
+            
+            var success: Bool
+        }
+        
+        struct ViewModel {
+            
+            var success: Bool
+        }
     }
     
     enum RequestGifs {
@@ -25,12 +27,12 @@ enum GifColl {
         
         struct Response {
         
-            var rawGifs: GifDataRaw?
+            var rawGifs: HelperGifCollDesc.GifDataRaw?
         }
         
         struct ViewModel {
             
-            var displayedGifs: [DisplayedGif]
+            var displayedGifs: [HelperGifCollDesc.DisplayedGif]
         }
     }
     
@@ -42,31 +44,9 @@ enum GifColl {
         var offset: Int?
     }
     
-    struct GifDataRaw: Codable {
+    enum Mode {
         
-        var data: [GifData]
-        
-        struct GifData: Codable {
-            
-            var url: String
-            var username: String
-            var title: String
-            var images: GifTypes
-        
-            struct GifTypes: Codable {
-                
-                var original: GifSpecific
-                var original_still: GifSpecific
-                var fixed_height: GifSpecific
-                var fixed_width: GifSpecific
-            
-                struct GifSpecific: Codable {
-                    
-                    var height: String
-                    var width: String
-                    var url: String
-                }
-            }
-        }
+        case Trending
+        case Search
     }
 }

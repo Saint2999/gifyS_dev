@@ -1,4 +1,4 @@
-import SnapKit
+import UIKit
 
 protocol RegDisplayLogic: AnyObject {
     
@@ -29,7 +29,7 @@ class RegViewController: UITableViewController, RegDisplayLogic {
     private weak var passwordDelegate: RegVCTextFieldDelegate?
     private weak var passwordAgainDelegate: RegVCTextFieldDelegate?
     
-    private var sections = [Helper.Section]()
+    private var sections = [HelperAuthnReg.TableSection]()
     private var cellFactory = TableViewCellFactory()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -75,14 +75,14 @@ class RegViewController: UITableViewController, RegDisplayLogic {
         tableView?.delegate = self
         
         sections = [
-            Helper.Section(type: .image, components: [.image]),
-            Helper.Section(type: .textfields, components: [.email, .username, .password, .passwordAgain]),
-            Helper.Section(type: .button, components: [.button]),
+            HelperAuthnReg.TableSection(type: .images, components: [.image]),
+            HelperAuthnReg.TableSection(type: .textfields, components: [.email, .username, .password, .passwordAgain]),
+            HelperAuthnReg.TableSection(type: .buttons, components: [.button]),
         ]
         
-        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: Helper.imageCellIdentifier)
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: Helper.textfieldCellIdentifier)
-        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: Helper.buttonCellIdentifier)
+        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableImageCellIdentifier)
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableTextfieldCellIdentifier)
+        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableButtonCellIdentifier)
     }
     
     func setupDelegates() {
@@ -148,13 +148,13 @@ extension RegViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch sections[indexPath.section].type {
-        case .image:
+        case .images:
             return 50.0
             
         case .textfields:
             return 50.0
         
-        case .button:
+        case .buttons:
             return 75.0
         
         default:
@@ -163,14 +163,14 @@ extension RegViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cellFactory.configureCell(viewController: self, signType: Helper.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
+        let cell = cellFactory.configureCell(viewController: self, signType: HelperAuthnReg.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
         return cell
     }
 }
 
 extension RegViewController: TextFieldTableViewCellDelegate {
     
-    func textDidChange(component: Helper.UIComponents, text: String?) {
+    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?) {
         switch component {
         case .email:
             let request = Reg.Validate.Request(email: text, username: nil, password: nil)

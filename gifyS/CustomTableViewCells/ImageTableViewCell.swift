@@ -10,14 +10,14 @@ final class ImageTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    var signType: Helper.SignType = .signIn {
+    var signType: HelperAuthnReg.SignType = .signIn {
         didSet {
             switch signType {
             case .signIn:
-                mainImageView.image = Helper.signInImage
+                mainImageView.image = HelperAuthnReg.signInImage
             
             case .signUp:
-                mainImageView.image = Helper.signUpImage
+                mainImageView.image = HelperAuthnReg.signUpImage
             }
         }
     }

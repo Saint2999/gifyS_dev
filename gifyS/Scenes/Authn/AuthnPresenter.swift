@@ -1,4 +1,3 @@
-import SnapKit
 import Validator
 
 protocol AuthnPresentationLogic {

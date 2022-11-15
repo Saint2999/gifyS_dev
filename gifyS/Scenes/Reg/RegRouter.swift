@@ -1,4 +1,4 @@
-import SnapKit
+import UIKit
 
 @objc protocol RegRoutingLogic {
     

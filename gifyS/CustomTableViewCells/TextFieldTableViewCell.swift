@@ -2,7 +2,7 @@ import SnapKit
 
 protocol TextFieldTableViewCellDelegate: AnyObject {
     
-    func textDidChange(component: Helper.UIComponents, text: String?)
+    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?)
 }
 
 final class TextFieldTableViewCell: UITableViewCell {
@@ -27,7 +27,7 @@ final class TextFieldTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    var component: Helper.UIComponents = .email {
+    var component: HelperAuthnReg.TableComponents = .email {
         didSet {
             switch component {
             case .email, .username:
@@ -66,7 +66,7 @@ final class TextFieldTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configureInsecureComponent(component: Helper.UIComponents) {
+    func configureInsecureComponent(component: HelperAuthnReg.TableComponents) {
         if (component == .email) {
             mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
         }
@@ -81,7 +81,7 @@ final class TextFieldTableViewCell: UITableViewCell {
         }
     }
     
-    func configureSecureComponent(component: Helper.UIComponents) {
+    func configureSecureComponent(component: HelperAuthnReg.TableComponents) {
         mainTextField.textContentType = .oneTimeCode
         mainTextField.isSecureTextEntry = true
         if (component == .password) {

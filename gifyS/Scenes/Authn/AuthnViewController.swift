@@ -1,4 +1,4 @@
-import SnapKit
+import UIKit
 
 protocol AuthnDisplayLogic: AnyObject {
     
@@ -27,7 +27,7 @@ class AuthnViewController: UITableViewController, AuthnDisplayLogic {
     private weak var emailDelegate: AuthnVCTextFieldDelegate?
     private weak var passwordDelegate: AuthnVCTextFieldDelegate?
     
-    private var sections = [Helper.Section]()
+    private var sections = [HelperAuthnReg.TableSection]()
     private var cellFactory = TableViewCellFactory()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -76,16 +76,16 @@ class AuthnViewController: UITableViewController, AuthnDisplayLogic {
         tableView?.delegate = self
         
         sections = [
-            Helper.Section(type: .image, components: [.image]),
-            Helper.Section(type: .textfields, components: [.email, .password]),
-            Helper.Section(type: .button, components: [.button]),
-            Helper.Section(type: .label, components: [.label])
+            HelperAuthnReg.TableSection(type: .images, components: [.image]),
+            HelperAuthnReg.TableSection(type: .textfields, components: [.email, .password]),
+            HelperAuthnReg.TableSection(type: .buttons, components: [.button]),
+            HelperAuthnReg.TableSection(type: .labels, components: [.label])
         ]
         
-        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: Helper.imageCellIdentifier)
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: Helper.textfieldCellIdentifier)
-        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: Helper.buttonCellIdentifier)
-        tableView?.register(LabelTableViewCell.self, forCellReuseIdentifier: Helper.labelCellIdentifier)
+        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableImageCellIdentifier)
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableTextfieldCellIdentifier)
+        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableButtonCellIdentifier)
+        tableView?.register(LabelTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableLabelCellIdentifier)
     }
     
     func setupDelegates() {
@@ -139,29 +139,29 @@ extension AuthnViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch sections[indexPath.section].type {
-        case .image:
+        case .images:
             return 150.0
         
         case .textfields:
             return 50.0
         
-        case .button:
+        case .buttons:
             return 75.0
         
-        case .label:
+        case .labels:
             return 30.0
         }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cellFactory.configureCell(viewController: self, signType: Helper.SignType.signIn, component: sections[indexPath.section].components[indexPath.row])
+        let cell = cellFactory.configureCell(viewController: self, signType: HelperAuthnReg.SignType.signIn, component: sections[indexPath.section].components[indexPath.row])
         return cell
     }
 }
 
 extension AuthnViewController: TextFieldTableViewCellDelegate {
     
-    func textDidChange(component: Helper.UIComponents, text: String?) {
+    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?) {
         switch component {
         case .email:
             let request = Authn.Validate.Request(email: text, password: nil)

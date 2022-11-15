@@ -1,23 +1,39 @@
-import SnapKit
-
 protocol GifCollBusinessLogic {
     
     func requestGifs(request: GifColl.RequestGifs.Request)
+    func loadGifToDataStore(request: GifColl.LoadGif.Request)
 }
 
-class GifCollInteractor: GifCollBusinessLogic {
+protocol GifCollDataStore {
+    
+    var theGif: HelperGifCollDesc.DisplayedGif? {get set}
+}
+
+class GifCollInteractor: GifCollBusinessLogic, GifCollDataStore {
     
     var presenter: GifCollPresentationLogic?
     var worker = GifCollWorker()
     
+    var theGif: HelperGifCollDesc.DisplayedGif?
+    
     func requestGifs(request: GifColl.RequestGifs.Request) {
         worker.getGifs(request: request) {
-            result in
-            if result != nil {
-                let response = GifColl.RequestGifs.Response(rawGifs: result)
+            gifData in
+            if let gifData = gifData {
+                let response = GifColl.RequestGifs.Response(rawGifs: gifData)
                 self.presenter?.presentGifs(response: response)
             }
         }
     }
     
+    func loadGifToDataStore(request: GifColl.LoadGif.Request) {
+        var response: GifColl.LoadGif.Response
+        if let gif = request.gif {
+            theGif = gif
+            response = GifColl.LoadGif.Response(success: true)
+        } else {
+            response = GifColl.LoadGif.Response(success: false)
+        }
+        presenter?.presentLoadGifSuccess(response: response)
+    }
 }

@@ -1,11 +1,11 @@
-import SnapKit
+import UIKit
 
 protocol CustomCollectionViewLayoutDelegate: AnyObject {
     
     func getHeight(indexPath: IndexPath) -> CGFloat
 }
 
-class CustomCollectionViewLayout: UICollectionViewLayout {
+final class CustomCollectionViewLayout: UICollectionViewLayout {
     
     weak var delegate: CustomCollectionViewLayoutDelegate?
                         

@@ -16,7 +16,7 @@ final class LabelTableViewCell: UITableViewCell {
         return label
     }()
     
-    var signType: Helper.SignType = .signIn {
+    var signType: HelperAuthnReg.SignType = .signIn {
         didSet {
             switch signType {
             case .signIn:

@@ -1,4 +1,3 @@
-import SnapKit
 import Validator
 import Alamofire
 
@@ -12,7 +11,7 @@ class RegWorker {
                 .contentType("application/json")
             ]
             
-            AF.request(Helper.registerURL, method: .post, parameters: register, encoder: JSONParameterEncoder.default, headers: headers).response {
+            AF.request(HelperAuthnReg.registerURL, method: .post, parameters: register, encoder: JSONParameterEncoder.default, headers: headers).response {
                 response in
                 debugPrint(response)
                 switch response.result {
