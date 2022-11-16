@@ -6,7 +6,7 @@ final class CollectionViewCellFactory {
         guard let vc = viewController else { return UICollectionViewCell() }
         
         switch component {
-        case .image:
+        case .banner:
             let ImageCollectionViewCell = vc.collectionView.dequeueReusableCell (
                 withReuseIdentifier: HelperGifCollDesc.collectionImageCellIndentifier,
                 for: indexPath
@@ -17,6 +17,16 @@ final class CollectionViewCellFactory {
             }
             return ImageCollectionViewCell ?? UICollectionViewCell()
         
+        case .title:
+            let LabelCollectionViewCell = vc.collectionView.dequeueReusableCell (
+                withReuseIdentifier: HelperGifCollDesc.collectionLabelCellIdentifier,
+                for: indexPath
+            ) as? LabelCollectionViewCell
+            vc.labelDelegate = LabelCollectionViewCell
+            vc.labelDelegate?.setComponent(component: component)
+            vc.labelDelegate?.setLabelText(text: gif?.title)
+            return LabelCollectionViewCell ?? UICollectionViewCell()
+            
         case .gif:
             let GifCollectionViewCell = vc.collectionView.dequeueReusableCell (
                 withReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier,
@@ -28,17 +38,7 @@ final class CollectionViewCellFactory {
             }
             return GifCollectionViewCell ?? UICollectionViewCell()
             
-        case .label:
-            let LabelCollectionViewCell = vc.collectionView.dequeueReusableCell (
-                withReuseIdentifier: HelperGifCollDesc.collectionLabelCellIdentifier,
-                for: indexPath
-            ) as? LabelCollectionViewCell
-            vc.labelDelegate = LabelCollectionViewCell
-            vc.labelDelegate?.setComponent(component: component)
-            vc.labelDelegate?.setLabelText(text: gif?.title)
-            return LabelCollectionViewCell ?? UICollectionViewCell()
-            
-        case .imageAndLabel:
+        case .avatarAndUsername:
             let ImageAndLabelCollectionViewCell = vc.collectionView.dequeueReusableCell (
                 withReuseIdentifier: HelperGifCollDesc.collectionLabelCellIdentifier,
                 for: indexPath

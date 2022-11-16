@@ -6,19 +6,19 @@ final class ImageCollectionViewCell: UICollectionViewCell {
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = Helper.primaryColor
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = HelperAuthnReg.signInImage
-        imageView.layer.cornerRadius = 30.0
+        imageView.layer.cornerRadius = 20.0
         imageView.layer.cornerCurve = .continuous
         imageView.clipsToBounds = true
+        imageView.tintColor = Helper.primaryColor
+        imageView.image = HelperAuthnReg.signInImage
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.addSubview(mainImageView)
-        self.backgroundColor = Helper.clearColor
+        self.backgroundColor = Helper.backgroundColor
         
         mainImageView.snp.makeConstraints {
             make in
@@ -37,6 +37,7 @@ extension ImageCollectionViewCell: GifDescVCImageDelegate {
     func setImage(url: URL?) {
         if let url = url {
             mainImageView.sd_setImage(with: url)
+            mainImageView.contentMode = .scaleAspectFill
         }
     }
 }

@@ -14,48 +14,51 @@ final class LabelCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 25)
-        label.numberOfLines = 0
         return label
     }()
     
-    private lazy var mainImage: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 20.0
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
-        imageView.image = HelperAuthnReg.signInImage
-        imageView.tintColor = Helper.primaryColor
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private var component: HelperGifCollDesc.CollectionComponents = .label {
+    private var component: HelperGifCollDesc.CollectionComponents = .title {
         didSet {
             switch component {
-            case .label:
+            case .title:
+                mainLabel.numberOfLines = 0
                 mainLabel.snp.makeConstraints {
                     make in
                     make.height.centerX.centerY.equalToSuperview()
                     make.width.equalToSuperview().multipliedBy(0.95)
                 }
                 
-            case .imageAndLabel:
-                self.contentView.addSubview(mainImage)
-                mainLabel.font = .boldSystemFont(ofSize: 40)
+            case .avatarAndUsername:
+                self.contentView.addSubview(mainImageView)
+                
+                mainLabel.numberOfLines = 1
+                mainLabel.font = .boldSystemFont(ofSize: 36)
+                mainLabel.adjustsFontSizeToFitWidth = true
                 mainLabel.snp.makeConstraints {
                     make in
+                    make.centerY.equalToSuperview()
                     make.height.right.equalToSuperview().multipliedBy(0.95)
-                    make.left.equalTo(self.snp.centerX).multipliedBy(0.95)
+                    make.left.equalTo(self.snp.centerX).multipliedBy(1.05)
                 }
                 
-                mainImage.snp.makeConstraints {
+                mainImageView.snp.makeConstraints {
                     make in
                     make.centerY.equalToSuperview()
-                    make.height.equalToSuperview().multipliedBy(0.85)
-                    make.left.equalToSuperview().multipliedBy(0.95)
+                    make.height.left.equalToSuperview().multipliedBy(0.95)
                     make.right.equalTo(self.snp.centerX).multipliedBy(0.95)
                 }
                 let labelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
-                mainImage.addGestureRecognizer(labelTapGestureRecognizer)
+                mainImageView.addGestureRecognizer(labelTapGestureRecognizer)
                 
             default:
                 break
@@ -65,9 +68,8 @@ final class LabelCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = Helper.backgroundColor
         self.contentView.addSubview(mainLabel)
-        self.backgroundColor = Helper.lighGrayColor
-        self.layer.cornerRadius = 20.0
         
         mainLabel.textAlignment = .center
         mainLabel.textColor = Helper.primaryColor
@@ -75,6 +77,12 @@ final class LabelCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func setupDefaultImage() {
+        mainImageView.contentMode = .scaleAspectFit
+        mainImageView.image = HelperAuthnReg.signInImage
+        mainImageView.tintColor = Helper.primaryColor
     }
     
     @objc func didTapImage() {
@@ -96,7 +104,9 @@ extension LabelCollectionViewCell: GifDescVCLabelDelegate {
     
     func setLabelImage(url: URL?) {
         if let url = url {
-            mainImage.sd_setImage(with: url)
+            mainImageView.sd_setImage(with: url)
+        } else {
+            setupDefaultImage()
         }
     }
 }

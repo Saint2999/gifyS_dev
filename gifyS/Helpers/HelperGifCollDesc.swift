@@ -73,9 +73,9 @@ final class HelperGifCollDesc {
     enum CollectionComponents {
         
         case gif
-        case image
-        case imageAndLabel
-        case label
+        case banner
+        case avatarAndUsername
+        case title
     }
     
     struct CollectionSection {

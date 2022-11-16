@@ -79,9 +79,10 @@ class GifDescViewController: UICollectionViewController {
         collectionView.delegate = self
         
         sections = [
-            HelperGifCollDesc.CollectionSection(type: .images, components: [.image]),
+            HelperGifCollDesc.CollectionSection(type: .images, components: [.banner]),
+            HelperGifCollDesc.CollectionSection(type: .labels, components: [.title]),
             HelperGifCollDesc.CollectionSection(type: .gifs, components: [.gif]),
-            HelperGifCollDesc.CollectionSection(type: .labels, components: [.label, .imageAndLabel])
+            HelperGifCollDesc.CollectionSection(type: .labels, components: [.avatarAndUsername])
         ]
         
         collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier)
@@ -139,20 +140,20 @@ extension GifDescViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch sections[indexPath.section].components[indexPath.row] {
-        case .image:
+        case .banner:
             return CGSize(width: collectionView.bounds.width, height: 80.0)
         
+        case .title:
+            return CGSize(width: collectionView.bounds.width - 40.0, height: 80.0)
+            
         case .gif:
             if let height = displayedGif?.originalHeight {
                 return CGSize(width: collectionView.bounds.width, height: height > 360.0 ? 360.0 : height)
             } else {
                 return CGSize(width: collectionView.bounds.width, height: 300.0)
             }
-        
-        case .label:
-            return CGSize(width: collectionView.bounds.width - 20.0, height: 80.0)
             
-        case .imageAndLabel:
+        case .avatarAndUsername:
             return CGSize(width: collectionView.bounds.width - 20.0, height: 140.0)
         }
     }

@@ -8,5 +8,4 @@ final class Helper {
     static let clearColor: UIColor = UIColor.clear
     static let backgroundColor: UIColor = UIColor.systemGray6
     static let primaryColor: UIColor = UIColor.systemPurple
-    static let lighGrayColor: UIColor = UIColor.systemGray5
 }
