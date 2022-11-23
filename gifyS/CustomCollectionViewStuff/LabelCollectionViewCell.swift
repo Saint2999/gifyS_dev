@@ -81,7 +81,7 @@ final class LabelCollectionViewCell: UICollectionViewCell {
     
     func setupDefaultImage() {
         mainImageView.contentMode = .scaleAspectFit
-        mainImageView.image = HelperAuthnReg.signInImage
+        mainImageView.image = Helper.signInImage
         mainImageView.tintColor = Helper.primaryColor
     }
     

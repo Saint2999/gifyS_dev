@@ -32,13 +32,13 @@ class GifCollViewController: UICollectionViewController {
         super.init(collectionViewLayout: layout)
         setup()
         setupCollectionView()
+        setupSearchBar()
+        setupBackButton()
         requestGifs(query: nil)
     }
   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
-        setupCollectionView()
     }
   
     override func viewDidLoad() {
@@ -75,11 +75,11 @@ class GifCollViewController: UICollectionViewController {
         collectionView.delegate = self
         
         collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier)
-
+    }
+    
+    private func setupBackButton() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
-
-        setupSearchBar()
     }
     
     func setupSearchBar() {
@@ -98,7 +98,7 @@ class GifCollViewController: UICollectionViewController {
         searchBar?.searchTextField.textColor = Helper.primaryColor
         searchBar?.searchTextField.tintColor = Helper.primaryColor
         searchBar?.searchTextField.backgroundColor = Helper.backgroundColor
-        searchBar?.setImage(HelperAuthnReg.signInImage?.withTintColor(Helper.primaryColor, renderingMode: .alwaysOriginal), for: .search, state: .normal)
+        searchBar?.setImage(Helper.signInImage.withTintColor(Helper.primaryColor, renderingMode: .alwaysOriginal), for: .search, state: .normal)
         
         searchBar?.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search Gifs", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
         searchBar?.searchBarStyle = .minimal

@@ -55,7 +55,7 @@ extension GifCollectionViewCell: GifDescVCGifDelegate {
         if let url = url {
             mainGifView.sd_setImage(with: url)
         } else {
-            mainGifView.image = HelperAuthnReg.signUpImage
+            mainGifView.image = Helper.signUpImage
         }
     }
 }

@@ -10,7 +10,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerCurve = .continuous
         imageView.clipsToBounds = true
         imageView.tintColor = Helper.primaryColor
-        imageView.image = HelperAuthnReg.signInImage
+        imageView.image = Helper.signInImage
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()

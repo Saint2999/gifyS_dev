@@ -4,6 +4,7 @@ protocol AuthnBusinessLogic {
     
     func signIn(request: Authn.SignIn.Request)
     func validate(request: Authn.Validate.Request)
+    func loadData(request: Authn.LoadData.Request)
 }
 
 class AuthnInteractor: AuthnBusinessLogic {
@@ -19,7 +20,7 @@ class AuthnInteractor: AuthnBusinessLogic {
 
     
     func signIn(request: Authn.SignIn.Request) {
-        worker.signIn(request: request) {
+        worker.signIn(request: Authn.SignIn.Request(email: email, password: password)) {
             success in
             let response = Authn.SignIn.Response(success: success)
             self.presenter?.presentSignIn(response: response)
@@ -29,19 +30,33 @@ class AuthnInteractor: AuthnBusinessLogic {
     func validate(request : Authn.Validate.Request) {
         var emailResult, passwordResult: ValidationResult?
             
-        if let value = request.email {
+        if let value = email {
             validationResultEmail = worker.validateEmail(email: value)
             emailResult =  validationResultEmail
-            email =  value
         }
         
-        if let value = request.password {
+        if let value = password {
             validationResultPassword = worker.validate(value: value)
             passwordResult =  validationResultPassword
-            password =  value
         }
         
         let response = Authn.Validate.Response(validationResultEmail: emailResult,validationResultPassword: passwordResult)
-        self.presenter?.presentValidationResult(response: response)
+        presenter?.presentValidationResult(response: response)
+    }
+    
+    func loadData(request: Authn.LoadData.Request) {
+        switch request.component {
+        case .email:
+            email = request.text
+        
+        case .password:
+            password = request.text
+        
+        default:
+            break
+        }
+        
+        let response = Authn.LoadData.Response(success: true)
+        presenter?.presentLoadDataSuccess(response: response)
     }
 }

@@ -4,50 +4,29 @@ protocol AuthnDisplayLogic: AnyObject {
     
     func displaySignIn(viewModel: Authn.SignIn.ViewModel)
     func displayValidationErrors(viewModel: Authn.Validate.ViewModel)
+    func displayLoadDataSuccess(viewModel : Authn.LoadData.ViewModel)
 }
 
-protocol AuthnVCImageDelegate: AnyObject {
-    
-    func changeImageColor(color: UIColor)
-}
-
-protocol AuthnVCTextFieldDelegate: AnyObject {
-    
-    func getText() -> String?
-    func setText(text: String?)
-    func setAttributedPlaceholder(placeholder: NSAttributedString?)
-}
-
-class AuthnViewController: UITableViewController, AuthnDisplayLogic {
+class AuthnViewController: UITableViewController {
     
     var interactor: AuthnBusinessLogic?
     var router: (NSObjectProtocol & AuthnRoutingLogic)?
     
-    private weak var imageDelegate: AuthnVCImageDelegate?
-    private weak var emailDelegate: AuthnVCTextFieldDelegate?
-    private weak var passwordDelegate: AuthnVCTextFieldDelegate?
-    
-    private var sections = [HelperAuthnReg.TableSection]()
-    private var cellFactory = TableViewCellFactory()
+    private var sections = [TableSection]()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
         setupTableView()
+        setupBackButton()
+        setupViewModel()
     }
   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
-        setupTableView()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupDelegates()
-    }
-    
-    func setup() {
+    private func setup() {
         let viewController = self
         let interactor = AuthnInteractor()
         let presenter = AuthnPresenter()
@@ -59,7 +38,7 @@ class AuthnViewController: UITableViewController, AuthnDisplayLogic {
         router.viewController = viewController
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height), style: .insetGrouped)
         tableView?.backgroundColor = Helper.backgroundColor
         tableView?.separatorInset = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
@@ -69,61 +48,110 @@ class AuthnViewController: UITableViewController, AuthnDisplayLogic {
         frame.size.height = .leastNormalMagnitude
         tableView?.tableHeaderView = UIView(frame: frame)
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = Helper.successColor
-        
         tableView?.dataSource = self
         tableView?.delegate = self
         
-        sections = [
-            HelperAuthnReg.TableSection(type: .images, components: [.image]),
-            HelperAuthnReg.TableSection(type: .textfields, components: [.email, .password]),
-            HelperAuthnReg.TableSection(type: .buttons, components: [.button]),
-            HelperAuthnReg.TableSection(type: .labels, components: [.label])
-        ]
-        
-        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableImageCellIdentifier)
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableTextfieldCellIdentifier)
-        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableButtonCellIdentifier)
-        tableView?.register(LabelTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableLabelCellIdentifier)
+        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: ImageTableViewCell.identificator)
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.identificator)
+        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identificator)
+        tableView?.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identificator)
     }
     
-    func setupDelegates() {
-        imageDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AuthnVCImageDelegate
-        emailDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AuthnVCTextFieldDelegate
-        passwordDelegate = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? AuthnVCTextFieldDelegate
+    private func setupBackButton() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = Helper.successColor
+    }
+    
+    private func setupViewModel() {
+        sections = [
+            TableSection (
+                type: .images,
+                components: [
+                    TableComponent (
+                        type: .image,
+                        config: CellConfig(image: Helper.signInImage, color: Helper.primaryColor)
+                    )
+                ]
+            ),
+            TableSection (
+                type: .textfields,
+                components: [
+                    TableComponent (
+                        type: .email,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                    ),
+                    TableComponent (
+                        type: .password,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                    )
+                ]
+            ),
+            TableSection (
+                type: .buttons,
+                components: [
+                    TableComponent (
+                        type: .button,
+                        config: CellConfig(title: Helper.signInText)
+                    )
+                ]
+            ),
+            TableSection (
+                type: .labels,
+                components: [
+                    TableComponent (
+                        type: .label,
+                        config: CellConfig(title: Helper.signUpText)
+                    )
+                ]
+            )
+        ]
     }
     
     func signIn() {
-        let email = emailDelegate?.getText()
-        let password = passwordDelegate?.getText()
-        
-        let request = Authn.SignIn.Request(login: email, password: password)
+        let request = Authn.SignIn.Request()
         interactor?.signIn(request: request)
     }
-  
+}
+
+extension AuthnViewController: AuthnDisplayLogic {
+    
     func displaySignIn(viewModel: Authn.SignIn.ViewModel) {
-        showSuccess(success: viewModel.success)
-    }
-      
-    func showSuccess(success: Bool) {        
-        if success {
-            imageDelegate?.changeImageColor(color: Helper.successColor)
+        if viewModel.success {
             router?.routeToGifCollection()
         } else {
-            imageDelegate?.changeImageColor(color: Helper.errorColor)
+            if let section = sections.firstIndex(where: {$0.type == .images}),
+               let component = sections[section].components.firstIndex(where: {$0.type == .image}) {
+                sections[section].components[component].config = CellConfig(image: Helper.signInImage, color: Helper.errorColor)
+            }
         }
     }
     
     func displayValidationErrors(viewModel: Authn.Validate.ViewModel) {
-        if let emailError = viewModel.errorMessageEmail {
-            emailDelegate?.setText(text: "")
-            emailDelegate?.setAttributedPlaceholder(placeholder: emailError)
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
+            if let emailError = viewModel.errorMessageEmail {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: emailError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+            }
         }
-        if let passwordError = viewModel.errorMessagePassword {
-            passwordDelegate?.setText(text: "")
-            passwordDelegate?.setAttributedPlaceholder(placeholder: passwordError)
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
+            if let passwordError = viewModel.errorMessagePassword {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: passwordError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+            }
         }
+        tableView.reloadData()
+        if (viewModel.errorMessageEmail == nil && viewModel.errorMessagePassword == nil) {
+            signIn()
+        } 
+    }
+    
+    func displayLoadDataSuccess(viewModel: Authn.LoadData.ViewModel) {
+        debugPrint("Textfield finished laoding:")
+        debugPrint(viewModel.success)
     }
 }
 
@@ -154,33 +182,24 @@ extension AuthnViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cellFactory.configureCell(viewController: self, signType: HelperAuthnReg.SignType.signIn, component: sections[indexPath.section].components[indexPath.row])
+        let cell = TableViewCellFactory.configureCell(vc: self, component: sections[indexPath.section].components[indexPath.row])
         return cell
     }
 }
 
 extension AuthnViewController: TextFieldTableViewCellDelegate {
     
-    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?) {
-        switch component {
-        case .email:
-            let request = Authn.Validate.Request(email: text, password: nil)
-            interactor?.validate(request: request)
-        
-        case .password:
-            let request = Authn.Validate.Request(email: nil, password: text)
-            interactor?.validate(request: request)
-        
-        default:
-            break
-        }
+    func textDidChange(component: TableComponentType, text: String?) {
+        let request = Authn.LoadData.Request(component: component, text: text)
+        interactor?.loadData(request: request)
     }
 }
 
 extension AuthnViewController: ButtonTableViewCellDelegate {
     
     func didTapButton() {
-        signIn()
+        let request = Authn.Validate.Request()
+        interactor?.validate(request: request)
     }
 }
 

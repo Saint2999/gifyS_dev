@@ -4,9 +4,9 @@ enum Authn {
     
     enum SignIn {
         
-        struct Request: Encodable {
+        struct Request: Codable {
             
-            var login: String?
+            var email: String?
             var password: String?
         }
       
@@ -23,11 +23,7 @@ enum Authn {
     
     enum Validate {
         
-        struct Request {
-            
-            var email: String?
-            var password: String?
-        }
+        struct Request {}
                 
         struct Response {
             
@@ -39,6 +35,25 @@ enum Authn {
             
             var errorMessageEmail: NSAttributedString?
             var errorMessagePassword: NSAttributedString?
+        }
+    }
+    
+    enum LoadData {
+        
+        struct Request {
+            
+            var component: TableComponentType
+            var text: String?
+        }
+      
+        struct Response {
+            
+            var success: Bool
+        }
+      
+        struct ViewModel {
+            
+            var success: Bool
         }
     }
 }

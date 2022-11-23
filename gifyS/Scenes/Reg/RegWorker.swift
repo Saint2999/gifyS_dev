@@ -3,30 +3,17 @@ import Alamofire
 
 class RegWorker {
     
-    func signUp(request: Reg.SignUp.Request, completionHandler: @escaping (Bool) -> Void) {
+    func signUp(request: Reg.SignUp.Request, completion: @escaping (Bool) -> Void) {
         if request.password == request.passwordAgain {
-            let register = Reg.SignUp.Request(email: request.email, name: request.name, password: request.password!, passwordAgain: nil)
-            
-            let headers: HTTPHeaders = [
-                .contentType("application/json")
-            ]
-            
-            AF.request(HelperAuthnReg.registerURL, method: .post, parameters: register, encoder: JSONParameterEncoder.default, headers: headers).response {
-                response in
-                debugPrint(response)
-                switch response.result {
-                    case .success:
-                        if response.response!.statusCode >= 400 {
-                            completionHandler(false)
-                        } else {
-                            completionHandler(true)
-                        }
-                    case .failure:
-                        completionHandler(false)
+            NetworkManager.makeWebRequest(url: Helper.registerURL, method: .post, parameters: request, responseType: Bool.self) {
+                response, error in
+                if error != nil {
+                    debugPrint(error as Any)
                 }
+                completion(response!)
             }
         } else {
-            completionHandler(false)
+            completion(false)
         }
     }
     

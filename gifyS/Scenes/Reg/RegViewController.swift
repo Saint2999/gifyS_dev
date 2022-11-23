@@ -4,52 +4,28 @@ protocol RegDisplayLogic: AnyObject {
     
     func displaySignUp(viewModel: Reg.SignUp.ViewModel)
     func displayValidationErrors(viewModel: Reg.Validate.ViewModel)
+    func displayLoadDataSuccess(viewModel: Reg.LoadData.ViewModel)
 }
 
-protocol RegVCImageDelegate: AnyObject {
-    
-    func changeImageColor(color: UIColor)
-}
-
-protocol RegVCTextFieldDelegate: AnyObject {
-    
-    func getText() -> String?
-    func setText(text: String?)
-    func setAttributedPlaceholder(placeholder: NSAttributedString?)
-}
-
-class RegViewController: UITableViewController, RegDisplayLogic {
+class RegViewController: UITableViewController {
     
     var interactor: RegBusinessLogic?
     var router: (NSObjectProtocol & RegRoutingLogic)?
     
-    private weak var imageDelegate: RegVCImageDelegate?
-    private weak var emailDelegate: RegVCTextFieldDelegate?
-    private weak var usernameDelegate: RegVCTextFieldDelegate?
-    private weak var passwordDelegate: RegVCTextFieldDelegate?
-    private weak var passwordAgainDelegate: RegVCTextFieldDelegate?
-    
-    private var sections = [HelperAuthnReg.TableSection]()
-    private var cellFactory = TableViewCellFactory()
+    private var sections = [TableSection]()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
         setupTableView()
+        setupViewModel()
     }
   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
-        setupTableView()
     }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupDelegates()
-    }
-    
-    func setup() {
+    private func setup() {
         let viewController = self
         let interactor = RegInteractor()
         let presenter = RegPresenter()
@@ -61,7 +37,7 @@ class RegViewController: UITableViewController, RegDisplayLogic {
         router.viewController = viewController
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height), style: .insetGrouped)
         tableView?.backgroundColor = Helper.backgroundColor
         tableView?.separatorInset = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
@@ -74,65 +50,116 @@ class RegViewController: UITableViewController, RegDisplayLogic {
         tableView?.dataSource = self
         tableView?.delegate = self
         
-        sections = [
-            HelperAuthnReg.TableSection(type: .images, components: [.image]),
-            HelperAuthnReg.TableSection(type: .textfields, components: [.email, .username, .password, .passwordAgain]),
-            HelperAuthnReg.TableSection(type: .buttons, components: [.button]),
-        ]
-        
-        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableImageCellIdentifier)
-        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableTextfieldCellIdentifier)
-        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: HelperAuthnReg.tableButtonCellIdentifier)
+        tableView?.register(ImageTableViewCell.self, forCellReuseIdentifier: ImageTableViewCell.identificator)
+        tableView?.register(TextFieldTableViewCell.self, forCellReuseIdentifier: TextFieldTableViewCell.identificator)
+        tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identificator)
     }
     
-    func setupDelegates() {
-        imageDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RegVCImageDelegate
-        emailDelegate = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? RegVCTextFieldDelegate
-        usernameDelegate = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? RegVCTextFieldDelegate
-        passwordDelegate = tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as? RegVCTextFieldDelegate
-        passwordAgainDelegate = tableView.cellForRow(at: IndexPath(row: 3, section: 1)) as? RegVCTextFieldDelegate
+    private func setupViewModel() {
+        sections = [
+            TableSection (
+                type: .images,
+                components: [
+                    TableComponent (
+                        type: .image,
+                        config: CellConfig(image: Helper.signUpImage, color: Helper.primaryColor)
+                    )
+                ]
+            ),
+            TableSection (
+                type: .textfields,
+                components: [
+                    TableComponent (
+                        type: .email,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                    ),
+                    TableComponent (
+                        type: .username,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.usernameText, color: Helper.primaryColor))
+                    ),
+                    TableComponent (
+                        type: .password,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                    ),
+                    TableComponent (
+                        type: .passwordAgain,
+                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordAgainText, color: Helper.primaryColor))
+                    )
+                ]
+            ),
+            TableSection (
+                type: .buttons,
+                components: [
+                    TableComponent (
+                        type: .button,
+                        config: CellConfig(title: Helper.signUpText)
+                    )
+                ]
+            )
+        ]
     }
     
     func signUp() {
-        let email = emailDelegate?.getText()
-        let name = usernameDelegate?.getText()
-        let password = passwordDelegate?.getText()
-        let passwordAgain = passwordAgainDelegate?.getText()
-        
-        let request = Reg.SignUp.Request(email: email, name: name, password: password, passwordAgain: passwordAgain)
+        let request = Reg.SignUp.Request()
         interactor?.signUp(request: request)
     }
-  
+}
+
+extension RegViewController: RegDisplayLogic {
+
     func displaySignUp(viewModel: Reg.SignUp.ViewModel) {
-        showSuccess(success: viewModel.success)
-    }
-      
-    func showSuccess(success: Bool) {
-        if success {
-            imageDelegate?.changeImageColor(color: Helper.successColor)
+        if viewModel.success {
             router?.routeToGifCollection()
         } else {
-            imageDelegate?.changeImageColor(color: Helper.errorColor)
+            if let section = sections.firstIndex(where: {$0.type == .images}),
+               let component = sections[section].components.firstIndex(where: {$0.type == .image}) {
+                sections[section].components[component].config = CellConfig(image: Helper.signInImage, color: Helper.errorColor)
+            }
         }
     }
     
     func displayValidationErrors(viewModel: Reg.Validate.ViewModel) {
-        if let emailError = viewModel.errorMessageEmail {
-            emailDelegate?.setText(text: "")
-            emailDelegate?.setAttributedPlaceholder(placeholder: emailError)
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
+            if let emailError = viewModel.errorMessageEmail {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: emailError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+            }
         }
-        
-        if let usernameError = viewModel.errorMessageUsername {
-            usernameDelegate?.setText(text: "")
-            usernameDelegate?.setAttributedPlaceholder(placeholder: usernameError)
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .username}) {
+            if let usernameError = viewModel.errorMessageUsername {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: usernameError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.usernameText, color: Helper.primaryColor))
+            }
         }
-        
-        if let passwordError = viewModel.errorMessagePassword {
-            passwordDelegate?.setText(text: "")
-            passwordDelegate?.setAttributedPlaceholder(placeholder: passwordError)
-            passwordAgainDelegate?.setText(text: "")
-            passwordAgainDelegate?.setAttributedPlaceholder(placeholder: passwordError)
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
+            if let passwordError = viewModel.errorMessagePassword {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: passwordError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+            }
         }
+        if let section = sections.firstIndex(where: {$0.type == .textfields}),
+           let component = sections[section].components.firstIndex(where: {$0.type == .passwordAgain}) {
+            if let passwordAgainError = viewModel.errorMessagePasswordAgain {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: passwordAgainError)
+            } else {
+                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordAgainText, color: Helper.primaryColor))
+            }
+        }
+        tableView.reloadData()
+        if (viewModel.errorMessageEmail == nil && viewModel.errorMessageUsername == nil && viewModel.errorMessagePassword == nil && viewModel.errorMessagePasswordAgain == nil) {
+            signUp()
+        }
+    }
+    
+    func displayLoadDataSuccess(viewModel: Reg.LoadData.ViewModel) {
+        debugPrint("Textfield finished laoding:")
+        debugPrint(viewModel.success)
     }
 }
 
@@ -163,36 +190,23 @@ extension RegViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = cellFactory.configureCell(viewController: self, signType: HelperAuthnReg.SignType.signUp, component: sections[indexPath.section].components[indexPath.row])
+        let cell = TableViewCellFactory.configureCell(vc: self, component: sections[indexPath.section].components[indexPath.row])
         return cell
     }
 }
 
 extension RegViewController: TextFieldTableViewCellDelegate {
     
-    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?) {
-        switch component {
-        case .email:
-            let request = Reg.Validate.Request(email: text, username: nil, password: nil)
-            interactor?.validate(request: request)
-        
-        case .username:
-            let request = Reg.Validate.Request(email: nil, username: text, password: nil)
-            interactor?.validate(request: request)
-            
-        case .password, .passwordAgain:
-            let request = Reg.Validate.Request(email: nil, username: nil, password: text)
-            interactor?.validate(request: request)
-        
-        default:
-            break
-        }
+    func textDidChange(component: TableComponentType, text: String?) {
+        let request = Reg.LoadData.Request(component: component, text: text)
+        interactor?.loadData(request: request)
     }
 }
 
 extension RegViewController: ButtonTableViewCellDelegate {
     
     func didTapButton() {
-        signUp()
+        let request = Reg.Validate.Request()
+        interactor?.validate(request: request)
     }
 }

@@ -6,8 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let vc = GifCollViewController(collectionViewLayout: UICollectionViewLayout())
-        //let vc = AuthnViewController(nibName: nil, bundle: nil)
+        let vc = AuthnViewController(nibName: nil, bundle: nil)
         let navigationVC = UINavigationController.init(rootViewController: vc)
         self.window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationVC

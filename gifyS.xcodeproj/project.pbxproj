@@ -13,12 +13,15 @@
 		BB0E9A332922D71B008D8E07 /* GifDescModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0E9A2D2922D71B008D8E07 /* GifDescModels.swift */; };
 		BB0E9A342922D71B008D8E07 /* GifDescViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0E9A2E2922D71B008D8E07 /* GifDescViewController.swift */; };
 		BB0E9A352922D71B008D8E07 /* GifDescInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0E9A2F2922D71B008D8E07 /* GifDescInteractor.swift */; };
-		BB28321229222CE200644ED6 /* GifCollNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */; };
-		BB34408D2923CAD50059D259 /* HelperGifCollDesc.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34408C2923CAD40059D259 /* HelperGifCollDesc.swift */; };
-		BB34408F2923CB520059D259 /* HelperAuthnReg.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34408E2923CB520059D259 /* HelperAuthnReg.swift */; };
+		BB28321229222CE200644ED6 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB28321129222CE200644ED6 /* NetworkManager.swift */; };
 		BB3440922923E94E0059D259 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3440912923E94E0059D259 /* ImageCollectionViewCell.swift */; };
 		BB3440942923EF120059D259 /* LabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3440932923EF120059D259 /* LabelCollectionViewCell.swift */; };
 		BB3440962923FCE70059D259 /* CollectionViewCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3440952923FCE70059D259 /* CollectionViewCellFactory.swift */; };
+		BB5B03DA292EA9FC006BEF52 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B03D9292EA9FC006BEF52 /* TableViewModel.swift */; };
+		BB5B03DC292EDD17006BEF52 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */; };
+		BB5B03DE292EDD9D006BEF52 /* DisplayedGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B03DD292EDD9D006BEF52 /* DisplayedGif.swift */; };
+		BB5B03E0292EDDAE006BEF52 /* GifDataRaw.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B03DF292EDDAE006BEF52 /* GifDataRaw.swift */; };
+		BB5B03E2292EDDF3006BEF52 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5B03E1292EDDF3006BEF52 /* CollectionViewModel.swift */; };
 		BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A803B291AE0C8004FBD7A /* Helper.swift */; };
 		BB7A803E291AFB9F004FBD7A /* TableViewCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A803D291AFB9F004FBD7A /* TableViewCellFactory.swift */; };
 		BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */; };
@@ -60,12 +63,15 @@
 		BB0E9A2D2922D71B008D8E07 /* GifDescModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDescModels.swift; sourceTree = "<group>"; };
 		BB0E9A2E2922D71B008D8E07 /* GifDescViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDescViewController.swift; sourceTree = "<group>"; };
 		BB0E9A2F2922D71B008D8E07 /* GifDescInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDescInteractor.swift; sourceTree = "<group>"; };
-		BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifCollNetworkManager.swift; sourceTree = "<group>"; };
-		BB34408C2923CAD40059D259 /* HelperGifCollDesc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperGifCollDesc.swift; sourceTree = "<group>"; };
-		BB34408E2923CB520059D259 /* HelperAuthnReg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperAuthnReg.swift; sourceTree = "<group>"; };
+		BB28321129222CE200644ED6 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BB3440912923E94E0059D259 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		BB3440932923EF120059D259 /* LabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCollectionViewCell.swift; sourceTree = "<group>"; };
 		BB3440952923FCE70059D259 /* CollectionViewCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellFactory.swift; sourceTree = "<group>"; };
+		BB5B03D9292EA9FC006BEF52 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
+		BB5B03DD292EDD9D006BEF52 /* DisplayedGif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedGif.swift; sourceTree = "<group>"; };
+		BB5B03DF292EDDAE006BEF52 /* GifDataRaw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifDataRaw.swift; sourceTree = "<group>"; };
+		BB5B03E1292EDDF3006BEF52 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		BB7A803B291AE0C8004FBD7A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		BB7A803D291AFB9F004FBD7A /* TableViewCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFactory.swift; sourceTree = "<group>"; };
 		BB8A946928FD8D2200A7A24A /* gifyS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gifyS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,15 +149,15 @@
 			path = GifDesc;
 			sourceTree = "<group>";
 		};
-		BB3440902923D4120059D259 /* Helpers */ = {
+		BB5B03D8292EA486006BEF52 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				BB34408E2923CB520059D259 /* HelperAuthnReg.swift */,
-				BB7A803B291AE0C8004FBD7A /* Helper.swift */,
-				BB34408C2923CAD40059D259 /* HelperGifCollDesc.swift */,
-				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+				BB5B03D9292EA9FC006BEF52 /* TableViewModel.swift */,
+				BB5B03DD292EDD9D006BEF52 /* DisplayedGif.swift */,
+				BB5B03DF292EDDAE006BEF52 /* GifDataRaw.swift */,
+				BB5B03E1292EDDF3006BEF52 /* CollectionViewModel.swift */,
 			);
-			path = Helpers;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BB8A946028FD8D2200A7A24A = {
@@ -175,7 +181,11 @@
 		BB8A946B28FD8D2200A7A24A /* gifyS */ = {
 			isa = PBXGroup;
 			children = (
-				BB3440902923D4120059D259 /* Helpers */,
+				BB28321129222CE200644ED6 /* NetworkManager.swift */,
+				BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */,
+				BB7A803B291AE0C8004FBD7A /* Helper.swift */,
+				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+				BB5B03D8292EA486006BEF52 /* Models */,
 				BBC29B9728FD960800DA06E7 /* CustomTableViewCells */,
 				BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewStuff */,
 				BBC29B6328FD947500DA06E7 /* Scenes */,
@@ -243,7 +253,6 @@
 			children = (
 				BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */,
 				BBC29B9228FD95DF00DA06E7 /* GifCollectionViewCell.swift */,
-				BB28321129222CE200644ED6 /* GifCollNetworkManager.swift */,
 				BB3440912923E94E0059D259 /* ImageCollectionViewCell.swift */,
 				BB3440932923EF120059D259 /* LabelCollectionViewCell.swift */,
 				BB3440952923FCE70059D259 /* CollectionViewCellFactory.swift */,
@@ -380,24 +389,24 @@
 				BBC29B7628FD953800DA06E7 /* AuthnModels.swift in Sources */,
 				BBC29B8B28FD958C00DA06E7 /* GifCollRouter.swift in Sources */,
 				BB0E9A352922D71B008D8E07 /* GifDescInteractor.swift in Sources */,
-				BB34408F2923CB520059D259 /* HelperAuthnReg.swift in Sources */,
 				BBC29B8028FD956200DA06E7 /* RegPresenter.swift in Sources */,
 				BBC29B7128FD953800DA06E7 /* AuthnInteractor.swift in Sources */,
 				BBC29B9E28FD962F00DA06E7 /* TextFieldTableViewCell.swift in Sources */,
 				BBC29B7228FD953800DA06E7 /* AuthnRouter.swift in Sources */,
-				BB34408D2923CAD50059D259 /* HelperGifCollDesc.swift in Sources */,
 				BB0E9A302922D71B008D8E07 /* GifDescPresenter.swift in Sources */,
 				BBC29BA128FD966600DA06E7 /* ValidationRules.swift in Sources */,
 				BBC29B7328FD953800DA06E7 /* AuthnViewController.swift in Sources */,
 				BBC29B9428FD95DF00DA06E7 /* GifCollectionViewCell.swift in Sources */,
 				BBC29B8D28FD958C00DA06E7 /* GifCollPresenter.swift in Sources */,
 				BB3440922923E94E0059D259 /* ImageCollectionViewCell.swift in Sources */,
+				BB5B03DA292EA9FC006BEF52 /* TableViewModel.swift in Sources */,
 				BB7A803E291AFB9F004FBD7A /* TableViewCellFactory.swift in Sources */,
 				BBC29B7428FD953800DA06E7 /* AuthnPresenter.swift in Sources */,
 				BBC29B9D28FD962F00DA06E7 /* ImageTableViewCell.swift in Sources */,
 				BBC29B8128FD956200DA06E7 /* RegWorker.swift in Sources */,
 				BBC29B8328FD956200DA06E7 /* RegInteractor.swift in Sources */,
 				BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */,
+				BB5B03E0292EDDAE006BEF52 /* GifDataRaw.swift in Sources */,
 				BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */,
 				BBC29B8F28FD958C00DA06E7 /* GifCollViewController.swift in Sources */,
 				BBC29B9F28FD962F00DA06E7 /* ButtonTableViewCell.swift in Sources */,
@@ -405,6 +414,7 @@
 				BBC29B9C28FD962F00DA06E7 /* LabelTableViewCell.swift in Sources */,
 				BBC29B7E28FD956200DA06E7 /* RegRouter.swift in Sources */,
 				BBC29B7F28FD956200DA06E7 /* RegViewController.swift in Sources */,
+				BB5B03DC292EDD17006BEF52 /* NetworkHelper.swift in Sources */,
 				BBC29B9028FD958C00DA06E7 /* GifCollModels.swift in Sources */,
 				BB8A946D28FD8D2200A7A24A /* AppDelegate.swift in Sources */,
 				BB3440942923EF120059D259 /* LabelCollectionViewCell.swift in Sources */,
@@ -414,9 +424,11 @@
 				BB3440962923FCE70059D259 /* CollectionViewCellFactory.swift in Sources */,
 				BB0E9A322922D71B008D8E07 /* GifDescRouter.swift in Sources */,
 				BBC29B9528FD95DF00DA06E7 /* CustomCollectionViewLayout.swift in Sources */,
+				BB5B03DE292EDD9D006BEF52 /* DisplayedGif.swift in Sources */,
+				BB5B03E2292EDDF3006BEF52 /* CollectionViewModel.swift in Sources */,
 				BB0E9A332922D71B008D8E07 /* GifDescModels.swift in Sources */,
 				BBC29B7528FD953800DA06E7 /* AuthnWorker.swift in Sources */,
-				BB28321229222CE200644ED6 /* GifCollNetworkManager.swift in Sources */,
+				BB28321229222CE200644ED6 /* NetworkManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,26 +3,13 @@ import Alamofire
 
 class AuthnWorker {
     
-    func signIn(request: Authn.SignIn.Request, completionHandler: @escaping (Bool) -> Void) {
-        let login = Authn.SignIn.Request(login: request.login, password: request.password)
-                    
-        let headers: HTTPHeaders = [
-            .contentType("application/json")
-        ]
-                    
-        AF.request(HelperAuthnReg.loginURL, method: .post, parameters: login, encoder: JSONParameterEncoder.default, headers: headers).response {
-            response in
-            debugPrint(response)
-            switch response.result {
-                case .success:
-                    if response.response!.statusCode >= 400 {
-                        completionHandler(false)
-                    } else {
-                        completionHandler(true)
-                    }
-                case .failure:
-                    completionHandler(false)
+    func signIn(request: Authn.SignIn.Request, completion: @escaping (Bool) -> Void) {
+        NetworkManager.makeWebRequest(url: Helper.loginURL, method: .post, parameters: request, responseType: Bool.self) {
+            response, error in
+            if error != nil {
+                debugPrint(error as Any)
             }
+            completion(response!)
         }
     }
     

@@ -2,10 +2,12 @@ import SnapKit
 
 protocol TextFieldTableViewCellDelegate: AnyObject {
     
-    func textDidChange(component: HelperAuthnReg.TableComponents, text: String?)
+    func textDidChange(component: TableComponentType, text: String?)
 }
 
 final class TextFieldTableViewCell: UITableViewCell {
+    
+    static let identificator = "TextFieldTableViewCell"
     
     weak var delegate: TextFieldTableViewCellDelegate?
     
@@ -18,24 +20,36 @@ final class TextFieldTableViewCell: UITableViewCell {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.clearsOnBeginEditing = false
+        textField.rightView = mainButton
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingDidEnd)
         return textField
     }()
     
-    private lazy var mainImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    private lazy var mainButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = Helper.successColor
+        button.setImage(Helper.eyeSlashImage, for: .normal)
+        button.setImage(Helper.eyeImage, for: .selected)
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        return button
     }()
     
-    var component: HelperAuthnReg.TableComponents = .email {
+    private var component: TableComponent! {
         didSet {
-            switch component {
+            mainTextField.attributedPlaceholder = component.config.attributedPlaceholder
+            mainTextField.text = component.config.title
+            switch component.type {
             case .email, .username:
-                configureInsecureComponent(component: component)
-            
+                mainTextField.textContentType = .none
+                mainTextField.isSecureTextEntry = false
+                mainTextField.rightViewMode = .never
+                
             case .password, .passwordAgain:
-                configureSecureComponent(component: component)
-            
+                mainTextField.textContentType = .oneTimeCode
+                mainTextField.isSecureTextEntry = true
+                mainTextField.rightViewMode = .whileEditing
+                
             default:
                 break
             }
@@ -55,25 +69,21 @@ final class TextFieldTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(mainTextField)
-        self.selectionStyle = .none
-        self.backgroundColor = Helper.backgroundColor
-        
-        mainTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingDidEnd)
+        setupCellView()
+        setupConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func configureInsecureComponent(component: HelperAuthnReg.TableComponents) {
-        if (component == .email) {
-            mainTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
-        }
-        else {
-            mainTextField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
-        }
-        
+    private func setupCellView() {
+        self.contentView.addSubview(mainTextField)
+        self.selectionStyle = .none
+        self.backgroundColor = Helper.backgroundColor
+    }
+    
+    private func setupConstraints() {
         mainTextField.snp.makeConstraints {
             make in
             make.top.bottom.centerX.equalToSuperview()
@@ -81,57 +91,21 @@ final class TextFieldTableViewCell: UITableViewCell {
         }
     }
     
-    func configureSecureComponent(component: HelperAuthnReg.TableComponents) {
-        mainTextField.textContentType = .oneTimeCode
-        mainTextField.isSecureTextEntry = true
-        if (component == .password) {
-            mainTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
-        }
-        else {
-            mainTextField.attributedPlaceholder = NSAttributedString(string: "Password Again", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
-        }
-        
-        mainTextField.snp.makeConstraints {
-            make in
-            make.top.bottom.equalToSuperview()
-            make.left.equalTo(self.snp.left).offset(20)
-            make.right.equalTo(self.snp.right).offset(-60)
-        }
-        
-        self.contentView.addSubview(mainImageView)
-        
-        mainImageView.contentMode = .scaleAspectFit
-        mainImageView.image = UIImage(systemName: "eye.slash")
-        mainImageView.tintColor = Helper.successColor
-        mainImageView.isUserInteractionEnabled = true
-        
-        mainImageView.snp.makeConstraints {
-            make in
-            make.top.bottom.equalToSuperview()
-            make.left.equalTo(mainTextField.snp.right).offset(10)
-            make.right.equalToSuperview().offset(-10)
-        }
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
-        mainImageView.addGestureRecognizer(tapGestureRecognizer)
+    func configure(component: TableComponent) {
+        self.component = component
     }
     
-    @objc func imageTapped() {
-        if mainTextField.isSecureTextEntry == true {
-            mainTextField.isSecureTextEntry = false
-            mainImageView.image = UIImage(systemName: "eye")
-        } else if mainTextField.isSecureTextEntry == false {
-            mainTextField.isSecureTextEntry = true
-            mainImageView.image = UIImage(systemName: "eye.slash")
-        }
+    @objc func didTapButton() {
+        mainButton.isSelected = !mainButton.isSelected
+        mainTextField.isSecureTextEntry = !mainTextField.isSecureTextEntry
     }
-
+   
     @objc func didTapDone() {
         mainTextField.resignFirstResponder()
     }
 
     @objc func textFieldDidChange() {
-        delegate?.textDidChange(component: component, text: mainTextField.text)
+        delegate?.textDidChange(component: component.type, text: mainTextField.text)
     }
 }
 
@@ -152,20 +126,5 @@ class SecureNonDeleteTextField: UITextField {
             insertText(text)
         }
         return success
-    }
-}
-
-extension TextFieldTableViewCell: AuthnVCTextFieldDelegate, RegVCTextFieldDelegate {
-    
-    func getText() -> String? {
-        return mainTextField.text
-    }
-    
-    func setText(text: String?) {
-        mainTextField.text = text
-    }
-    
-    func setAttributedPlaceholder(placeholder: NSAttributedString?) {
-        mainTextField.attributedPlaceholder = placeholder
     }
 }

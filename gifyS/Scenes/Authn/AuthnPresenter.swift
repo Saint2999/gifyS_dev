@@ -3,7 +3,8 @@ import Validator
 protocol AuthnPresentationLogic {
     
     func presentSignIn(response: Authn.SignIn.Response)
-    func presentValidationResult(response : Authn.Validate.Response)
+    func presentValidationResult(response: Authn.Validate.Response)
+    func presentLoadDataSuccess(response: Authn.LoadData.Response)
 }
 
 class AuthnPresenter: AuthnPresentationLogic {
@@ -41,5 +42,10 @@ class AuthnPresenter: AuthnPresentationLogic {
                 attributed = nil
         }
         return attributed
+    }
+
+    func presentLoadDataSuccess(response: Authn.LoadData.Response) {
+        let viewModel = Authn.LoadData.ViewModel(success: response.success)
+        viewController?.displayLoadDataSuccess(viewModel: viewModel)
     }
 }

@@ -25,18 +25,14 @@ enum Reg {
     
     enum Validate {
         
-        struct Request {
-            
-            var email: String?
-            var username: String?
-            var password: String?
-        }
+        struct Request {}
                 
         struct Response {
             
             var validationResultEmail: ValidationResult?
             var validationResulUsername: ValidationResult?
             var validationResultPassword: ValidationResult?
+            var validationResultPasswordAgain: ValidationResult?
         }
                 
         struct ViewModel {
@@ -44,6 +40,26 @@ enum Reg {
             var errorMessageEmail: NSAttributedString?
             var errorMessageUsername: NSAttributedString?
             var errorMessagePassword: NSAttributedString?
+            var errorMessagePasswordAgain: NSAttributedString?
+        }
+    }
+    
+    enum LoadData {
+        
+        struct Request {
+            
+            var component: TableComponentType
+            var text: String?
+        }
+      
+        struct Response {
+            
+            var success: Bool
+        }
+      
+        struct ViewModel {
+            
+            var success: Bool
         }
     }
 }

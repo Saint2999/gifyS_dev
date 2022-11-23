@@ -3,9 +3,7 @@ class GifCollWorker {
     private var lastMode: GifColl.Mode = GifColl.Mode.Trending
     private var lastPosition: Int = 0
     private var lastSearch: String = ""
-    
-    private var networkManager = GifCollNetworkManager()
-    
+        
     func getGifs(request: GifColl.RequestGifs.Request, completion: @escaping (_ gifData: HelperGifCollDesc.GifDataRaw?) -> Void) {
         var offset: Int?
         var url: String
@@ -32,7 +30,7 @@ class GifCollWorker {
         
         let responseType = HelperGifCollDesc.GifDataRaw.self
 
-        networkManager.makeWebRequest(url: url, parameters: parameters, responseType: responseType) {
+        NetworkManager.makeWebRequest(url: url, method: .get, parameters: parameters, responseType: responseType) {
             response, error in
             if error == nil {
                 self.lastPosition += HelperGifCollDesc.numberOfGifs

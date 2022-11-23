@@ -4,6 +4,7 @@ protocol RegPresentationLogic {
     
     func presentSignUp(response: Reg.SignUp.Response)
     func presentValidationResult(response : Reg.Validate.Response)
+    func presentLoadDataSuccess(response: Reg.LoadData.Response)
 }
 
 class RegPresenter: RegPresentationLogic {
@@ -19,8 +20,9 @@ class RegPresenter: RegPresentationLogic {
         let emailError = getValidationErrorMessage(validationResult: response.validationResultEmail)
         let usernameError = getValidationErrorMessage(validationResult: response.validationResulUsername)
         let passwordError = getValidationErrorMessage(validationResult: response.validationResultPassword)
-
-        let viewModel = Reg.Validate.ViewModel(errorMessageEmail: emailError, errorMessageUsername: usernameError,errorMessagePassword: passwordError)
+        let passwordAgainError = getValidationErrorMessage(validationResult: response.validationResultPasswordAgain)
+        
+        let viewModel = Reg.Validate.ViewModel(errorMessageEmail: emailError, errorMessageUsername: usernameError, errorMessagePassword: passwordError, errorMessagePasswordAgain: passwordAgainError)
             
         viewController?.displayValidationErrors(viewModel: viewModel)
     }
@@ -43,5 +45,10 @@ class RegPresenter: RegPresentationLogic {
                 attributed = nil
         }
         return attributed
+    }
+    
+    func presentLoadDataSuccess(response: Reg.LoadData.Response) {
+        let viewModel = Reg.LoadData.ViewModel(success: response.success)
+        viewController?.displayLoadDataSuccess(viewModel: viewModel)
     }
 }

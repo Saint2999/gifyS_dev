@@ -7,6 +7,8 @@ protocol ButtonTableViewCellDelegate: AnyObject {
 
 final class ButtonTableViewCell: UITableViewCell {
     
+    static let identificator = "ButtonTableViewCell"
+    
     weak var delegate: ButtonTableViewCellDelegate?
     
     private lazy var mainButton: UIButtonWithWorkingHighlighted = {
@@ -16,38 +18,42 @@ final class ButtonTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 20.0
         button.setTitleColor(Helper.backgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 42)
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         return button
     }()
     
-    var signType: HelperAuthnReg.SignType = .signIn {
+    private var component: TableComponent! {
         didSet {
-            switch signType {
-            case .signIn:
-                mainButton.setTitle("Sign In", for: .normal)
-            
-            case .signUp:
-                mainButton.setTitle("Sign Up", for: .normal)
-            }
+            mainButton.setTitle(component.config.title, for: .normal)
         }
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupCellView()
+        setupConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private func setupCellView() {
         self.contentView.addSubview(mainButton)
         self.backgroundColor = Helper.clearColor
         self.selectionStyle = .none
-        
+    }
+    
+    private func setupConstraints() {
         mainButton.snp.makeConstraints {
             make in
             make.top.bottom.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
         }
-        
-        mainButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    func configure(component: TableComponent) {
+        self.component = component
     }
     
     @objc private func didTapButton() {
