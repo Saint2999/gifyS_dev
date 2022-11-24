@@ -18,12 +18,12 @@ class GifCollRouter: NSObject, GifCollRoutingLogic, GifCollDataPassing {
     func routeToGifDesc() {
         let destination = GifDescViewController(collectionViewLayout: UICollectionViewLayout())
         var destinationDS = destination.router?.dataStore
-        passDataToGifDesc(source: dataStore!, destination: &destinationDS!)
+        passDataToGifDesc(source: dataStore, destination: &destinationDS)
         destination.downloadGif()
         self.viewController?.navigationController?.pushViewController(destination, animated: true)
     }
     
-    func passDataToGifDesc(source: GifCollDataStore, destination: inout GifDescDataStore) {
-        destination.theGif = source.theGif
+    func passDataToGifDesc(source: GifCollDataStore?, destination: inout GifDescDataStore?) {
+        destination?.theGif = source?.theGif
     }
 }

@@ -37,7 +37,7 @@ final class LabelCollectionViewCell: UICollectionViewCell {
                 mainLabel.text = text
             }
             
-            if let url = URL(string: component.config.imageURL!) {
+            if let stringURL = component.config.imageURL, let url = URL(string: stringURL) {
                 mainImageView.sd_setImage(with: url)
             } else {
                 setupDefaultImage()
@@ -105,9 +105,9 @@ final class LabelCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupDefaultImage() {
-        mainImageView.contentMode = .scaleAspectFit
         mainImageView.image = Helper.signInImage
         mainImageView.tintColor = Helper.primaryColor
+        mainImageView.contentMode = .scaleAspectFit
     }
     
     func configure(component: CollectionComponent) {

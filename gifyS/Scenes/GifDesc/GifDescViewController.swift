@@ -103,8 +103,9 @@ extension GifDescViewController: GifDescDisplayLogic {
 extension GifDescViewController: LabelCollectionViewCellDelegate {
     
     func didTapAvatar() {
-        if let url = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.profileURL {
-            UIApplication.shared.open(URL(string: url)!)
+        if let stringURL = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.profileURL,
+        let url = URL(string: stringURL) {
+            UIApplication.shared.open(url)
         }
     }
 }

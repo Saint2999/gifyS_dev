@@ -11,18 +11,18 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 20.0
         imageView.layer.cornerCurve = .continuous
         imageView.clipsToBounds = true
-        imageView.tintColor = Helper.primaryColor
-        imageView.image = Helper.signInImage
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private var component: CollectionComponent! {
         didSet {
-            if let url = URL(string: component.config.imageURL!) {
-                mainImageView.sd_setImage(with: url)
-                mainImageView.contentMode = .scaleAspectFill
+            guard let stringURL = component.config.imageURL, let url = URL(string: stringURL)
+            else {
+                setupDefaultImage()
+                return
             }
+            mainImageView.sd_setImage(with: url)
+            mainImageView.contentMode = .scaleAspectFill
         }
     }
     
@@ -47,6 +47,12 @@ final class ImageCollectionViewCell: UICollectionViewCell {
             make.centerX.height.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.95)
         }
+    }
+    
+    private func setupDefaultImage() {
+        mainImageView.tintColor = Helper.primaryColor
+        mainImageView.image = Helper.signInImage
+        mainImageView.contentMode = .scaleAspectFit
     }
     
     func configure(comonent: CollectionComponent) {

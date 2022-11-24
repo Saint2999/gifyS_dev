@@ -8,13 +8,13 @@ class GifCollWorker {
         var offset: Int?
         var url: String
         
-        if request.query != nil {
+        if let query = request.query {
             url = NetworkHelper.gifAPISearchURL
             if lastMode == .Trending || request.query != lastSearch {
                 lastPosition = 0
             }
             lastMode = .Search
-            lastSearch = request.query!
+            lastSearch = query
             offset = lastPosition
         } else {
             url = NetworkHelper.gifAPITrendingURL
