@@ -4,7 +4,7 @@ enum GifColl {
         
         struct Request {
             
-            var gif: HelperGifCollDesc.DisplayedGif?
+            var gif: DisplayedGif?
         }
         
         struct Response {
@@ -27,12 +27,12 @@ enum GifColl {
         
         struct Response {
         
-            var rawGifs: HelperGifCollDesc.GifDataRaw?
+            var rawGifs: GifDataRaw?
         }
         
         struct ViewModel {
             
-            var displayedGifs: [HelperGifCollDesc.DisplayedGif]
+            var displayedGifs: [CollectionComponent]
         }
     }
     

@@ -6,7 +6,7 @@ protocol GifCollBusinessLogic {
 
 protocol GifCollDataStore {
     
-    var theGif: HelperGifCollDesc.DisplayedGif? {get set}
+    var theGif: DisplayedGif? {get set}
 }
 
 class GifCollInteractor: GifCollBusinessLogic, GifCollDataStore {
@@ -14,7 +14,7 @@ class GifCollInteractor: GifCollBusinessLogic, GifCollDataStore {
     var presenter: GifCollPresentationLogic?
     var worker = GifCollWorker()
     
-    var theGif: HelperGifCollDesc.DisplayedGif?
+    var theGif: DisplayedGif?
     
     func requestGifs(request: GifColl.RequestGifs.Request) {
         worker.getGifs(request: request) {

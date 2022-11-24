@@ -9,12 +9,12 @@ enum GifDesc {
     
       struct Response {
           
-          var gif: HelperGifCollDesc.DisplayedGif?
+          var gif: DisplayedGif?
       }
       
       struct ViewModel {
           
-          var gif: HelperGifCollDesc.DisplayedGif?
+          var gif: DisplayedGif?
       }
   }
 }

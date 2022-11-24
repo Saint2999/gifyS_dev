@@ -3,6 +3,8 @@ import SDWebImage
 
 final class ImageCollectionViewCell: UICollectionViewCell {
     
+    static let identificator = "ImageCollectionViewCell"
+    
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -15,11 +17,31 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private var component: CollectionComponent! {
+        didSet {
+            if let url = URL(string: component.config.imageURL!) {
+                mainImageView.sd_setImage(with: url)
+                mainImageView.contentMode = .scaleAspectFill
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupCellView()
+        setupConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private func setupCellView() {
         self.contentView.addSubview(mainImageView)
         self.backgroundColor = Helper.backgroundColor
-        
+    }
+    
+    private func setupConstraints() {
         mainImageView.snp.makeConstraints {
             make in
             make.centerX.height.equalToSuperview()
@@ -27,17 +49,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
-
-extension ImageCollectionViewCell: GifDescVCImageDelegate {
-    
-    func setImage(url: URL?) {
-        if let url = url {
-            mainImageView.sd_setImage(with: url)
-            mainImageView.contentMode = .scaleAspectFill
-        }
+    func configure(comonent: CollectionComponent) {
+        self.component = comonent
     }
 }

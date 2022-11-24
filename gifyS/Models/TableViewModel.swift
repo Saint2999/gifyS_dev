@@ -9,10 +9,10 @@ struct TableSection {
 struct TableComponent {
     
     var type: TableComponentType
-    var config: CellConfig
+    var config: TableCellConfig
 }
 
-struct CellConfig {
+struct TableCellConfig {
     
     var image: UIImage?
     var color: UIColor?

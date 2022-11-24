@@ -6,12 +6,6 @@ protocol GifCollDisplayLogic: AnyObject {
     func displayTheGif(viewModel: GifColl.LoadGif.ViewModel)
 }
 
-protocol GifCollVCCellDelegate: AnyObject {
-    
-    func setGifInfo(gif: HelperGifCollDesc.DisplayedGif?)
-    func getGifInfo() -> HelperGifCollDesc.DisplayedGif?
-}
-
 protocol GifCollVCLayoutDelegate: AnyObject {
     
     func purgeCache()
@@ -22,11 +16,10 @@ class GifCollViewController: UICollectionViewController {
     var interactor: GifCollBusinessLogic?
     var router: (NSObjectProtocol & GifCollRoutingLogic & GifCollDataPassing)?
     
-    private weak var cellDelegate: GifCollVCCellDelegate?
     private weak var layoutDelegate: GifCollVCLayoutDelegate?
-    private var searchBar: UISearchBar?
+    private weak var searchBar: UISearchBar?
     
-    private var displayedGifs: [HelperGifCollDesc.DisplayedGif] = []
+    private var displayedGifs: [CollectionComponent] = []
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
@@ -59,11 +52,11 @@ class GifCollViewController: UICollectionViewController {
         router.dataStore = interactor
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         let layout = CustomCollectionViewLayout()
         layout.delegate = self
         layoutDelegate = layout
-        
+    
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = Helper.backgroundColor
         collectionView.keyboardDismissMode = .onDrag
@@ -74,7 +67,7 @@ class GifCollViewController: UICollectionViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier)
+        collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: GifCollectionViewCell.identificator)
     }
     
     private func setupBackButton() {
@@ -82,7 +75,7 @@ class GifCollViewController: UICollectionViewController {
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
     }
     
-    func setupSearchBar() {
+    private func setupSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
         searchBar = searchController.searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -120,7 +113,7 @@ class GifCollViewController: UICollectionViewController {
         interactor?.requestGifs(request: request)
     }
     
-    func loadGifToDataStore(gif: HelperGifCollDesc.DisplayedGif?) {
+    func loadGifToDataStore(gif: DisplayedGif?) {
         let request = GifColl.LoadGif.Request(gif: gif)
         interactor?.loadGifToDataStore(request: request)
     }
@@ -130,7 +123,7 @@ extension GifCollViewController: GifCollDisplayLogic {
     
     func displayGifs(viewModel: GifColl.RequestGifs.ViewModel) {
         displayedGifs += viewModel.displayedGifs
-        self.layoutDelegate?.purgeCache()
+        layoutDelegate?.purgeCache()
         collectionView.reloadData()
     }
     
@@ -148,12 +141,9 @@ extension GifCollViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier, for: indexPath) as? GifCollectionViewCell
-        
-        cellDelegate = cell
-        cellDelegate?.setGifInfo(gif: displayedGifs[indexPath.row])
-             
-        if (indexPath.row == displayedGifs.count - 3) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GifCollectionViewCell.identificator, for: indexPath) as? GifCollectionViewCell
+        cell?.configure(component: displayedGifs[indexPath.row])
+        if (indexPath.row == displayedGifs.count - 8) {
             if searchBar?.text != "" {
                 requestGifs(query: searchBar?.text)
             } else {
@@ -164,8 +154,9 @@ extension GifCollViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        cellDelegate = collectionView.cellForItem(at: indexPath) as? GifCollVCCellDelegate
-        loadGifToDataStore(gif: cellDelegate?.getGifInfo())
+        if let gif = displayedGifs[indexPath.row].config.gif {
+            loadGifToDataStore(gif: gif)
+        }
     }
 }
 
@@ -180,6 +171,6 @@ extension GifCollViewController: UISearchBarDelegate {
 extension GifCollViewController: CustomCollectionViewLayoutDelegate {
     
     func getHeight(indexPath: IndexPath) -> CGFloat {
-        return displayedGifs[indexPath.item].previewHeight
+        return displayedGifs[indexPath.item].config.gif?.previewHeight ?? 180
     }
 }

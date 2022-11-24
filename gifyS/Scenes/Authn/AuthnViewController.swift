@@ -69,7 +69,7 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .image,
-                        config: CellConfig(image: Helper.signInImage, color: Helper.primaryColor)
+                        config: TableCellConfig(image: Helper.signInImage, color: Helper.primaryColor)
                     )
                 ]
             ),
@@ -78,11 +78,11 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .email,
-                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .password,
-                        config: CellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
                     )
                 ]
             ),
@@ -91,7 +91,7 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .button,
-                        config: CellConfig(title: Helper.signInText)
+                        config: TableCellConfig(title: Helper.signInText)
                     )
                 ]
             ),
@@ -100,11 +100,12 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .label,
-                        config: CellConfig(title: Helper.signUpText)
+                        config: TableCellConfig(title: Helper.signUpText)
                     )
                 ]
             )
         ]
+        tableView.reloadData()
     }
     
     func signIn() {
@@ -121,7 +122,7 @@ extension AuthnViewController: AuthnDisplayLogic {
         } else {
             if let section = sections.firstIndex(where: {$0.type == .images}),
                let component = sections[section].components.firstIndex(where: {$0.type == .image}) {
-                sections[section].components[component].config = CellConfig(image: Helper.signInImage, color: Helper.errorColor)
+                sections[section].components[component].config = TableCellConfig(image: Helper.signInImage, color: Helper.errorColor)
             }
         }
     }
@@ -130,17 +131,17 @@ extension AuthnViewController: AuthnDisplayLogic {
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
             if let emailError = viewModel.errorMessageEmail {
-                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: emailError)
+                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: emailError)
             } else {
-                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
             }
         }
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
             if let passwordError = viewModel.errorMessagePassword {
-                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: passwordError)
+                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: passwordError)
             } else {
-                sections[section].components[component].config = CellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
             }
         }
         tableView.reloadData()

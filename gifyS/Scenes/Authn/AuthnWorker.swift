@@ -4,7 +4,7 @@ import Alamofire
 class AuthnWorker {
     
     func signIn(request: Authn.SignIn.Request, completion: @escaping (Bool) -> Void) {
-        NetworkManager.makeWebRequest(url: Helper.loginURL, method: .post, parameters: request, responseType: Bool.self) {
+        NetworkManager.makeWebRequest(url: NetworkHelper.loginURL, method: .post, parameters: request, responseType: Bool.self) {
             response, error in
             if error != nil {
                 debugPrint(error as Any)

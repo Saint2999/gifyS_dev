@@ -5,53 +5,25 @@ protocol GifDescDisplayLogic: AnyObject {
     func displayTheGif(viewModel: GifDesc.DownloadGif.ViewModel)
 }
 
-protocol GifDescVCImageDelegate: AnyObject {
-    
-    func setImage(url: URL?)
-}
-
-protocol GifDescVCGifDelegate: AnyObject {
-    
-    func setGif(url: URL?)
-}
-
-protocol GifDescVCLabelDelegate: AnyObject {
-    
-    func setComponent(component: HelperGifCollDesc.CollectionComponents)
-    func setLabelImage(url: URL?)
-    func setLabelText(text: String?)
-}
-
 class GifDescViewController: UICollectionViewController {
     
     var interactor: GifDescBusinessLogic?
     var router: (NSObjectProtocol & GifDescDataPassing)?
-    
-    weak var imageDelegate: GifDescVCImageDelegate?
-    weak var gifDelegate: GifDescVCGifDelegate?
-    weak var labelDelegate: GifDescVCLabelDelegate?
-    
-    private var displayedGif: HelperGifCollDesc.DisplayedGif?
-    
-    private var sections = [HelperGifCollDesc.CollectionSection]()
-    private var cellFactory = CollectionViewCellFactory()
+        
+    private var sections = [CollectionSection]()
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         setup()
         setupCollectionView()
+        downloadGif()
     }
   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-  
-    func setup() {
+    private func setup() {
         let viewController = self
         let interactor = GifDescInteractor()
         let presenter = GifDescPresenter()
@@ -64,7 +36,7 @@ class GifDescViewController: UICollectionViewController {
         router.dataStore = interactor
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 10.0, right: 0.0)
         layout.minimumLineSpacing = 20.0
@@ -78,18 +50,41 @@ class GifDescViewController: UICollectionViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        sections = [
-            HelperGifCollDesc.CollectionSection(type: .images, components: [.banner]),
-            HelperGifCollDesc.CollectionSection(type: .labels, components: [.title]),
-            HelperGifCollDesc.CollectionSection(type: .gifs, components: [.gif]),
-            HelperGifCollDesc.CollectionSection(type: .labels, components: [.avatarAndUsername])
-        ]
-        
-        collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionGifCellIdentifier)
-        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionImageCellIndentifier)
-        collectionView.register(LabelCollectionViewCell.self, forCellWithReuseIdentifier: HelperGifCollDesc.collectionLabelCellIdentifier)
+        collectionView.register(GifCollectionViewCell.self, forCellWithReuseIdentifier: GifCollectionViewCell.identificator)
+        collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identificator)
+        collectionView.register(LabelCollectionViewCell.self, forCellWithReuseIdentifier: LabelCollectionViewCell.identificator)
     }
 
+    private func setupViewModel(gif: DisplayedGif) {
+        sections = [
+            CollectionSection (
+                type: .images,
+                components: [
+                    CollectionComponent(type: .banner, config: CollectionCellConfig(imageURL: gif.bannerURL))
+                ]
+            ),
+            CollectionSection (
+                type: .labels,
+                components: [
+                    CollectionComponent(type: .title, config: CollectionCellConfig(title: gif.title))
+                ]
+            ),
+            CollectionSection (
+                type: .gifs,
+                components: [
+                    CollectionComponent(type: .gif, config: CollectionCellConfig(gif: gif))
+                ]
+            ),
+            CollectionSection (
+                type: .labels,
+                components: [
+                    CollectionComponent(type: .avatarAndUsername, config: CollectionCellConfig(imageURL: gif.avatarURL, title: gif.username))
+                ]
+            )
+        ]
+        collectionView.reloadData()
+    }
+    
     func downloadGif() {
         let request = GifDesc.DownloadGif.Request(placeholder: "Gimme me gif")
         interactor?.downloadGif(request: request)
@@ -100,8 +95,7 @@ extension GifDescViewController: GifDescDisplayLogic {
     
     func displayTheGif(viewModel: GifDesc.DownloadGif.ViewModel) {
         if let gif = viewModel.gif {
-            displayedGif = gif
-            collectionView.reloadData()
+            setupViewModel(gif: gif)
         }
     }
 }
@@ -109,7 +103,7 @@ extension GifDescViewController: GifDescDisplayLogic {
 extension GifDescViewController: LabelCollectionViewCellDelegate {
     
     func didTapAvatar() {
-        if let url = displayedGif?.profileURL {
+        if let url = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.profileURL {
             UIApplication.shared.open(URL(string: url)!)
         }
     }
@@ -126,12 +120,7 @@ extension GifDescViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cellFactory.configureCell (
-            viewController: self,
-            gif: displayedGif,
-            component: sections[indexPath.section].components[indexPath.item],
-            indexPath: indexPath
-        )
+        let cell = CollectionViewCellFactory.configureCell(vc: self, component: sections[indexPath.section].components[indexPath.row], indexPath: indexPath)
         return cell
     }
 }
@@ -139,7 +128,7 @@ extension GifDescViewController {
 extension GifDescViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch sections[indexPath.section].components[indexPath.row] {
+        switch sections[indexPath.section].components[indexPath.row].type {
         case .banner:
             return CGSize(width: collectionView.bounds.width, height: 80.0)
         
@@ -147,7 +136,7 @@ extension GifDescViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.width - 40.0, height: 80.0)
             
         case .gif:
-            if let height = displayedGif?.originalHeight {
+            if let height = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.originalHeight {
                 return CGSize(width: collectionView.bounds.width, height: height > 360.0 ? 360.0 : height)
             } else {
                 return CGSize(width: collectionView.bounds.width, height: 300.0)

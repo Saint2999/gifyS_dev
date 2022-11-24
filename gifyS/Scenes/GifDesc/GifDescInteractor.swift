@@ -5,13 +5,13 @@ protocol GifDescBusinessLogic {
 
 protocol GifDescDataStore {
 
-    var theGif: HelperGifCollDesc.DisplayedGif? {get set}
+    var theGif: DisplayedGif? {get set}
 }
 
 class GifDescInteractor: GifDescBusinessLogic, GifDescDataStore {
   
     var presenter: GifDescPresentationLogic?
-    var theGif: HelperGifCollDesc.DisplayedGif?
+    var theGif: DisplayedGif?
 
     func downloadGif(request: GifDesc.DownloadGif.Request) {
         var response:GifDesc.DownloadGif.Response

@@ -5,7 +5,7 @@ class RegWorker {
     
     func signUp(request: Reg.SignUp.Request, completion: @escaping (Bool) -> Void) {
         if request.password == request.passwordAgain {
-            NetworkManager.makeWebRequest(url: Helper.registerURL, method: .post, parameters: request, responseType: Bool.self) {
+            NetworkManager.makeWebRequest(url: NetworkHelper.registerURL, method: .post, parameters: request, responseType: Bool.self) {
                 response, error in
                 if error != nil {
                     debugPrint(error as Any)

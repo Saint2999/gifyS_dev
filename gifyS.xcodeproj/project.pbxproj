@@ -160,6 +160,17 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		BB5B03E3292EDF8F006BEF52 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BB7A803B291AE0C8004FBD7A /* Helper.swift */,
+				BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */,
+				BB28321129222CE200644ED6 /* NetworkManager.swift */,
+				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		BB8A946028FD8D2200A7A24A = {
 			isa = PBXGroup;
 			children = (
@@ -181,13 +192,10 @@
 		BB8A946B28FD8D2200A7A24A /* gifyS */ = {
 			isa = PBXGroup;
 			children = (
-				BB28321129222CE200644ED6 /* NetworkManager.swift */,
-				BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */,
-				BB7A803B291AE0C8004FBD7A /* Helper.swift */,
-				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+				BB5B03E3292EDF8F006BEF52 /* Helpers */,
 				BB5B03D8292EA486006BEF52 /* Models */,
 				BBC29B9728FD960800DA06E7 /* CustomTableViewCells */,
-				BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewStuff */,
+				BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewCells */,
 				BBC29B6328FD947500DA06E7 /* Scenes */,
 				BB8A946C28FD8D2200A7A24A /* AppDelegate.swift */,
 				BB8A947028FD8D2200A7A24A /* ViewController.swift */,
@@ -248,7 +256,7 @@
 			path = GifColl;
 			sourceTree = "<group>";
 		};
-		BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewStuff */ = {
+		BBC29B9128FD95AE00DA06E7 /* CustomCollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
 				BBC29B9328FD95DF00DA06E7 /* CustomCollectionViewLayout.swift */,
@@ -257,7 +265,7 @@
 				BB3440932923EF120059D259 /* LabelCollectionViewCell.swift */,
 				BB3440952923FCE70059D259 /* CollectionViewCellFactory.swift */,
 			);
-			path = CustomCollectionViewStuff;
+			path = CustomCollectionViewCells;
 			sourceTree = "<group>";
 		};
 		BBC29B9728FD960800DA06E7 /* CustomTableViewCells */ = {

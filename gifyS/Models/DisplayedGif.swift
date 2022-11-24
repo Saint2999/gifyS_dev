@@ -3,8 +3,8 @@ struct DisplayedGif {
     var title: String
     var previewURL: String
     var originalURL: String
-    var previewHeight: CGFloat
-    var originalHeight: CGFloat
+    var previewHeight: Double
+    var originalHeight: Double
     
     var username: String?
     var avatarURL: String?

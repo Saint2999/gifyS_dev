@@ -4,7 +4,7 @@ final class Helper {
     
     private init() {}
     
-    static let numberOfGifs: Int = 12
+    static let numberOfGifs: Int = 24
     
     static let signInImage: UIImage = UIImage(systemName: "theatermasks.fill")!
     static let signUpImage: UIImage = UIImage(systemName: "sparkles")!
