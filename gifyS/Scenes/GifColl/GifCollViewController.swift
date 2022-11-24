@@ -80,6 +80,7 @@ class GifCollViewController: UICollectionViewController {
         searchBar = searchController.searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.shadowColor = .clear    
@@ -97,6 +98,7 @@ class GifCollViewController: UICollectionViewController {
         searchBar?.searchBarStyle = .minimal
         searchBar?.translatesAutoresizingMaskIntoConstraints = false
         searchBar?.isUserInteractionEnabled = true
+        
         searchBar?.delegate = self
         
         collectionView.addSubview(searchBar ?? UISearchBar())
@@ -143,6 +145,7 @@ extension GifCollViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GifCollectionViewCell.identificator, for: indexPath) as? GifCollectionViewCell
         cell?.configure(component: displayedGifs[indexPath.row])
+        
         if (indexPath.row == displayedGifs.count - 8) {
             if searchBar?.text != "" {
                 requestGifs(query: searchBar?.text)
@@ -150,6 +153,7 @@ extension GifCollViewController {
                 requestGifs(query: nil)
             }
         }
+        
         return cell ?? UICollectionViewCell()
     }
     

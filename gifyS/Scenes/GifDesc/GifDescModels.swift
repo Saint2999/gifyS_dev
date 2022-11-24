@@ -2,10 +2,7 @@ enum GifDesc {
   
   enum DownloadGif {
     
-      struct Request {
-          
-          var placeholder: String?
-      }
+      struct Request {}
     
       struct Response {
           

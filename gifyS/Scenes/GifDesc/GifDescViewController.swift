@@ -86,7 +86,7 @@ class GifDescViewController: UICollectionViewController {
     }
     
     func downloadGif() {
-        let request = GifDesc.DownloadGif.Request(placeholder: "Gimme me gif")
+        let request = GifDesc.DownloadGif.Request()
         interactor?.downloadGif(request: request)
     }
 }

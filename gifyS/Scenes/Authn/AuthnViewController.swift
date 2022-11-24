@@ -120,34 +120,40 @@ extension AuthnViewController: AuthnDisplayLogic {
         if viewModel.success {
             router?.routeToGifCollection()
         } else {
-            if let section = sections.firstIndex(where: {$0.type == .images}),
-               let component = sections[section].components.firstIndex(where: {$0.type == .image}) {
-                sections[section].components[component].config = TableCellConfig(image: Helper.signInImage, color: Helper.errorColor)
-            }
+            let newConfig = TableCellConfig(image: Helper.signInImage, color: Helper.errorColor)
+            setComponentConfig(sectionType: .images, componentType: .image, config: newConfig)
         }
     }
     
     func displayValidationErrors(viewModel: Authn.Validate.ViewModel) {
-        if let section = sections.firstIndex(where: {$0.type == .textfields}),
-           let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
-            if let emailError = viewModel.errorMessageEmail {
-                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: emailError)
-            } else {
-                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
-            }
+        var newConfig: TableCellConfig
+        
+        if let emailError = viewModel.errorMessageEmail {
+            newConfig = TableCellConfig(attributedPlaceholder: emailError)
+        } else {
+            newConfig = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
         }
-        if let section = sections.firstIndex(where: {$0.type == .textfields}),
-           let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
-            if let passwordError = viewModel.errorMessagePassword {
-                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: passwordError)
-            } else {
-                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
-            }
+        setComponentConfig(sectionType: .textfields, componentType: .email, config: newConfig)
+        
+        if let passwordError = viewModel.errorMessagePassword {
+            newConfig = TableCellConfig(attributedPlaceholder: passwordError)
+        } else {
+            newConfig = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
         }
+        setComponentConfig(sectionType: .textfields, componentType: .password, config: newConfig)
+        
         tableView.reloadData()
+        
         if (viewModel.errorMessageEmail == nil && viewModel.errorMessagePassword == nil) {
             signIn()
         } 
+    }
+    
+    private func setComponentConfig(sectionType: TableSectionType, componentType: TableComponentType, config: TableCellConfig) {
+        if let section = sections.firstIndex(where: {$0.type == sectionType}),
+           let component = sections[section].components.firstIndex(where: {$0.type == componentType}) {
+            sections[section].components[component].config = config
+        }
     }
     
     func displayLoadDataSuccess(viewModel: Authn.LoadData.ViewModel) {
