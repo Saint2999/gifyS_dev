@@ -71,19 +71,19 @@ class RegViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .email,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .username,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.usernameText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.usernameText.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .password,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .passwordAgain,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordAgainText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.passwordAgainText.attributed(color: Helper.primaryColor))
                     )
                 ]
             ),
@@ -123,33 +123,33 @@ extension RegViewController: RegDisplayLogic {
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
             if let emailError = viewModel.errorMessageEmail {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: emailError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: emailError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
             }
         }
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .username}) {
             if let usernameError = viewModel.errorMessageUsername {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: usernameError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: usernameError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.usernameText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.usernameText.attributed(color: Helper.primaryColor))
             }
         }
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
             if let passwordError = viewModel.errorMessagePassword {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: passwordError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: passwordError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
             }
         }
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .passwordAgain}) {
             if let passwordAgainError = viewModel.errorMessagePasswordAgain {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: passwordAgainError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: passwordAgainError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordAgainText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.passwordAgainText.attributed(color: Helper.primaryColor))
             }
         }
         tableView.reloadData()

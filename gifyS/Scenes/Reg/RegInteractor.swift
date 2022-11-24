@@ -17,11 +17,6 @@ class RegInteractor: RegBusinessLogic {
     private var password: String?
     private var passwordAgain: String?
     
-    private var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    private var validationResultUsername: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    private var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    private var validationResultPasswordAgain: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-
     func signUp(request: Reg.SignUp.Request) {
         worker.signUp(request: Reg.SignUp.Request(email: email, name: username, password: password, passwordAgain: passwordAgain)) {
             success in
@@ -34,23 +29,16 @@ class RegInteractor: RegBusinessLogic {
         var emailResult, usernameResult, passwordResult, passwordAgainResult: ValidationResult?
             
         if let value = email {
-            validationResultEmail = worker.validateEmail(email: value)
-            emailResult =  validationResultEmail
+            emailResult =  worker.validateEmail(email: value)
         }
-    
         if let value = username {
-            validationResultUsername = worker.validate(value: value)
-            usernameResult =  validationResultUsername
+            usernameResult =  worker.validate(value: value)
         }
-        
         if let value = password {
-            validationResultPassword = worker.validate(value: value)
-            passwordResult =  validationResultPassword
+            passwordResult =  worker.validate(value: value)
         }
-        
         if let value = passwordAgain {
-            validationResultPasswordAgain = worker.validate(value: value)
-            passwordAgainResult =  validationResultPassword
+            passwordAgainResult =  worker.validate(value: value)
         }
 
         let response = Reg.Validate.Response(validationResultEmail: emailResult, validationResulUsername: usernameResult, validationResultPassword: passwordResult, validationResultPasswordAgain: passwordAgainResult)

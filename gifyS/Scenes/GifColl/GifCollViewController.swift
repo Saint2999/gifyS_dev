@@ -93,7 +93,7 @@ class GifCollViewController: UICollectionViewController {
         searchBar?.searchTextField.backgroundColor = Helper.backgroundColor
         searchBar?.setImage(Helper.signInImage.withTintColor(Helper.primaryColor, renderingMode: .alwaysOriginal), for: .search, state: .normal)
         
-        searchBar?.searchTextField.attributedPlaceholder = NSAttributedString(string: "Search Gifs", attributes: [NSAttributedString.Key.foregroundColor: Helper.primaryColor])
+        searchBar?.searchTextField.attributedPlaceholder = Helper.searchGifsText.attributed(color: Helper.primaryColor)
         searchBar?.searchBarStyle = .minimal
         searchBar?.translatesAutoresizingMaskIntoConstraints = false
         searchBar?.isUserInteractionEnabled = true

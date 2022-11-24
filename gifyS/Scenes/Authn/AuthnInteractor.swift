@@ -15,10 +15,6 @@ class AuthnInteractor: AuthnBusinessLogic {
     private var email: String?
     private var password: String?
     
-    private var validationResultEmail: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-    private var validationResultPassword: ValidationResult = .invalid([ErrorCode(message: "Required", errorCode: ErrorCodes.required)])
-
-    
     func signIn(request: Authn.SignIn.Request) {
         worker.signIn(request: Authn.SignIn.Request(email: email, password: password)) {
             success in
@@ -31,16 +27,13 @@ class AuthnInteractor: AuthnBusinessLogic {
         var emailResult, passwordResult: ValidationResult?
             
         if let value = email {
-            validationResultEmail = worker.validateEmail(email: value)
-            emailResult =  validationResultEmail
+            emailResult = worker.validateEmail(email: value)
         }
-        
         if let value = password {
-            validationResultPassword = worker.validate(value: value)
-            passwordResult =  validationResultPassword
+            passwordResult =  worker.validate(value: value)
         }
         
-        let response = Authn.Validate.Response(validationResultEmail: emailResult,validationResultPassword: passwordResult)
+        let response = Authn.Validate.Response(validationResultEmail: emailResult, validationResultPassword: passwordResult)
         presenter?.presentValidationResult(response: response)
     }
     

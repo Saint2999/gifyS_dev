@@ -78,11 +78,11 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .email,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .password,
-                        config: TableCellConfig(attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
                     )
                 ]
             ),
@@ -131,17 +131,17 @@ extension AuthnViewController: AuthnDisplayLogic {
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .email}) {
             if let emailError = viewModel.errorMessageEmail {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: emailError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: emailError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.emailText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
             }
         }
         if let section = sections.firstIndex(where: {$0.type == .textfields}),
            let component = sections[section].components.firstIndex(where: {$0.type == .password}) {
             if let passwordError = viewModel.errorMessagePassword {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: passwordError)
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: passwordError)
             } else {
-                sections[section].components[component].config = TableCellConfig(title: nil, attributedPlaceholder: Helper.attributedString(text: Helper.passwordText, color: Helper.primaryColor))
+                sections[section].components[component].config = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
             }
         }
         tableView.reloadData()
