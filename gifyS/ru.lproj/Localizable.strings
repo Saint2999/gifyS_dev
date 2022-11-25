@@ -1,7 +1,9 @@
 "SIGN_IN" = "Войти";
-"SIGN_UP" = "Зарегистрироваться";
+"SIGN_UP_AUTHN" = "Создать аккаунт";
+"SIGN_UP_REG" = "Создать";
 "EMAIL" = "Почта";
 "USERNAME" = "Имя";
 "PASSWORD" = "Пароль";
 "PASSWORD_AGAIN" = "Еще раз пароль";
 "SEARCH_GIFS" = "Найти гифки";
+"BACK" = "Назад";

@@ -58,7 +58,7 @@ class AuthnViewController: UITableViewController {
     }
     
     private func setupBackButton() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
     }
     
@@ -100,7 +100,7 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .label,
-                        config: TableCellConfig(title: "SIGN_UP".localized)
+                        config: TableCellConfig(title: "SIGN_UP_AUTHN".localized)
                     )
                 ]
             )

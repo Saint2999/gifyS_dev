@@ -71,7 +71,7 @@ class GifCollViewController: UICollectionViewController {
     }
     
     private func setupBackButton() {
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
     }
     

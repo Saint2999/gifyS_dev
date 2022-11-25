@@ -18,6 +18,7 @@ final class ButtonTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 20.0
         button.setTitleColor(Helper.backgroundColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 42)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         return button
     }()
