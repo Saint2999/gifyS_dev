@@ -15,6 +15,9 @@ class GifDescInteractor: GifDescBusinessLogic, GifDescDataStore {
 
     func downloadGif(request: GifDesc.DownloadGif.Request) {
         var response:GifDesc.DownloadGif.Response
+        if let url = theGif?.originalURL {
+            theGif?.previewURL = url
+        }
         if let gif = theGif {
             response = GifDesc.DownloadGif.Response(gif: gif)
         } else {

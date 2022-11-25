@@ -78,11 +78,11 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .email,
-                        config: TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "EMAIL".localized.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .password,
-                        config: TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "PASSWORD".localized.attributed(color: Helper.primaryColor))
                     )
                 ]
             ),
@@ -91,7 +91,7 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .button,
-                        config: TableCellConfig(title: Helper.signInText)
+                        config: TableCellConfig(title: "SIGN_IN".localized)
                     )
                 ]
             ),
@@ -100,7 +100,7 @@ class AuthnViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .label,
-                        config: TableCellConfig(title: Helper.signUpText)
+                        config: TableCellConfig(title: "SIGN_UP".localized)
                     )
                 ]
             )
@@ -131,14 +131,14 @@ extension AuthnViewController: AuthnDisplayLogic {
         if let emailError = viewModel.errorMessageEmail {
             newConfig = TableCellConfig(attributedPlaceholder: emailError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "EMAIL".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .email, config: newConfig)
         
         if let passwordError = viewModel.errorMessagePassword {
             newConfig = TableCellConfig(attributedPlaceholder: passwordError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "PASSWORD".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .password, config: newConfig)
         

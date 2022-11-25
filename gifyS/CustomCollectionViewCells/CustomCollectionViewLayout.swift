@@ -80,4 +80,5 @@ extension CustomCollectionViewLayout: GifCollVCLayoutDelegate {
     func purgeCache() {
         cache.removeAll()
     }
+        
 }

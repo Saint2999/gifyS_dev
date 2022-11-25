@@ -22,7 +22,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
                 return
             }
             mainImageView.sd_setImage(with: url)
-            mainImageView.contentMode = .scaleAspectFill
+            mainImageView.contentMode = .scaleToFill
         }
     }
     

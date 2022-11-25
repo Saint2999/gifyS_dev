@@ -13,7 +13,7 @@ DEPENDENCIES:
   - Validator
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Alamofire
     - SDWebImage
     - SnapKit
@@ -25,6 +25,6 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   Validator: 80a6f567220c962dfd2d9928ae98a8c1d164f6f4
 
-PODFILE CHECKSUM: f7592e53723338bf7cd44b8245d37930cd83c08a
+PODFILE CHECKSUM: 5e427f425ab2a3f34756cb59014171bacaa39375
 
 COCOAPODS: 1.11.3

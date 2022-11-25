@@ -26,7 +26,6 @@ final class LabelCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 20.0
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -39,6 +38,7 @@ final class LabelCollectionViewCell: UICollectionViewCell {
             
             if let stringURL = component.config.imageURL, let url = URL(string: stringURL) {
                 mainImageView.sd_setImage(with: url)
+                mainImageView.contentMode = .scaleAspectFill
             } else {
                 setupDefaultImage()
             }

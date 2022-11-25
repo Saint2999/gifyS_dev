@@ -76,19 +76,19 @@ class RegViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .email,
-                        config: TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "EMAIL".localized.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .username,
-                        config: TableCellConfig(attributedPlaceholder: Helper.usernameText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "USERNAME".localized.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .password,
-                        config: TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "PASSWORD".localized.attributed(color: Helper.primaryColor))
                     ),
                     TableComponent (
                         type: .passwordAgain,
-                        config: TableCellConfig(attributedPlaceholder: Helper.passwordAgainText.attributed(color: Helper.primaryColor))
+                        config: TableCellConfig(attributedPlaceholder: "PASSWORD_AGAIN".localized.attributed(color: Helper.primaryColor))
                     )
                 ]
             ),
@@ -97,7 +97,7 @@ class RegViewController: UITableViewController {
                 components: [
                     TableComponent (
                         type: .button,
-                        config: TableCellConfig(title: Helper.signUpText)
+                        config: TableCellConfig(title: "SIGN_UP".localized)
                     )
                 ]
             )
@@ -128,28 +128,28 @@ extension RegViewController: RegDisplayLogic {
         if let emailError = viewModel.errorMessageEmail {
             newConfig = TableCellConfig(attributedPlaceholder: emailError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.emailText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "EMAIL".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .email, config: newConfig)
         
         if let usernameError = viewModel.errorMessageUsername {
             newConfig = TableCellConfig(attributedPlaceholder: usernameError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.usernameText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "USERNAME".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .username, config: newConfig)
         
         if let passwordError = viewModel.errorMessagePassword {
             newConfig = TableCellConfig(attributedPlaceholder: passwordError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.passwordText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "PASSWORD".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .password, config: newConfig)
         
         if let passwordAgainError = viewModel.errorMessagePasswordAgain {
             newConfig = TableCellConfig(attributedPlaceholder: passwordAgainError)
         } else {
-            newConfig = TableCellConfig(attributedPlaceholder: Helper.passwordAgainText.attributed(color: Helper.primaryColor))
+            newConfig = TableCellConfig(attributedPlaceholder: "PASSWORD_AGAIN".localized.attributed(color: Helper.primaryColor))
         }
         setComponentConfig(sectionType: .textfields, componentType: .passwordAgain, config: newConfig)
         
