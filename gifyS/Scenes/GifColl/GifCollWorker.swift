@@ -26,14 +26,14 @@ class GifCollWorker {
             offset = lastPosition
         }
         
-        let parameters = GifColl.RequestParameters(api_key: NetworkHelper.gifAPIKey, q: request.query, limit: Helper.numberOfGifs, offset: offset)
+        let parameters = GifColl.RequestParameters(api_key: NetworkHelper.gifAPIKey, q: request.query, limit: NetworkHelper.numberOfGifs, offset: offset)
         
         let responseType = GifDataRaw.self
 
         NetworkManager.makeWebRequest(url: url, method: .get, parameters: parameters, responseType: responseType) {
             response, error in
             if error == nil {
-                self.lastPosition += Helper.numberOfGifs
+                self.lastPosition += NetworkHelper.numberOfGifs
                 completion(response)
             } else {
                 debugPrint(error as Any)

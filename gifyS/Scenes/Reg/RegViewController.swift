@@ -55,6 +55,11 @@ class RegViewController: UITableViewController {
         tableView?.register(ButtonTableViewCell.self, forCellReuseIdentifier: ButtonTableViewCell.identificator)
     }
     
+    private func setupBackButton() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = Helper.successColor
+    }
+    
     private func setupViewModel() {
         sections = [
             TableSection (

@@ -18,11 +18,26 @@ class RegInteractor: RegBusinessLogic {
     private var passwordAgain: String?
     
     func signUp(request: Reg.SignUp.Request) {
-        worker.signUp(request: Reg.SignUp.Request(email: email, name: username, password: password, passwordAgain: passwordAgain)) {
-            success in
-            let response = Reg.SignUp.Response(success: success)
-            self.presenter?.presentSignUp(response: response)
+        guard let email = email, let _ = username,
+                let password = password, let passwordAgain = passwordAgain else { return }
+        
+        var success = false
+        if password == passwordAgain {
+            @UserDefault(key: email, defaultValue: "") var storedPassword: String
+            if storedPassword == "" {
+                storedPassword = password
+                success = true
+            }
         }
+        
+        let response = Reg.SignUp.Response(success: success)
+        self.presenter?.presentSignUp(response: response)
+        
+//        worker.signUp(request: Reg.SignUp.Request(email: email, name: username, password: password, passwordAgain: passwordAgain)) {
+//            success in
+//            let response = Reg.SignUp.Response(success: success)
+//            self.presenter?.presentSignUp(response: response)
+//        }
     }
     
     func validate(request : Reg.Validate.Request) {

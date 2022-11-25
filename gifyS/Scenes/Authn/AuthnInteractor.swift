@@ -16,11 +16,22 @@ class AuthnInteractor: AuthnBusinessLogic {
     private var password: String?
     
     func signIn(request: Authn.SignIn.Request) {
-        worker.signIn(request: Authn.SignIn.Request(email: email, password: password)) {
-            success in
-            let response = Authn.SignIn.Response(success: success)
-            self.presenter?.presentSignIn(response: response)
+        guard let email = email, let password = password else { return }
+        
+        var success = false
+        @UserDefault(key: email, defaultValue: "") var storedPassword: String
+        if storedPassword == password {
+            success = true
         }
+        
+        let response = Authn.SignIn.Response(success: success)
+        self.presenter?.presentSignIn(response: response)
+        
+//        worker.signIn(request: Authn.SignIn.Request(email: email, password: password)) {
+//            success in
+//            let response = Authn.SignIn.Response(success: success)
+//            self.presenter?.presentSignIn(response: response)
+//        }
     }
     
     func validate(request : Authn.Validate.Request) {

@@ -28,6 +28,8 @@
 		BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A947028FD8D2200A7A24A /* ViewController.swift */; };
 		BB8A947628FD8D2400A7A24A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947528FD8D2400A7A24A /* Assets.xcassets */; };
 		BB8A947928FD8D2400A7A24A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB8A947728FD8D2400A7A24A /* LaunchScreen.storyboard */; };
+		BBBF71C92930283900B05C0D /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBF71C82930283900B05C0D /* UserDefaultsHelper.swift */; };
+		BBBF71CB29302AB000B05C0D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBF71CA29302AB000B05C0D /* User.swift */; };
 		BBC29B7128FD953800DA06E7 /* AuthnInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6B28FD953800DA06E7 /* AuthnInteractor.swift */; };
 		BBC29B7228FD953800DA06E7 /* AuthnRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6C28FD953800DA06E7 /* AuthnRouter.swift */; };
 		BBC29B7328FD953800DA06E7 /* AuthnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC29B6D28FD953800DA06E7 /* AuthnViewController.swift */; };
@@ -80,6 +82,8 @@
 		BB8A947528FD8D2400A7A24A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB8A947828FD8D2400A7A24A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB8A947A28FD8D2400A7A24A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBBF71C82930283900B05C0D /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		BBBF71CA29302AB000B05C0D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BBC29B6B28FD953800DA06E7 /* AuthnInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnInteractor.swift; sourceTree = "<group>"; };
 		BBC29B6C28FD953800DA06E7 /* AuthnRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnRouter.swift; sourceTree = "<group>"; };
 		BBC29B6D28FD953800DA06E7 /* AuthnViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthnViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				BB5B03DD292EDD9D006BEF52 /* DisplayedGif.swift */,
 				BB5B03DF292EDDAE006BEF52 /* GifDataRaw.swift */,
 				BB5B03E1292EDDF3006BEF52 /* CollectionViewModel.swift */,
+				BBBF71CA29302AB000B05C0D /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				BB5B03DB292EDD17006BEF52 /* NetworkHelper.swift */,
 				BB28321129222CE200644ED6 /* NetworkManager.swift */,
 				BBC29BA028FD966600DA06E7 /* ValidationRules.swift */,
+				BBBF71C82930283900B05C0D /* UserDefaultsHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -412,10 +418,12 @@
 				BBC29B7428FD953800DA06E7 /* AuthnPresenter.swift in Sources */,
 				BBC29B9D28FD962F00DA06E7 /* ImageTableViewCell.swift in Sources */,
 				BBC29B8128FD956200DA06E7 /* RegWorker.swift in Sources */,
+				BBBF71C92930283900B05C0D /* UserDefaultsHelper.swift in Sources */,
 				BBC29B8328FD956200DA06E7 /* RegInteractor.swift in Sources */,
 				BB8A947128FD8D2200A7A24A /* ViewController.swift in Sources */,
 				BB5B03E0292EDDAE006BEF52 /* GifDataRaw.swift in Sources */,
 				BB7A803C291AE0C9004FBD7A /* Helper.swift in Sources */,
+				BBBF71CB29302AB000B05C0D /* User.swift in Sources */,
 				BBC29B8F28FD958C00DA06E7 /* GifCollViewController.swift in Sources */,
 				BBC29B9F28FD962F00DA06E7 /* ButtonTableViewCell.swift in Sources */,
 				BB0E9A342922D71B008D8E07 /* GifDescViewController.swift in Sources */,
