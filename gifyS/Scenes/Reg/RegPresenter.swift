@@ -48,7 +48,7 @@ class RegPresenter: RegPresentationLogic {
     }
     
     func presentLoadDataSuccess(response: Reg.LoadData.Response) {
-        let viewModel = Reg.LoadData.ViewModel(success: response.success)
+        let viewModel = Reg.LoadData.ViewModel(component: response.component, text: response.text, success: response.success)
         viewController?.displayLoadDataSuccess(viewModel: viewModel)
     }
 }

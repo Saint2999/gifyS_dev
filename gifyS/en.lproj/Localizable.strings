@@ -7,3 +7,6 @@
 "PASSWORD_AGAIN" = "Password Again";
 "SEARCH_GIFS" = "Search gifs";
 "BACK" = "Back";
+"INVALID_EMAIL" = "Invalid email";
+"MIN_LENGTH" = "Min. length";
+"MAX_LENGTH" = "Max. length";

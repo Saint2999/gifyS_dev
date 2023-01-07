@@ -12,10 +12,10 @@ class RegInteractor: RegBusinessLogic {
     var presenter: RegPresentationLogic?
     var worker = RegWorker()
     
-    private var email: String?
-    private var username: String?
-    private var password: String?
-    private var passwordAgain: String?
+    private var email: String? = ""
+    private var username: String? = ""
+    private var password: String? = ""
+    private var passwordAgain: String? = ""
     
     func signUp(request: Reg.SignUp.Request) {
         guard let email = email, let _ = username,
@@ -78,7 +78,7 @@ class RegInteractor: RegBusinessLogic {
             break
         }
         
-        let response = Reg.LoadData.Response(success: true)
+        let response = Reg.LoadData.Response(component: request.component, text: request.text, success: true)
         presenter?.presentLoadDataSuccess(response: response)
     }
 }

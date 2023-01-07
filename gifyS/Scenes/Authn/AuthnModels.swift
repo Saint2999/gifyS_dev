@@ -48,11 +48,15 @@ enum Authn {
       
         struct Response {
             
+            var component: TableComponentType
+            var text: String?
             var success: Bool
         }
       
         struct ViewModel {
             
+            var component: TableComponentType
+            var text: String?
             var success: Bool
         }
     }

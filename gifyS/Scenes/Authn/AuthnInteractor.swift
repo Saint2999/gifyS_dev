@@ -12,8 +12,8 @@ class AuthnInteractor: AuthnBusinessLogic {
     var presenter: AuthnPresentationLogic?
     var worker = AuthnWorker()
     
-    private var email: String?
-    private var password: String?
+    private var email: String? = ""
+    private var password: String? = ""
     
     func signIn(request: Authn.SignIn.Request) {
         guard let email = email, let password = password else { return }
@@ -60,7 +60,7 @@ class AuthnInteractor: AuthnBusinessLogic {
             break
         }
         
-        let response = Authn.LoadData.Response(success: true)
+        let response = Authn.LoadData.Response(component: request.component, text: request.text, success: true)
         presenter?.presentLoadDataSuccess(response: response)
     }
 }

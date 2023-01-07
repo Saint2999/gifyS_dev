@@ -18,6 +18,7 @@ class RegViewController: UITableViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
         setupTableView()
+        setupBackButton()
         setupViewModel()
     }
   
@@ -164,13 +165,32 @@ extension RegViewController: RegDisplayLogic {
     private func setComponentConfig(sectionType: TableSectionType, componentType: TableComponentType, config: TableCellConfig) {
         if let section = sections.firstIndex(where: {$0.type == sectionType}),
            let component = sections[section].components.firstIndex(where: {$0.type == componentType}) {
-            sections[section].components[component].config = config
+            if let image = config.image {
+                sections[section].components[component].config.image = image
+            }
+            
+            if let title = config.title {
+                sections[section].components[component].config.title = title
+            }
+            
+            if let attributedPlaceholder = config.attributedPlaceholder {
+                sections[section].components[component].config.attributedPlaceholder = attributedPlaceholder
+            }
+            
+            if let color = config.color {
+                sections[section].components[component].config.color = color
+            }
         }
     }
     
     func displayLoadDataSuccess(viewModel: Reg.LoadData.ViewModel) {
-        debugPrint("Textfield finished laoding:")
-        debugPrint(viewModel.success)
+        if viewModel.success {
+            let newConfig = TableCellConfig(title: viewModel.text)
+            setComponentConfig(sectionType: .textfields, componentType: viewModel.component, config: newConfig)
+            
+            tableView.reloadData()
+            
+        }
     }
 }
 

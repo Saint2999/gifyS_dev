@@ -45,7 +45,7 @@ class AuthnPresenter: AuthnPresentationLogic {
     }
 
     func presentLoadDataSuccess(response: Authn.LoadData.Response) {
-        let viewModel = Authn.LoadData.ViewModel(success: response.success)
+        let viewModel = Authn.LoadData.ViewModel(component: response.component, text: response.text, success: response.success)
         viewController?.displayLoadDataSuccess(viewModel: viewModel)
     }
 }

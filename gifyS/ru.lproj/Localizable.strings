@@ -7,3 +7,6 @@
 "PASSWORD_AGAIN" = "Еще раз пароль";
 "SEARCH_GIFS" = "Найти гифки";
 "BACK" = "Назад";
+"INVALID_EMAIL" = "Неверная почта";
+"MIN_LENGTH" = "Мин. длина";
+"MAX_LENGTH" = "Макс. длина";
