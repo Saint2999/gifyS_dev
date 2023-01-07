@@ -15,7 +15,7 @@ final class LabelCollectionViewCell: UICollectionViewCell {
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 20)
         label.textAlignment = .center
         label.textColor = Helper.primaryColor
         return label
@@ -34,18 +34,20 @@ final class LabelCollectionViewCell: UICollectionViewCell {
         didSet {
             if let text = component.config.title {
                 mainLabel.text = text
+            } else {
+                mainLabel.text = "User"
             }
             
             if let stringURL = component.config.imageURL, let url = URL(string: stringURL) {
                 mainImageView.sd_setImage(with: url)
-                mainImageView.contentMode = .scaleAspectFill
+                mainImageView.contentMode = .scaleToFill
             } else {
                 setupDefaultImage()
             }
             
             switch component.type {
             case .title:
-                mainLabel.numberOfLines = 0
+                mainLabel.numberOfLines = 2
                 setupTitleCellConstraints()
                 
             case .avatarAndUsername:

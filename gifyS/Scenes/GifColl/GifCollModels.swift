@@ -23,6 +23,7 @@ enum GifColl {
         struct Request {
             
             var query: String?
+            var position: Int?
         }
         
         struct Response {

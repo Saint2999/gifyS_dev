@@ -63,6 +63,7 @@ class GifCollViewController: UICollectionViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.allowsSelection = true
         collectionView.isUserInteractionEnabled = true
+        collectionView.showsVerticalScrollIndicator = false
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -77,6 +78,7 @@ class GifCollViewController: UICollectionViewController {
     
     private func setupSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.setValue("TRENDING".localized, forKey: "cancelButtonText")
         searchBar = searchController.searchBar
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
@@ -110,8 +112,8 @@ class GifCollViewController: UICollectionViewController {
         }
     }
     
-    func requestGifs(query: String?) {
-        let request = GifColl.RequestGifs.Request(query: query)
+    func requestGifs(query: String?, position: Int? = nil) {
+        let request = GifColl.RequestGifs.Request(query: query, position: position)
         interactor?.requestGifs(request: request)
     }
     
@@ -146,7 +148,7 @@ extension GifCollViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GifCollectionViewCell.identificator, for: indexPath) as? GifCollectionViewCell
         cell?.configure(component: displayedGifs[indexPath.row])
         
-        if (indexPath.row == displayedGifs.count - 8) {
+        if (indexPath.row == displayedGifs.count - 2) {
             if searchBar?.text != "" {
                 requestGifs(query: searchBar?.text)
             } else {
@@ -167,8 +169,17 @@ extension GifCollViewController {
 extension GifCollViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         displayedGifs.removeAll()
-        requestGifs(query: searchBar.text)
+        requestGifs(query: searchBar.text, position: 0)
+        collectionView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        displayedGifs.removeAll()
+        requestGifs(query: nil, position: 0)
+        collectionView.reloadData()
     }
 }
 

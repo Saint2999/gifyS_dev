@@ -10,3 +10,5 @@
 "INVALID_EMAIL" = "Неверная почта";
 "MIN_LENGTH" = "Мин. длина";
 "MAX_LENGTH" = "Макс. длина";
+"TRENDING" = "Трендинг";
+

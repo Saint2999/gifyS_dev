@@ -58,18 +58,6 @@ class GifDescViewController: UICollectionViewController {
     private func setupViewModel(gif: DisplayedGif) {
         sections = [
             CollectionSection (
-                type: .images,
-                components: [
-                    CollectionComponent(type: .banner, config: CollectionCellConfig(imageURL: gif.bannerURL))
-                ]
-            ),
-            CollectionSection (
-                type: .labels,
-                components: [
-                    CollectionComponent(type: .title, config: CollectionCellConfig(title: gif.title))
-                ]
-            ),
-            CollectionSection (
                 type: .gifs,
                 components: [
                     CollectionComponent(type: .gif, config: CollectionCellConfig(gif: gif))
@@ -78,7 +66,14 @@ class GifDescViewController: UICollectionViewController {
             CollectionSection (
                 type: .labels,
                 components: [
+                    CollectionComponent(type: .title, config: CollectionCellConfig(title: gif.title)),
                     CollectionComponent(type: .avatarAndUsername, config: CollectionCellConfig(imageURL: gif.avatarURL, title: gif.username))
+                ]
+            ),
+            CollectionSection (
+                type: .images,
+                components: [
+                    CollectionComponent(type: .banner, config: CollectionCellConfig(imageURL: gif.bannerURL))
                 ]
             )
         ]
@@ -131,14 +126,18 @@ extension GifDescViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch sections[indexPath.section].components[indexPath.row].type {
         case .banner:
-            return CGSize(width: collectionView.bounds.width, height: 80.0)
-        
+            if let _ = URL(string: sections[indexPath.section].components[indexPath.row].config.imageURL ?? "") {
+                return CGSize(width: collectionView.bounds.width, height: 120.0)
+            } else {
+                return CGSize(width: collectionView.bounds.width, height: 0.0)
+            }
+            
         case .title:
-            return CGSize(width: collectionView.bounds.width - 40.0, height: 80.0)
+            return CGSize(width: collectionView.bounds.width - 40.0, height: 50.0)
             
         case .gif:
             if let height = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.originalHeight {
-                return CGSize(width: collectionView.bounds.width, height: height > 360.0 ? 360.0 : height)
+                return CGSize(width: collectionView.bounds.width, height: height > collectionView.bounds.width ? collectionView.bounds.width : height)
             } else {
                 return CGSize(width: collectionView.bounds.width, height: 300.0)
             }

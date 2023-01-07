@@ -16,6 +16,7 @@ final class GifCollectionViewCell: UICollectionViewCell {
     private var component: CollectionComponent! {
         didSet {
             mainGifView.sd_imageIndicator = SDWebImageActivityIndicator.medium
+            mainGifView.sd_imageTransition = .fade
             if let gif = component.config.gif {
                 mainGifView.sd_setImage(with: URL(string: gif.previewURL))
             }

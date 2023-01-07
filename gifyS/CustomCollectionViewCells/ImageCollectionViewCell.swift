@@ -19,6 +19,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
             guard let stringURL = component.config.imageURL, let url = URL(string: stringURL)
             else {
                 setupDefaultImage()
+                self.isHidden = true
                 return
             }
             mainImageView.sd_setImage(with: url)
