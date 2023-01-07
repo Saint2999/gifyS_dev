@@ -19,6 +19,7 @@ class AuthnViewController: UITableViewController {
         setup()
         setupTableView()
         setupBackButton()
+        setupKeyboard()
         setupViewModel()
     }
   
@@ -60,6 +61,11 @@ class AuthnViewController: UITableViewController {
     private func setupBackButton() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
+    }
+    
+    private func setupKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setupViewModel() {
@@ -111,6 +117,18 @@ class AuthnViewController: UITableViewController {
     func signIn() {
         let request = Authn.SignIn.Request()
         interactor?.signIn(request: request)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 210
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
 }
 

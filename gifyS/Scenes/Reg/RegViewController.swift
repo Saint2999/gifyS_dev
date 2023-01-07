@@ -19,6 +19,7 @@ class RegViewController: UITableViewController {
         setup()
         setupTableView()
         setupBackButton()
+        setupKeyboard()
         setupViewModel()
     }
   
@@ -59,6 +60,11 @@ class RegViewController: UITableViewController {
     private func setupBackButton() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "BACK".localized, style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = Helper.successColor
+    }
+    
+    private func setupKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setupViewModel() {
@@ -109,6 +115,18 @@ class RegViewController: UITableViewController {
     func signUp() {
         let request = Reg.SignUp.Request()
         interactor?.signUp(request: request)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 105
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
 }
 
