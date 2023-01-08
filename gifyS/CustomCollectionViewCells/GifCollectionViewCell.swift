@@ -8,7 +8,7 @@ final class GifCollectionViewCell: UICollectionViewCell {
     private lazy var mainGifView: SDAnimatedImageView = {
         let gifView = SDAnimatedImageView()
         gifView.translatesAutoresizingMaskIntoConstraints = false
-        gifView.layer.cornerRadius = 20.0
+        gifView.layer.cornerRadius = 8.0
         gifView.clipsToBounds = true
         return gifView
     }()
@@ -46,7 +46,7 @@ final class GifCollectionViewCell: UICollectionViewCell {
         mainGifView.snp.makeConstraints {
             make in
             make.centerX.equalToSuperview()
-            make.width.height.equalToSuperview().multipliedBy(0.95)
+            make.width.height.equalToSuperview().multipliedBy(0.98)
         }
     }
     

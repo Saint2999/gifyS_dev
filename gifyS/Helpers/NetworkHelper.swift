@@ -2,7 +2,7 @@ final class NetworkHelper {
     
     private init() {}
     
-    static let numberOfGifs: Int = 10
+    static let numberOfGifs: Int = 24
 
     static let gifAPITrendingURL: String = "https://api.giphy.com/v1/gifs/trending"
     static let gifAPISearchURL: String = "https://api.giphy.com/v1/gifs/search"

@@ -148,7 +148,7 @@ extension GifCollViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GifCollectionViewCell.identificator, for: indexPath) as? GifCollectionViewCell
         cell?.configure(component: displayedGifs[indexPath.row])
         
-        if (indexPath.row == displayedGifs.count - 2) {
+        if (indexPath.row == displayedGifs.count - (displayedGifs.count / 3)) {
             if searchBar?.text != "" {
                 requestGifs(query: searchBar?.text)
             } else {

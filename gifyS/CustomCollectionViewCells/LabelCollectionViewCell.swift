@@ -35,7 +35,7 @@ final class LabelCollectionViewCell: UICollectionViewCell {
             if let text = component.config.title {
                 mainLabel.text = text
             } else {
-                mainLabel.text = "User"
+                mainLabel.text = "???"
             }
             
             if let stringURL = component.config.imageURL, let url = URL(string: stringURL) {

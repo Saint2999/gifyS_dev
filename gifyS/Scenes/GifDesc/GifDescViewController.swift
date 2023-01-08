@@ -46,6 +46,7 @@ class GifDescViewController: UICollectionViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.allowsSelection = true
         collectionView.isUserInteractionEnabled = true
+        collectionView.showsVerticalScrollIndicator = false
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -137,6 +138,10 @@ extension GifDescViewController: UICollectionViewDelegateFlowLayout {
             
         case .gif:
             if let height = sections.first(where: {$0.type == .gifs})?.components.first(where: {$0.type == .gif})?.config.gif?.originalHeight {
+                if let _ = sections.first(where: {$0.type == .images})?.components.first(where: {$0.type == .banner})?.config.imageURL,
+                    height < collectionView.bounds.width {
+                    return CGSize(width: collectionView.bounds.width, height: 250.0)
+                }
                 return CGSize(width: collectionView.bounds.width, height: height > collectionView.bounds.width ? collectionView.bounds.width : height)
             } else {
                 return CGSize(width: collectionView.bounds.width, height: 300.0)
