@@ -1,0 +1,30 @@
+PODS:
+  - Alamofire (5.6.2)
+  - SDWebImage (5.13.4):
+    - SDWebImage/Core (= 5.13.4)
+  - SDWebImage/Core (5.13.4)
+  - SnapKit (5.6.0)
+  - Validator (3.2.1)
+
+DEPENDENCIES:
+  - Alamofire
+  - SDWebImage
+  - SnapKit
+  - Validator
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - SDWebImage
+    - SnapKit
+    - Validator
+
+SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  SDWebImage: e5cc87bf736e60f49592f307bdf9e157189298a3
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  Validator: 80a6f567220c962dfd2d9928ae98a8c1d164f6f4
+
+PODFILE CHECKSUM: 5e427f425ab2a3f34756cb59014171bacaa39375
+
+COCOAPODS: 1.11.3
